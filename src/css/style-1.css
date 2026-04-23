@@ -1,0 +1,1135 @@
+:root {
+  --brand: #fcdc0d;
+  --sub: #c8102e;
+  --body: #516171;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+/*user login page form */
+
+.user-loginf-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("../media/Website-Images/images-1/login-page-bg.jpg") center/cover no-repeat;
+  background-attachment: fixed;
+  gap: 50px;
+  padding: 100px 50px;
+  max-width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.user-loginf-card {
+  background: linear-gradient(#181a1dd7,#000000cc,#0d0e0fd3);
+  border: 0.5px solid #ffffff00;
+  border-radius: 2px;
+  padding:35px 50px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  box-shadow: 3px 4px 15px rgba(0, 0, 0, 0.199);
+  width: 500px;
+  margin:0 auto;
+}
+
+.deliveryp-loginf-card{
+  background: linear-gradient(rgba(255, 219, 18, 0.451), rgba(255, 190, 27, 0.39)), url("../media/Website-Images/images-1/delivery-login-form-bg.jpeg") center/cover no-repeat;
+  border: 0.5px solid #ffffff00;
+  border-radius: 2px;
+  padding:70px 50px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  width: 500px;
+  margin:0 auto;
+}
+
+.deliveryp-loginf-card-subhead{
+  font-weight: 600;
+  font-size: 12px;
+  background:black;
+  padding:5px 10px;
+  color :white
+}
+
+.deliveryp-loginf-title{
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #000000;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.3px;
+}
+
+.deliveryp-loginf-button{
+  width: 30%;
+  padding: 8px 0;
+  margin-top: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  background: black;
+  border: 1px solid var(--brand);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+}
+
+.deliveryp-loginf-button:hover { background: var(--brand); color:rgb(0, 0, 0); border-color: black;}
+
+.user-loginf-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--brand);
+  border-radius: 16px 16px 0 0;
+}
+
+.user-loginf-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.3px;
+}
+
+.user-loginf-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #111827;
+  background: #f9fafb;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  margin-bottom: 12px;
+}
+
+.user-loginf-input::placeholder {
+  color: #9ca3af;
+  font-weight: 300;
+}
+
+.user-loginf-input:hover {
+  border-color: #d1d5db;
+  background: #ffffff;
+}
+
+.user-loginf-input:focus {
+  border-color: #378ADD;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
+}
+
+.user-loginf-button {
+  width: 30%;
+  padding: 8px 0;
+  margin-top: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: #042C53;
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.1s;
+}
+
+.user-loginf-button:hover { background: black; color:white;}
+
+
+@media(max-width:768px){
+    .user-loginf-container {
+      padding: 80px 10px;
+  }
+  .user-loginf-card {
+    width:100%;
+  }
+  .deliveryp-loginf-card {
+    width:100%;
+  }
+}
+
+
+
+.form-delivery-p-swapb-or-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Divider */
+.form-delivery-p-swapb-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.form-delivery-p-swapb-divider::before,
+.form-delivery-p-swapb-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-delivery-p-swapb-divider span {
+  margin: 0 10px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Delivery Box */
+.form-delivery-p-swapb-delivery-box {
+  background: var(--brand);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.form-delivery-p-swapb-delivery-text {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 800;
+}
+
+/* Button */
+.form-delivery-p-swapb-delivery-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #000000;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-delivery-p-swapb-delivery-btn:hover {
+  background: #ffffff;
+  color:black;
+}
+
+
+
+/* admin-login-form */
+
+.admin-loginf-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f4f4f4;
+}
+
+.admin-loginf-form {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-loginf-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-loginf-input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-loginf-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.admin-loginf-button {
+  padding: 10px;
+  font-size: 16px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-loginf-button:hover {
+  background: #0056b3;
+}
+
+
+
+
+/* customer dashboard tab */
+.customer-db-tab-container{
+  padding:10px 50px;
+}
+
+.customer-db-tab-header {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: scroll;
+}
+
+.customer-db-tab-btn {
+  padding: 10px 16px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+.customer-db-tab-btn.active {
+  background: #000;
+  color: #fff;
+}
+
+.customer-db-tab-logout-btn {
+  margin-left: auto;
+  padding: 10px 16px;
+  background: red;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.customer-db-tab-content {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.customer-db-tab-pane {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+.customer-db-tab-welcome {
+  margin-bottom: 20px;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+
+.customer-db-tab-welcome-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.customer-db-tab-welcome-subtitle {
+  font-size: 16px;
+  color: #666;
+}
+
+
+
+/* dashboard personel details section */
+.user-details-section-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-details-section-modal-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+}
+
+.user-details-section-input {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 6px;
+}
+
+.user-details-section-edit-btn,
+.user-details-section-save-btn,
+.user-details-section-cancel-btn {
+  padding: 8px 12px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.user-details-section-btn-group {
+  margin-top: 10px;
+}
+
+@media(max-width:768px){
+  .user-details-section-modal-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+  }
+}
+
+
+
+
+/* Admin db main tab */
+
+
+/* TOP BAR */
+.admin-db-main-tab-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #101010;
+  padding: 12px 20px;
+  color: #fff;
+}
+
+@media(max-width:768px){
+  .admin-db-main-tab-topbar {
+    overflow-x: scroll;
+  }
+
+}
+
+.admin-db-main-tab-home-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* TABS */
+.admin-db-main-tab-tabs {
+  display: flex;
+  align-items: center;
+}
+
+.admin-db-main-tab-btn {
+  margin: 0 5px;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: #cbd5f5;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.admin-db-main-tab-btn:hover {
+  background: #334155;
+  color: #fff;
+}
+
+.admin-db-main-tab-active {
+  background: var(--brand);
+  color: #000;
+}
+
+/* CONTENT */
+.admin-db-main-tab-content {
+  padding: 20px;
+  background: #f1f5f9;
+  min-height: 90vh;
+}
+
+/* LOGOUT */
+.admin-db-main-tab-logout-btn {
+  padding: 10px 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+/* admin db user management */
+
+.admin-db-user-manage-container {
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.admin-db-user-manage-header {
+  display: flex;
+  border-bottom: 2px solid #eee;
+}
+
+.admin-db-user-manage-btn {
+  padding: 12px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.admin-db-user-manage-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.admin-db-user-manage-active {
+  border-bottom: 2px solid black;
+  color: black;
+}
+
+.admin-db-user-manage-content {
+  padding: 20px;
+}
+
+.admin-db-user-manage-panel {
+  animation: adminDbUserManageFade 0.3s ease-in-out;
+}
+
+@keyframes adminDbUserManageFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.admin-db-product-maintab-container {
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.admin-db-product-maintab-header {
+  display: flex;
+  border-bottom: 2px solid #eee;
+}
+
+.admin-db-product-maintab-btn {
+  padding: 12px 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.admin-db-product-maintab-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.admin-db-product-maintab-active {
+  border-bottom: 2px solid black;
+  color: black;
+}
+
+.admin-db-product-maintab-content {
+  padding: 20px;
+}
+
+.admin-db-product-maintab-panel {
+  animation: adminDbProductMaintabFade 0.3s ease-in-out;
+}
+
+@keyframes adminDbProductMaintabFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* admin db customer table manage */
+
+/* Container */
+.admin-db-customer-manage-table-container {
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title */
+.admin-db-customer-manage-table-title {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Table Wrapper (scroll) */
+.admin-db-customer-manage-table-wrapper {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Table */
+.admin-db-customer-manage-table-main {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+/* Header */
+.admin-db-customer-manage-table-main thead {
+  background: linear-gradient(90deg, rgb(17, 17, 17), rgb(21, 21, 21));
+  color: #ffffff;
+}
+
+.admin-db-customer-manage-table-main th {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Rows */
+.admin-db-customer-manage-table-main td {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+/* Zebra effect */
+.admin-db-customer-manage-table-main tbody tr:nth-child(even) {
+  background: #f9fbff;
+}
+
+/* Hover effect */
+.admin-db-customer-manage-table-main tbody tr:hover {
+  background: #eef3ff;
+  transition: 0.2s;
+}
+
+/* Password text */
+.admin-db-customer-manage-table-password {
+  font-family: monospace;
+  margin-right: 8px;
+}
+
+/* Show/Hide button */
+.admin-db-customer-manage-table-show-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #36b9cc;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-db-customer-manage-table-show-btn:hover {
+  background: #2c9faf;
+}
+
+/* Delete button */
+.admin-db-customer-manage-table-delete-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  background: #e74a3b;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-db-customer-manage-table-delete-btn:hover {
+  background: #c0392b;
+}
+
+/* Scrollbar styling (optional) */
+.admin-db-customer-manage-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.admin-db-customer-manage-table-wrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* admin db customer management search */
+/* Search Container */
+.admin-db-customer-manage-search-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Select Dropdown */
+.admin-db-customer-manage-search-select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: border 0.2s ease;
+}
+
+.admin-db-customer-manage-search-select:focus {
+    border-color: #007bff;
+}
+
+/* Search Input */
+.admin-db-customer-manage-search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    width: 250px;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-db-customer-manage-search-input:focus {
+    border-color: #000000;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+/* Optional: Clear Button (if you add later) */
+.admin-db-customer-manage-search-clear-btn {
+    padding: 7px 10px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s ease;
+}
+
+.admin-db-customer-manage-search-clear-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .admin-db-customer-manage-search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-db-customer-manage-search-input {
+        width: 100%;
+    }
+}
+
+/* refresh button */
+
+
+.admin-db-customer-manage-refresh-btn {
+    padding: 8px 14px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.admin-db-customer-manage-refresh-btn:hover {
+    background-color: #218838;
+}
+
+.admin-db-customer-manage-refresh-btn:active {
+    transform: scale(0.97);
+}
+
+.admin-db-customer-manage-refresh-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+
+
+
+/* add delivery partner form popup */
+
+.admin-db-dp-manage-container {
+  padding: 20px;
+}
+
+.admin-db-dp-manage-add-btn {
+  padding: 10px 18px;
+  background: #2d89ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.admin-db-dp-manage-form-box {
+  background: #fff;
+  position:absolute;
+  top:20%;
+  left:20%;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.admin-db-dp-manage-title {
+  margin-bottom: 10px;
+}
+
+.admin-db-dp-manage-input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-db-dp-manage-submit-btn {
+  width: 100%;
+  padding: 10px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
+/* admin dashboard product category */
+.admin-db-pro-cat-wrapper {
+  padding: 24px;
+  font-family: sans-serif;
+  color: #111;
+}
+
+/* Header */
+.admin-db-pro-cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.admin-db-pro-cat-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+.admin-db-pro-cat-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Search */
+.admin-db-pro-cat-search {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.admin-db-pro-cat-search:focus {
+  border-color: #378add;
+  box-shadow: 0 0 0 3px #b5d4f460;
+}
+
+/* Add button */
+.admin-db-pro-cat-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #185fa5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.admin-db-pro-cat-add-btn:hover { background: #0c447c; }
+
+/* Table */
+.admin-db-pro-cat-table-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.admin-db-pro-cat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.admin-db-pro-cat-table thead {
+  background: #f9fafb;
+}
+.admin-db-pro-cat-table th {
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 13px;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+.admin-db-pro-cat-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+.admin-db-pro-cat-table tbody tr:last-child td { border-bottom: none; }
+.admin-db-pro-cat-table tbody tr:hover { background: #f9fafb; }
+
+/* Image cells */
+.admin-db-pro-cat-img-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #e5e7eb;
+}
+.admin-db-pro-cat-img-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  border: 1px dashed #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+/* Name / slug / badge */
+.admin-db-pro-cat-name { font-weight: 500; }
+.admin-db-pro-cat-slug {
+  font-size: 12px;
+  color: #6b7280;
+  font-family: monospace;
+}
+.admin-db-pro-cat-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  background: #e6f1fb;
+  color: #0c447c;
+}
+
+/* Row actions */
+.admin-db-pro-cat-actions { display: flex; gap: 6px; }
+.admin-db-pro-cat-edit-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+.admin-db-pro-cat-edit-btn:hover { background: #f3f4f6; }
+.admin-db-pro-cat-delete-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #b91c1c;
+  cursor: pointer;
+}
+.admin-db-pro-cat-delete-btn:hover { background: #fee2e2; }
+
+/* Overlay */
+.admin-db-pro-cat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+  z-index: 999;
+}
+
+/* Category modal */
+.admin-db-pro-cat-modal {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  width: 360px;
+}
+.admin-db-pro-cat-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 18px;
+}
+.admin-db-pro-cat-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.admin-db-pro-cat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+.admin-db-pro-cat-input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+.admin-db-pro-cat-input:focus {
+  border-color: #378add;
+  box-shadow: 0 0 0 3px #b5d4f460;
+}
+.admin-db-pro-cat-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+}
+.admin-db-pro-cat-img-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 13px;
+  cursor: pointer;
+  color: #6b7280;
+  width: 100%;
+}
+.admin-db-pro-cat-img-select-btn:hover {
+  border-color: #378add;
+  color: #185fa5;
+}
+.admin-db-pro-cat-img-preview {
+  margin-top: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+.admin-db-pro-cat-img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.admin-db-pro-cat-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.admin-db-pro-cat-submit-btn {
+  flex: 1;
+  padding: 9px;
+  background: #185fa5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.admin-db-pro-cat-submit-btn:hover { background: #0c447c; }
+.admin-db-pro-cat-cancel-btn {
+  flex: 1;
+  padding: 9px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.admin-db-pro-cat-cancel-btn:hover { background: #e5e7eb; }
+
+/* Image gallery modal */
+.admin-db-pro-cat-img-gallery-modal {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px;
+  width: 560px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+.admin-db-pro-cat-gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.admin-db-pro-cat-gallery-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+.admin-db-pro-cat-gallery-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+}
+
+.admin-db-pro-cat-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.admin-db-pro-cat-gallery-item {
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.admin-db-pro-cat-gallery-item:hover { border-color: #378add; }
+.admin-db-pro-cat-gallery-item.selected { border-color: #1d9e75; }
+.admin-db-pro-cat-gallery-item img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  display: block;
+}
