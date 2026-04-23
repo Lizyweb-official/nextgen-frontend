@@ -38,6 +38,7 @@ function Layout() {
   return (
     <>
       {!hideHeaderFooter && <Header />}
+      
 
       <Routes>
         <Route path="/" element={<Home />} />
