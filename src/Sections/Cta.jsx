@@ -17,7 +17,7 @@ function Cta(){
       <div className="cta-overlay"></div>
 
       <div className="cta-content">
-        <p className="cta-top">We’re Here For You!</p>
+        <p className="cta-top">We’re Here For You! </p>
 
         <h1 className="cta-title">
           FRESH MEAT,<br />
@@ -37,15 +37,15 @@ function Cta(){
         </p>
 
        <a href="tel:+919876543210" className="cta-call">
-  <div className="icon">
-    <i className="bi bi-telephone-fill"></i>
-  </div>
+      <div className="icon">
+        <i className="bi bi-telephone-fill"></i>
+      </div>
 
-  <div className="call-text">
-    <span>Call Us Anytime</span>
-    <h3>+91 98765 43210</h3>
-  </div>
-</a>
+      <div className="call-text">
+        <span>Call Us Anytime</span>
+        <h3>+91 98765 43210</h3>
+      </div>
+    </a>
 
 
       </div>
