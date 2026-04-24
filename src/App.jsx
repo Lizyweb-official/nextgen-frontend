@@ -20,6 +20,9 @@ import DeliveryPanel from './panel/DeliveryPanel';
 import UserLoginPanel from './panel/user/UserLoginPanel';
 import AdminLoginPanel from './panel/admin/AdminLoginPanel';
 
+import ProductEditPage from './panel/admin/product/ProductEditPage';
+import SingleProductPage from './Pages/SingleProductPage';
+
 import { BrowserRouter as Router, Routes, Route, useLocation  } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,6 +36,7 @@ function Layout() {
   const hideHeaderFooter =
     location.pathname === "/user-login-page" ||
     location.pathname === "/admin-login-page"||
+    location.pathname.startsWith("/product-editor/") ||
     location.pathname === "/admin-db";
 
   return (
@@ -52,6 +56,9 @@ function Layout() {
         <Route path="/user-login-page" element={<UserLoginPanel />} />
         <Route path="/admin-login-page" element={<AdminLoginPanel />} />
         <Route path="/admin-db" element={<AdminPanel />} />
+
+        <Route path="/product-editor/:id" element={<ProductEditPage />} />
+        <Route path="/single-product-page/:id" element={<SingleProductPage />} />
       </Routes>
 
       {!hideHeaderFooter && <Footer />}

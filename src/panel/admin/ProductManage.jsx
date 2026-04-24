@@ -6,13 +6,14 @@ import '../../css/style.css';
 import React, { useState , useEffect } from "react";
 
 import ProductCategories from './product/ProductCategories';
+import AddProductPage from './product/AddProductPage';
+import AllProducts from './product/AllProducts';
 
 function ProductManage(){
     const [activeTab, setActiveTab] = useState("allproducts");
     
     return(
         <>
-        
         <div className="admin-db-product-maintab-container">
 
             {/* Tabs Header */}
@@ -45,14 +46,6 @@ function ProductManage(){
                 Categories
                 </button>
 
-                <button
-                className={`admin-db-product-maintab-btn ${
-                    activeTab === "Attributes" ? "admin-db-product-maintab-active" : ""
-                }`}
-                onClick={() => setActiveTab("Attributes")}
-                >
-                Attributes
-                </button>
 
             </div>
 
@@ -60,13 +53,13 @@ function ProductManage(){
             <div className="admin-db-product-maintab-content">
                 {activeTab === "allproducts" && (
                 <div className="admin-db-product-maintab-panel">
-                    <h1>Delivery</h1>
+                    <AllProducts/>
                 </div>
                 )}
 
                 {activeTab === "addnewproduct" && (
                 <div className="admin-db-product-maintab-panel">
-                    <h1>Delivery</h1>
+                    <AddProductPage/>
                 </div>
                 )}
 
@@ -76,11 +69,6 @@ function ProductManage(){
                 </div>
                 )}
 
-                {activeTab === "Attributes" && (
-                <div className="admin-db-product-maintab-panel">
-                    <h1>Attributes</h1>
-                </div>
-                )}
             </div>
 
         </div>
