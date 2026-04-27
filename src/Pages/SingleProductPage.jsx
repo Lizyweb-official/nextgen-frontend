@@ -6,7 +6,7 @@ import '../css/style.css';
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 function SingleProductPage() {
   const { id } = useParams();
