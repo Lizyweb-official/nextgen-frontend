@@ -6,7 +6,7 @@ import '../css/style.css';
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-const API = process.env.REACT_APP_API_URL;
+const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
   const { id } = useParams();
@@ -17,13 +17,13 @@ function SingleProductPage() {
 
   // Fetch Product + Image
   useEffect(() => {
-    fetch(`${API}/product/getproduct/${id}`)
+    fetch(`${API}/api/product/getproduct/${id}`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);
 
         if (data.image_id) {
-          fetch(`${API}/getimagebyid/${data.image_id}`)
+          fetch(`${API}/api/getimagebyid/${data.image_id}`)
             .then(res => res.json())
             .then(img => setImageUrl(img.url))
             .catch(err => console.log(err));
