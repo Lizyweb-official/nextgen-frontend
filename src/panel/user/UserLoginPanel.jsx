@@ -29,8 +29,6 @@ function UserLoginPanel(){
         password: "",
     });
 
-
-
     const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
@@ -46,6 +44,15 @@ function UserLoginPanel(){
 
                 if (userExists) {
                     alert("You are already registered, try logging in");
+                    return;
+                }
+                
+                const userExistsUsername = users.find(
+                    (user) => user.username === registerData.username
+                );
+
+                if (userExistsUsername) {
+                    alert("Username already registered, try Another Username");
                     return;
                 }
 
@@ -105,7 +112,7 @@ function UserLoginPanel(){
             const user = users.find(
                 (u) => u.phone === loginData.phone
             );
-
+            
             if (!user) {
                 alert("User not registered");
                 return;
