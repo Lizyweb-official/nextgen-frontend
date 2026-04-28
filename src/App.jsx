@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { AuthProvider } from "./context/AuthContext";
 
 import Header from './Sections/Header';
@@ -13,6 +13,7 @@ import Home from './Pages/Home'
 import About from './Pages/About';
 import Shop from './Pages/Shop';
 import Contact from './Pages/Contact';
+import Cart from './Pages/Cart';
 
 import AdminPanel from './panel/AdminPanel';
 import CustomerPanel from './panel/CustomerPanel';
@@ -49,6 +50,7 @@ function Layout() {
         <Route path="/About" element={<About />} />
         <Route path="/Shop" element={<Shop />} />
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/Cart" element={<Cart />} />
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
