@@ -149,6 +149,7 @@ function BestProduct() {
     { id: 6, name: "Chicken Feet",         category: "Chicken", price: "$11.99", old: "$14.99", off: "20%", badge: "new",   rating: "★★★☆☆", count: "4.2", image: a6 },
   ];
 
+
   const handleCart = (id) => {
     setCart(p => ({ ...p, [id]: true }));
     setTimeout(() => setCart(p => ({ ...p, [id]: false })), 2000);
