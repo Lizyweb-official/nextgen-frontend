@@ -67,7 +67,6 @@ function Layout() {
 }
 
 function App() {
-
   return (
     <>
     <AuthProvider>
