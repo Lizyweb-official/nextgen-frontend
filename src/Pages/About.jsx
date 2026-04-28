@@ -1,6 +1,7 @@
 import '../css/style-1.css';
 import '../css/style-2.css';
 import '../css/style-3.css';
+import '../css/style-4.css';
 import '../css/style.css';
 
 import pathbg from "../media/Website-Images/images-3/path-1.PNG";
@@ -11,14 +12,7 @@ import mision from "../media/Website-Images/images-3/mision-2.PNG";
 import whychoose from "../media/Website-Images/images-3/why_1.JPG";
 
 
-
 import Cta from '../Sections/Cta';
-
-
-
-
-
-
 
 
 function About(){

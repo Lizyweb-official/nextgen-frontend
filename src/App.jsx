@@ -6,6 +6,7 @@ import Header from './Sections/Header';
 import './css/style-1.css';
 import './css/style-2.css';
 import './css/style-3.css';
+import './css/style-4.css';
 import './css/style.css';
 
 import Home from './Pages/Home'
@@ -42,7 +43,6 @@ function Layout() {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -65,8 +65,6 @@ function Layout() {
     </>
   );
 }
-
-
 
 function App() {
 

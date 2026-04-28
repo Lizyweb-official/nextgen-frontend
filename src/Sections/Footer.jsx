@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/style-1.css';
 import '../css/style-2.css';
 import '../css/style-3.css';
+import '../css/style-4.css';
 import '../css/style.css';
 
 import logo from '../media/Website-Images/images-1/foot-logo.jpg'
