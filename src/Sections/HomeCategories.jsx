@@ -41,7 +41,6 @@ function HomeCategories() {
         { name: "Chicken Feet ", img: P12 },
       ];
       return (
-     
 
   <>
   <section className="category-section">
