@@ -5,8 +5,7 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 import React, { useState } from "react";
-
-import HomeCategories from '../Sections/HomeCategories';
+import ShopCategories from '../Sections/ShopCategories';
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
 import a2 from "../media/Website-Images/images-3/e2.jpg";
@@ -14,9 +13,9 @@ import a3 from "../media/Website-Images/images-3/e8.jpg";
 import a4 from "../media/Website-Images/images-3/e4.jpg";
 import a5 from "../media/Website-Images/images-3/e5.jpg";
 import a6 from "../media/Website-Images/images-3/e6.jpg";
-import a7 from "../media/Website-Images/images-3/e7.jpg";
 
 function Shop() {
+
   const productsData = [
     { id: 1, name: "Premium Boneless Cut", category: "Beef", price: 24.99, old: 29.99, badge: "hot", rating: 4.9, image: a1 },
     { id: 2, name: "Chicken Breast", category: "Chicken", price: 8.99, old: 11.99, badge: "fresh", rating: 4.6, image: a2 },
@@ -41,34 +40,28 @@ function Shop() {
     });
 
   return (
-  <>
-    <Path />
-    
-    <HomeCategories/>
-
-    <div className="shop-container">
-
-      <button 
-        className="filter-toggle"
-        onClick={() => setShowFilter(!showFilter)}
-      >
-        ☰ Filters
-      </button>
-
-      <div className={`filter-wrapper ${showFilter ? "show" : ""}`}>
-        <FilterPanel setCategory={setCategory} setSort={setSort} />
+    <>
+      <Path />
+  
+      <ShopCategories 
+        products={productsData}
+        setCategory={setCategory}
+      />
+  
+      <div className="shop-container center">
+        <ProductSection products={filteredProducts} />
       </div>
-
-      <ProductSection products={filteredProducts} />
-
-    </div>
-  </>
-);
+    </>
+  );
 }
 
 export default Shop;
 
-/* ================= COMPONENTS ================= */
+
+
+
+
+/* ================= PATH ================= */
 
 function Path() {
   return (
@@ -83,43 +76,20 @@ function Path() {
   );
 }
 
-function FilterPanel({ setCategory, setSort }) {
-  return (
-    <div className="filter-panel">
-      <h3>Filter</h3>
 
-      <div className="filter-group">
-        <label>Category</label>
-        <select onChange={(e) => setCategory(e.target.value)}>
-          <option value="All">All</option>
-          <option value="Chicken">Chicken</option>
-          <option value="Beef">Beef</option>
-          <option value="Lamb">Lamb</option>
-        </select>
-      </div>
-
-      <div className="filter-group">
-        <label>Sort by Name</label>
-        <select onChange={(e) => setSort(e.target.value)}>
-          <option value="">Default</option>
-          <option value="az">A → Z</option>
-          <option value="za">Z → A</option>
-        </select>
-      </div>
-
-      <div className="filter-group">
-        <label>Sort by Price</label>
-        <select onChange={(e) => setSort(e.target.value)}>
-          <option value="">Default</option>
-          <option value="low">Low → High</option>
-          <option value="high">High → Low</option>
-        </select>
-      </div>
-    </div>
-  );
-}
+/* ================= PRODUCTS ================= */
 
 function ProductSection({ products }) {
+
+  if (products.length === 0) {
+    return (
+      <div className="no-products">
+        <h3>No Products Available</h3>
+        <p>Try selecting another category</p>
+      </div>
+    );
+  }
+
   return (
     <div className="product-grid">
       {products.map((item) => (
@@ -128,6 +98,10 @@ function ProductSection({ products }) {
     </div>
   );
 }
+
+
+
+/* ================= PRODUCT CARD ================= */
 
 function ProductCard({ item }) {
   const discount = Math.round(((item.old - item.price) / item.old) * 100);
@@ -143,13 +117,11 @@ function ProductCard({ item }) {
       <h4>{item.name}</h4>
       <p className="category">{item.category}</p>
 
-      {/* ⭐ Rating */}
       <div className="rating">
         <span className="stars">★★★★★</span>
         <span className="count">({item.rating})</span>
       </div>
 
-      {/* 💰 Price */}
       <div className="price">
         <span className="new">${item.price}</span>
         <span className="old">${item.old}</span>
