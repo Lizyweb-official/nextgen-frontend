@@ -6,7 +6,7 @@ import '../css/style.css';
 import React, { useState } from "react";
 
 function Checkout() {
-const Checkout = () => {
+
   const [selectedAddress, setSelectedAddress] = useState(1);
   const [selectedSlot, setSelectedSlot] = useState("");
   const [coupon, setCoupon] = useState("");
@@ -128,7 +128,7 @@ const Checkout = () => {
       </div>
     </div>
   );
-};
 }
+
 
 export default Checkout;
