@@ -14,7 +14,7 @@ import About from './Pages/About';
 import Shop from './Pages/Shop';
 import Contact from './Pages/Contact';
 import Cart from './Pages/Cart';
-
+import Checkout from './Pages/Checkout';
 import AdminPanel from './panel/AdminPanel';
 import CustomerPanel from './panel/CustomerPanel';
 import DeliveryPanel from './panel/DeliveryPanel';
@@ -31,6 +31,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Footer from './Sections/Footer';
+
 
 function Layout() {
   const location = useLocation();
@@ -51,6 +52,7 @@ function Layout() {
         <Route path="/Shop" element={<Shop />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
+        <Route path="/Checkout" element={<Checkout />} />
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
