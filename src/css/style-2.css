@@ -32,7 +32,7 @@
 }
 
 .tc-logo span {
-  color: #222;
+  color: #041c54;
 }
 
 .tc-back {
@@ -60,7 +60,7 @@
 .tc-section-title {
   font-size: 15px;
   font-weight: 700;
-  color: #222;
+  color: #f6efef;
   margin-bottom: 12px;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .tc-addr-text strong {
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .tc-change {
@@ -156,7 +156,7 @@
 .tc-item-name {
   font-size: 14px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #fff1f1;
   margin-bottom: 2px;
 }
 
@@ -406,7 +406,7 @@
   position: absolute;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(255, 80, 80, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(239, 12, 12, 0.35), transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -505,7 +505,7 @@
 
 .ayam-cart-hero__btn-secondary:hover {
   background: #fff;
-  color: #000;
+  color: #f6f4f4;
   transform: translateY(-2px);
 }
 

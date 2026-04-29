@@ -7,15 +7,15 @@ import chickenBreast from "../media/Website-Images/images-2/BONELESS.png";
 import wings from "../media/Website-Images/images-2/WINGS.PNG";
 import boneless from "../media/Website-Images/images-2/CHEST.png";
 import path from "../media/Website-Images/images-2/Gemini_Generated_Image_24ye24ye24ye24ye.png";
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"></link>
 const DELIVERY_THRESHOLD = 499;
 const DELIVERY_CHARGE = 49;
-
 
 import React, { useState } from "react";
 
 function Cart() {
   
-   const [cartItems, setCartItems] = useState([
+  const [cartItems, setCartItems] = useState([
     { id: 1, name: "Chicken Boneless", weight: "500g", price: 220, origPrice: 280, qty: 1, image: boneless },
     { id: 2, name: "Chicken Wings",    weight: "1kg",  price: 180, origPrice: 220, qty: 1, image: wings },
     { id: 3, name: "Chicken Breast",   weight: "1kg",  price: 180, origPrice: 240, qty: 1, image: chickenBreast },
@@ -44,59 +44,48 @@ function Cart() {
   
   return (
     <div className="tc-wrap">
+
       <section
-  className="ayam-cart-hero"
-  style={{ backgroundImage: `url(${path})` }}
+        className="ayam-cart-hero"
+        style={{ backgroundImage: `url(${path})` }}
+      >
+        <div className="ayam-cart-hero__overlay"></div>
+        <div className="ayam-cart-hero__radial-glow"></div>
+
+        <div className="ayam-cart-hero__content">
+          
+
+         <h1 
+  className="ayam-cart-hero__title" 
+  style={{ color: "#f3f3f3" }}
 >
-  <div className="ayam-cart-hero__overlay"></div>
-  <div className="ayam-cart-hero__radial-glow"></div>
+  Your Cart
+</h1>
+          <div className="ayam-cart-hero__divider"></div>
 
-  <div className="ayam-cart-hero__content">
-    <div className="ayam-cart-hero__badge">
-      <span className="ayam-cart-hero__badge-dot"></span>
-      Fresh Meat in Your Cart
-    </div>
+          
 
-    <h1 className="ayam-cart-hero__title">Your Cart</h1>
-    <div className="ayam-cart-hero__divider"></div>
-
-    <p className="ayam-cart-hero__subtitle">
-      Review your selected fresh cuts before checkout.<br />
-      Quality meat, ready for delivery to your doorstep.
-    </p>
-
-    <div className="ayam-cart-hero__buttons">
-      <button className="ayam-cart-hero__btn-primary">
-        Proceed to Checkout
-      </button>
-      <button className="ayam-cart-hero__btn-secondary">
-        Continue Shopping
-      </button>
-    </div>
-  </div>
-</section>
-      
+        
+        </div>
+      </section>
 
       {/* Header */}
       <div className="tc-header">
         <div className="tc-logo">Ayam<span>Now</span></div>
-        <button className="tc-back">← Continue Shopping</button>
+        <button className="tc-back">
+          <i className="bi bi-arrow-left"></i> Continue Shopping
+        </button>
       </div>
 
       <div className="tc-body">
-        
 
         {/* LEFT — Cart Items */}
         <div className="tc-left">
-
-          
-
 
           <div className="tc-section-title">
             Your Cart ({totalQty} item{totalQty !== 1 ? "s" : ""})
           </div>
 
-          {/* Cart Cards */}
           {cartItems.map(item => (
             <div className="tc-card" key={item.id}>
               <div className="tc-item-img">
@@ -106,7 +95,9 @@ function Cart() {
               <div className="tc-item-info">
                 <div className="tc-item-name">{item.name}</div>
                 <div className="tc-item-weight">{item.weight}</div>
-                <div className="tc-fresh-badge">✓ Farm Fresh · No Preservatives</div>
+                <div className="tc-fresh-badge">
+                  <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
+                </div>
                 <div className="tc-item-price">
                   ₹{item.price}
                   <span className="orig">₹{item.origPrice}</span>
@@ -122,7 +113,9 @@ function Cart() {
                 </div>
               </div>
 
-              <button className="tc-delete" onClick={() => removeItem(item.id)}>✕</button>
+              <button className="tc-delete" onClick={() => removeItem(item.id)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
             </div>
           ))}
         </div>
@@ -148,11 +141,14 @@ function Cart() {
             <div className="tc-sum-row total">
               <span>Total Amount</span><span>₹{grandTotal}</span>
             </div>
-            <div className="tc-saving-text">🎉 You save ₹{savings} on this order!</div>
+
+            <div className="tc-saving-text">
+              <i className="bi bi-emoji-smile"></i> You save ₹{savings} on this order!
+            </div>
 
             {/* Promo */}
             <div className="tc-promo">
-              <span>🏷️</span>
+              <span><i className="bi bi-tag"></i></span>
               <div className="tc-promo-text">
                 Have a promo code? <span>Apply here</span>
               </div>
@@ -162,9 +158,15 @@ function Cart() {
 
             {/* Trust Badges */}
             <div className="tc-trust">
-              <div className="tc-trust-item"><span>🥩</span>100% Fresh</div>
-              <div className="tc-trust-item"><span>🌡️</span>Cold Chain</div>
-              <div className="tc-trust-item"><span>🔒</span>Secure Pay</div>
+              <div className="tc-trust-item">
+                <i className="bi bi-box-seam"></i> 100% Fresh
+              </div>
+              <div className="tc-trust-item">
+                <i className="bi bi-thermometer-snow"></i> Cold Chain
+              </div>
+              <div className="tc-trust-item">
+                <i className="bi bi-shield-lock"></i> Secure Pay
+              </div>
             </div>
           </div>
         </div>
