@@ -19,8 +19,7 @@ import P10 from "../media/Website-Images/images-3/Chicken Neck.PNG";
 import P11 from "../media/Website-Images/images-3/Chicken Back.JPG";
 import P12 from "../media/Website-Images/images-3/Chicken Feet.PNG";
 
-
-  import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import React from "react";
 
@@ -41,26 +40,26 @@ function HomeCategories() {
         { name: "Chicken Feet ", img: P12 },
       ];
       return (
-  <>
-  <section className="category-section">
-    <h2>Explore by Category</h2>
+          <>
+          <section className="category-section">
+            <h2>Explore by Category</h2>
 
-    <div className="category-grid">
-      {categories.map((item, index) => (
-        <Link 
-          to={`/Shop`} 
-          className="category-card" 
-          key={index}
-        >
-          <div className="circle">
-            <img src={item.img} alt={item.name} />
-          </div>
-          <span>{item.name}</span>
-        </Link>
-      ))}
-    </div>
-  </section>
-</>
+            <div className="category-grid">
+              {categories.map((item, index) => (
+                <Link 
+                  to={`/Shop`} 
+                  className="category-card" 
+                  key={index}
+                >
+                  <div className="circle">
+                    <img src={item.img} alt={item.name} />
+                  </div>
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </>
       );
     }
 
