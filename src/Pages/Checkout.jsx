@@ -1,15 +1,14 @@
+import React, { useState } from "react";
 import '../css/style-1.css';
 import '../css/style-2.css';
 import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
-import React, { useState } from "react";
-
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"></link>
 const orderItems = [
-  { id: 1, name: "Chicken Boneless", meta: "500g × 1", price: 220, emoji: "🥩" },
-  { id: 2, name: "Chicken Wings",    meta: "1kg × 1",  price: 180, emoji: "🍖" },
-  { id: 3, name: "Chicken Breast",   meta: "1kg × 1",  price: 180, emoji: "🍗" },
+  { id: 1, name: "Chicken Boneless", meta: "500g × 1", price: 220, icon: "bi-box" },
+  { id: 2, name: "Chicken Wings",    meta: "1kg × 1",  price: 180, icon: "bi-basket" },
+  { id: 3, name: "Chicken Breast",   meta: "1kg × 1",  price: 180, icon: "bi-egg-fried" },
 ];
 
 const slots = [
@@ -22,21 +21,21 @@ const slots = [
 ];
 
 const payMethods = [
-  { id: "upi",  icon: "💳", name: "UPI / GPay / PhonePe", sub: "Pay instantly via UPI",        badge: "Recommended" },
-  { id: "nb",   icon: "🏦", name: "Net Banking",           sub: "All major banks supported",    badge: null },
-  { id: "cod",  icon: "💰", name: "Cash on Delivery",      sub: "Pay when order arrives",       badge: null },
-  { id: "card", icon: "🃏", name: "Credit / Debit Card",   sub: "Visa, Mastercard, RuPay",      badge: null },
+  { id: "upi",  icon: "bi-phone",        name: "UPI / GPay / PhonePe", sub: "Pay instantly via UPI",     badge: "Recommended" },
+  { id: "nb",   icon: "bi-bank",         name: "Net Banking",           sub: "All major banks supported", badge: null },
+  { id: "cod",  icon: "bi-cash",         name: "Cash on Delivery",      sub: "Pay when order arrives",    badge: null },
+  { id: "card", icon: "bi-credit-card",  name: "Credit / Debit Card",   sub: "Visa, Mastercard, RuPay",   badge: null },
 ];
 
-const ITEM_TOTAL    = 740;
-const DISCOUNT      = 160;
-const DELIVERY      = 0;
-const GRAND_TOTAL   = ITEM_TOTAL - DISCOUNT + DELIVERY;
-const SAVINGS       = DISCOUNT;
+const ITEM_TOTAL  = 740;
+const DISCOUNT    = 160;
+const DELIVERY    = 0;
+const GRAND_TOTAL = ITEM_TOTAL - DISCOUNT + DELIVERY;
+const SAVINGS     = DISCOUNT;
 
 function Checkout() {
   const [selectedSlot, setSelectedSlot] = useState(0);
-  const [selectedPay,  setSelectedPay]  = useState("upi");
+  const [selectedPay, setSelectedPay] = useState("upi");
 
   const [form, setForm] = useState({
     name: "", phone: "", flat: "", landmark: "",
@@ -54,7 +53,7 @@ function Checkout() {
 
       {/* Header */}
       <div className="co-header">
-        <div className="co-logo">tender<span>cuts</span></div>
+        <div className="co-logo">Ayam<span>Now</span></div>
         <div className="co-steps">
           <div className="co-step done">
             <div className="co-step-num">✓</div> Cart
@@ -155,7 +154,9 @@ function Checkout() {
                   onClick={() => setSelectedPay(pm.id)}
                 >
                   <input type="radio" name="pay" readOnly checked={selectedPay === pm.id} />
-                  <div className="co-pay-icon">{pm.icon}</div>
+                  <div className="co-pay-icon">
+                    <i className={`bi ${pm.icon}`}></i>
+                  </div>
                   <div className="co-pay-info">
                     <div className="pay-name">{pm.name}</div>
                     <div className="pay-sub">{pm.sub}</div>
@@ -175,7 +176,9 @@ function Checkout() {
 
             {orderItems.map((item) => (
               <div className="co-item-row" key={item.id}>
-                <div className="co-item-emoji">{item.emoji}</div>
+                <div className="co-item-emoji">
+                  <i className={`bi ${item.icon}`}></i>
+                </div>
                 <div className="co-item-detail">
                   <div className="iname">{item.name}</div>
                   <div className="imeta">{item.meta}</div>
