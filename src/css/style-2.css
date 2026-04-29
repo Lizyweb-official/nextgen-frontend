@@ -10,7 +10,7 @@
 /* ── Wrapper ── */
 .tc-wrap {
   background: #f5f5f5;
-  min-height: 100vh;
+  min-height: 150px;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -381,8 +381,7 @@
 /* ===== CART HERO SECTION ===== */
 .ayam-cart-hero {
   position: relative;
-  height: 90vh;
-  min-height: 600px;
+  height: 150px;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -406,7 +405,6 @@
   position: absolute;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(239, 12, 12, 0.35), transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

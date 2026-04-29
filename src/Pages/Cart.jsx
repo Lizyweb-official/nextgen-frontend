@@ -56,11 +56,11 @@ function Cart() {
           
 
          <h1 
-  className="ayam-cart-hero__title" 
-  style={{ color: "#f3f3f3" }}
->
-  Your Cart
-</h1>
+            className="ayam-cart-hero__title" 
+            style={{ color: "#f3f3f3" }}
+          >
+            Your Cart
+          </h1>
           <div className="ayam-cart-hero__divider"></div>
 
           
