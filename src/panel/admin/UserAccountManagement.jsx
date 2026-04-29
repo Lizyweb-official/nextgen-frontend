@@ -51,11 +51,10 @@ function UserAccountManagement(){
                     )}
 
                 </div>
-                </div>
+            </div>
         </>
     )
 }
-
 
 function CustomerAccountManage(){
 

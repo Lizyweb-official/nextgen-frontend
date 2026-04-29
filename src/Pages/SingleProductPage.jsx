@@ -6,15 +6,27 @@ import '../css/style.css';
 
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
   const { id } = useParams();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [qty, setQty] = useState(1);
+
+    // INCREMENT
+    const increaseQty = () => {
+        setQty((prev) => (prev < 10 ? prev + 1 : prev));
+    };
+
+    // DECREMENT
+    const decreaseQty = () => {
+    setQty((prev) => (prev > 1 ? prev - 1 : 1));
+    };
 
   // Fetch Product + Image
   useEffect(() => {
@@ -37,23 +49,63 @@ function SingleProductPage() {
     return <div className="container mt-5">Loading...</div>;
   }
 
-  return (
-    <div className="single-product-page-container mt-5">
+    const handleAddToCart = async (productId) => {
+        try {
+            const data = {
+            customer_id: user.id,   // ✅ match backend
+            product_id: productId,
+            quantity: qty,
+            };
 
-        {/* BREADCRUMB */}
-        <nav className="single-product-page-breadcrumb">
-            <ol>
-            <li className="single-product-page-breadcrumb-item">
-                <Link to="/">Home</Link>
+            const response = await fetch("http://localhost:5000/api/product/addproducttocart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            console.log(result.message);
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+        }
+    };
+
+  return (
+    <>
+   {/* BREADCRUMB HERO */}
+    <div className="single-page-hero">
+
+    <div className="single-page-hero-overlay">
+        
+        <nav className="single-page-breadcrumb">
+        <ol className="single-page-breadcrumb-list">
+
+            <li className="single-page-breadcrumb-item">
+            <Link to="/" className="single-page-breadcrumb-link">Home</Link>
             </li>
-            <li className="single-product-page-breadcrumb-item">
-                <Link to="/shop">Shop</Link>
+
+            <li className="single-page-breadcrumb-separator">/</li>
+
+            <li className="single-page-breadcrumb-item">
+            <Link to="/shop" className="single-page-breadcrumb-link">Shop</Link>
             </li>
-            <li className="single-product-page-breadcrumb-item active" aria-current="page">
-                {product.name}
+
+            <li className="single-page-breadcrumb-separator">/</li>
+
+            <li className="single-page-breadcrumb-item active">
+            {product.name}
             </li>
-            </ol>
+
+        </ol>
         </nav>
+
+    </div>
+    </div>
+
+    <div className="single-product-page-container mt-5">
 
         <div className="single-product-page-row">
 
@@ -80,7 +132,7 @@ function SingleProductPage() {
             <div className="single-product-page-custom-fields">
                 {product.custom_fields?.map((field, index) => (
                 <span key={index} className="single-product-page-custom-field-tag">
-                    <strong>{field.field_name}</strong> {field.field_value}
+                    <strong>{field.field_name}</strong> | {field.field_value}
                 </span>
                 ))}
             </div>
@@ -114,34 +166,39 @@ function SingleProductPage() {
             </div>
 
             {/* QUANTITY */}
-            <div className="single-product-page-qty-row">
-                <label className="single-product-page-qty-label">Qty</label>
-                <select
-                value={qty}
-                onChange={(e) => setQty(e.target.value)}
-                className="single-product-page-qty-select"
-                >
-                {[1,2,3,4,5,6,7,8,9,10].map(num => (
-                    <option key={num} value={num}>{num}</option>
-                ))}
-                </select>
-            </div>
+            <div className="single-page-qty-row">
+                <label className="single-page-qty-label">Qty</label>
 
-            {/* ADD TO CART */}
-            <button className="single-product-page-add-to-cart">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2.2"
-                strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1"/>
-                <circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
-                Add to Cart
-            </button>
+                <div className="single-page-qty-box">
+                    <button 
+                    className="single-page-qty-btn"
+                    onClick={decreaseQty}
+                    >
+                    -
+                    </button>
+
+                    <span className="single-page-qty-value">{qty}</span>
+
+                    <button 
+                    className="single-page-qty-btn"
+                    onClick={increaseQty}
+                    >
+                    +
+                    </button>
+                </div>
+                </div>
+
+                <button 
+                    className="single-page-add-to-cart"
+                    onClick={() => handleAddToCart(product.id)}
+                    >
+                    Add to Cart
+                </button>
 
             </div>
         </div>
         </div>
+    </>
   );
 }
 
