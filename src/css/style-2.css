@@ -381,9 +381,10 @@
 /* ===== CART HERO SECTION ===== */
 .ayam-cart-hero {
   position: relative;
-  height: 150px;
+  height: 200px;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
