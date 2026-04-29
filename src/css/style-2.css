@@ -5,11 +5,7 @@
   --border: rgba(0,0,0,0.08);
   --shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
 }
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
 
 /* ── Wrapper ── */
 .tc-wrap {
@@ -525,5 +521,448 @@
 
   .ayam-cart-hero {
     height: 75vh;
+  }
+}
+/* ===== CHECKOUT ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Wrapper ── */
+.co-wrap {
+  background: #f5f5f5;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ── Header ── */
+.co-header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.co-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: #e31e24;
+  letter-spacing: -0.5px;
+}
+
+.co-logo span {
+  color: #222;
+}
+
+/* ── Progress Steps ── */
+.co-steps {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 0;
+}
+
+.co-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #bbb;
+}
+
+.co-step.active {
+  color: #e31e24;
+}
+
+.co-step.done {
+  color: #2e7d32;
+}
+
+.co-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.co-step.active .co-step-num {
+  border-color: #e31e24;
+  background: #e31e24;
+  color: #fff;
+}
+
+.co-step.done .co-step-num {
+  border-color: #2e7d32;
+  background: #2e7d32;
+  color: #fff;
+}
+
+.co-step-line {
+  width: 32px;
+  height: 2px;
+  background: #eee;
+  margin: 0 4px;
+}
+
+/* ── Body Grid ── */
+.co-body {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── Section Card ── */
+.co-section {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #efefef;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.co-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sec-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e31e24;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.co-section-head h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* ── Address Form ── */
+.co-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.co-field.full {
+  grid-column: 1 / -1;
+}
+
+.co-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.co-field input,
+.co-field select,
+.co-field textarea {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #222;
+  font-family: 'Segoe UI', sans-serif;
+  outline: none;
+  width: 100%;
+  background: #fff;
+}
+
+.co-field input:focus,
+.co-field select:focus,
+.co-field textarea:focus {
+  border-color: #e31e24;
+}
+
+.co-field textarea {
+  resize: none;
+  height: 64px;
+}
+
+/* ── Delivery Slots ── */
+.co-slot-hint {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.co-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.co-slot {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.co-slot:hover {
+  border-color: #e31e24;
+  color: #e31e24;
+}
+
+.co-slot.selected {
+  border-color: #e31e24;
+  background: #fff5f5;
+}
+
+.slot-day {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.co-slot.selected .slot-day {
+  color: #e31e24;
+}
+
+.slot-time {
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Payment Options ── */
+.co-pay-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.co-pay-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border 0.15s, background 0.15s;
+}
+
+.co-pay-opt.selected {
+  border-color: #e31e24;
+  background: #fff5f5;
+}
+
+.co-pay-opt input[type="radio"] {
+  accent-color: #e31e24;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.co-pay-icon {
+  font-size: 22px;
+  width: 32px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pay-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.pay-sub {
+  font-size: 12px;
+  color: #888;
+}
+
+.co-pay-badge {
+  margin-left: auto;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* ── Order Summary ── */
+.co-summary-card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #efefef;
+  padding: 18px;
+}
+
+.co-sum-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.co-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.co-item-emoji {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.co-item-detail {
+  flex: 1;
+}
+
+.iname {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.imeta {
+  font-size: 12px;
+  color: #888;
+}
+
+.co-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e31e24;
+}
+
+.co-divider {
+  border: none;
+  border-top: 1px dashed #e0e0e0;
+  margin: 12px 0;
+}
+
+.co-sum-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.co-sum-row.total {
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 15px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.co-green {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.co-saving-text {
+  font-size: 12px;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ── Place Order Button ── */
+.co-place-btn {
+  width: 100%;
+  background: #e31e24;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 14px;
+}
+
+.co-place-btn:hover {
+  background: #c0141a;
+}
+
+.co-place-btn:active {
+  transform: scale(0.98);
+}
+
+.co-safe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .co-body {
+    grid-template-columns: 1fr;
+  }
+
+  .co-steps {
+    display: none;
+  }
+
+  .co-slot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .co-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .co-field.full {
+    grid-column: 1;
   }
 }
