@@ -7,7 +7,7 @@ import chickenBreast from "../media/Website-Images/images-2/BONELESS.png";
 import wings from "../media/Website-Images/images-2/WINGS.PNG";
 import boneless from "../media/Website-Images/images-2/CHEST.png";
 import path from "../media/Website-Images/images-2/Gemini_Generated_Image_24ye24ye24ye24ye.png";
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"></link>
+
 const DELIVERY_THRESHOLD = 499;
 const DELIVERY_CHARGE = 49;
 
@@ -62,7 +62,6 @@ function Cart() {
             Your Cart
           </h1>
           <div className="ayam-cart-hero__divider"></div>
-
           
 
         
