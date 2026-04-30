@@ -22,7 +22,7 @@ import "swiper/css";
 
 
 
-import bg1 from "../media/Website-Images/images-3/bgimage.PNG";
+import bg1 from "../media/Website-Images/images-3/bgimage.png";
 
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
