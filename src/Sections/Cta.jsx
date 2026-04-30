@@ -6,7 +6,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import CTA from "../media/Website-Images/images-3/ctaimage.PNG";
+import CTA from "../media/Website-Images/images-3/ctaimage.png";
 
 
 import React from "react";
