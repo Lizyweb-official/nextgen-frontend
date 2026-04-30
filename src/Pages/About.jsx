@@ -4,12 +4,12 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import pathbg from "../media/Website-Images/images-3/path-1.PNG";
-import aboutpic from "../media/Website-Images/images-3/about-1.JPG";
-import aboutpix from "../media/Website-Images/images-3/about-2.JPG";
-import vision from "../media/Website-Images/images-3/vision-1.PNG";
-import mision from "../media/Website-Images/images-3/mision-2.PNG";
-import whychoose from "../media/Website-Images/images-3/why_1.JPG";
+import pathbg from "../media/Website-Images/images-3/path-1.png";
+import aboutpic from "../media/Website-Images/images-3/about-1.jpg";
+import aboutpix from "../media/Website-Images/images-3/about-2.jpg";
+import vision from "../media/Website-Images/images-3/vision-1.png";
+import mision from "../media/Website-Images/images-3/mision-2.png";
+import whychoose from "../media/Website-Images/images-3/why_1.jpg";
 
 
 import Cta from '../Sections/Cta';
