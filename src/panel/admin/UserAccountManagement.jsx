@@ -312,8 +312,6 @@ function DeliveryPartnerAccountManage(){
         }
     };
 
-
-
     // create a new dp
      const handleSubmit = async () => {
         try {
