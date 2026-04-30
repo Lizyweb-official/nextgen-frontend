@@ -31,6 +31,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Footer from './Sections/Footer';
+import PrivacyPolicy from './Pages/Privacypolicy';
 
 
 function Layout() {
@@ -53,6 +54,9 @@ function Layout() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Checkout" element={<Checkout />} />
+         <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
+         <Route path="/Termsconditions" element={<Termsconditions/>} />
+         
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
