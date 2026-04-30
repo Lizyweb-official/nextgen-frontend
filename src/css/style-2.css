@@ -10,7 +10,7 @@
 /* ── Wrapper ── */
 .tc-wrap {
   background: #f5f5f5;
-  min-height: 100vh;
+  min-height: 150px;
   font-family: 'Segoe UI', sans-serif;
 }
 
