@@ -64,7 +64,7 @@ function Layout() {
         <Route path="/product-editor/:id" element={<ProductEditPage />} />
         <Route path="/single-product-page/:id" element={<SingleProductPage />} />
       </Routes>
-
+      
       {!hideHeaderFooter && <Footer />}
     </>
   );
@@ -73,11 +73,11 @@ function Layout() {
 function App() {
   return (
     <>
-    <AuthProvider>
-      <Router>
-        <Layout />
-      </Router>
-    </AuthProvider>
+      <AuthProvider>
+        <Router>
+          <Layout />
+        </Router>
+      </AuthProvider>
   </>
   );
 }

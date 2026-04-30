@@ -11,6 +11,8 @@ import wings from "../media/Website-Images/images-2/WINGS.PNG";
 import boneless from "../media/Website-Images/images-2/CHEST.png";
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
 
+import { showWebMessage } from "../context/webMessageHandler";
+
 const DELIVERY_THRESHOLD = 0;
 const DELIVERY_CHARGE = 0;
 
@@ -19,7 +21,6 @@ import { useAuth } from "../context/AuthContext";
 
 function Cart() {
   const { user } = useAuth();
-  
   const [cartItems, setCartItems] = useState([
       
     ]);
@@ -66,6 +67,7 @@ function Cart() {
       console.error("Error fetching cart:", error);
     }
   };
+
   useEffect(() => {
   if (user?.id) {
     console.log(user.id);
@@ -117,8 +119,10 @@ function Cart() {
         }),
       });
 
-
+    
       const data = await response.json();
+      showWebMessage("Product Removed From Cart!");
+      
 
       if (response.ok) {
         // remove from UI after success

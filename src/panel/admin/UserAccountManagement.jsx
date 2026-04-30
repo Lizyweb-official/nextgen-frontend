@@ -5,6 +5,7 @@ import '../../css/style-4.css';
 import '../../css/style.css';
 
 import React, { useState , useEffect } from "react";
+const API = import.meta.env.VITE_API_URL;
 
 function UserAccountManagement(){
 
@@ -70,7 +71,7 @@ function CustomerAccountManage(){
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:5000/api/getallcustomerwithdetails");
+            const res = await fetch(`${API}/api/getallcustomerwithdetails`);
             const data = await res.json();
             setUsers(data);
         } catch (err) {
@@ -90,7 +91,7 @@ function CustomerAccountManage(){
         if (!confirmDelete) return;
 
         try {
-        const res = await fetch(`http://localhost:5000/api/deleteuserbyid/${id}`, {
+        const res = await fetch(`${API}/api/deleteuserbyid/${id}`, {
             method: "DELETE"
         });
 
@@ -273,7 +274,7 @@ function DeliveryPartnerAccountManage(){
     // Fetch data
     const fetchUsers = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/getalldp");
+            const res = await fetch(`${API}/api/getalldp`);
             const data = await res.json();
             setUsers(data);
         } catch (err) {
@@ -300,7 +301,7 @@ function DeliveryPartnerAccountManage(){
         if (!confirmDelete) return;
 
         try {
-        const res = await fetch(`http://localhost:5000/api/deletedpbyid/${id}`, {
+        const res = await fetch(`${API}/api/deletedpbyid/${id}`, {
             method: "DELETE"
         });
 
@@ -315,7 +316,7 @@ function DeliveryPartnerAccountManage(){
     // create a new dp
      const handleSubmit = async () => {
         try {
-        const res = await fetch("http://localhost:5000/api/createdeliveryp", {
+        const res = await fetch(`${API}/api/createdeliveryp`, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
