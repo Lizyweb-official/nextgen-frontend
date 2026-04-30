@@ -393,79 +393,71 @@
   }
 }
 
-
-
-
 /* Admin db main tab */
 
-
 /* TOP BAR */
-.admin-db-main-tab-topbar {
+.admin-db-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #101010;
-  padding: 12px 20px;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* SIDEBAR */
+.admin-db-sidebar {
+  width: 220px;
+  background: #111;
   color: #fff;
-}
-
-@media(max-width:768px){
-  .admin-db-main-tab-topbar {
-    overflow-x: scroll;
-  }
-
-}
-
-.admin-db-main-tab-home-link {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* TABS */
-.admin-db-main-tab-tabs {
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
-.admin-db-main-tab-btn {
-  margin: 0 5px;
-  padding: 8px 14px;
+/* LOGO */
+.admin-db-logo {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #222;
+}
+
+.admin-db-logo-inside  {
+  width:100%;
+  height:100px;
+  object-fit: contain;
+}
+
+/* MENU */
+.admin-db-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-db-menu-btn {
+  padding: 15px 20px;
   border: none;
   background: transparent;
-  color: #cbd5f5;
+  color: #ccc;
+  text-align: left;
   cursor: pointer;
-  border-radius: 6px;
   transition: 0.3s;
 }
 
-.admin-db-main-tab-btn:hover {
-  background: #334155;
+.admin-db-menu-btn:hover {
+  background: #222;
   color: #fff;
 }
 
-.admin-db-main-tab-active {
+.admin-db-menu-btn.active {
   background: var(--brand);
-  color: #000;
+  color: #000000;
 }
 
-/* CONTENT */
-.admin-db-main-tab-content {
+/* MAIN CONTENT */
+.admin-db-main {
+  flex: 1;
   padding: 20px;
-  background: #f1f5f9;
-  min-height: 90vh;
+  background: #f5f5f5;
+  overflow-y: auto;
 }
-
-/* LOGOUT */
-.admin-db-main-tab-logout-btn {
-  padding: 10px 20px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
 
 /* admin db user management */
 
