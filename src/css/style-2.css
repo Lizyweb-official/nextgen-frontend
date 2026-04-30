@@ -16,7 +16,7 @@
 
 /* ── Header ── */
 .tc-header {
-  background: #fff;
+  background: #f4e864;
   border-bottom: 1px solid #eee;
   padding: 14px 24px;
   display: flex;
@@ -60,13 +60,13 @@
 .tc-section-title {
   font-size: 15px;
   font-weight: 700;
-  color: #f6efef;
+  color: #150101;
   margin-bottom: 12px;
 }
 
 /* ── Address Card ── */
 .tc-address-card {
-  background: #fff;
+  background: #fdfdfd;
   border-radius: 10px;
   border: 1px solid #efefef;
   padding: 14px 16px;
@@ -82,12 +82,12 @@
 
 .tc-addr-text {
   font-size: 13px;
-  color: #555;
+  color: #e12828;
   flex: 1;
 }
 
 .tc-addr-text strong {
-  color: #ffffff;
+  color: #212020;
 }
 
 .tc-change {
@@ -224,7 +224,7 @@
 }
 
 .tc-qty button:hover {
-  background: #ffeaea;
+  background: #f41d1d;
 }
 
 .tc-qty span {
