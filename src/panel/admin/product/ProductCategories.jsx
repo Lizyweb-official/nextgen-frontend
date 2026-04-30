@@ -6,7 +6,7 @@ import '../../../css/style.css';
 
 import React, { useEffect, useState } from "react";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 function ProductCategories() {
   const [categories, setCategories] = useState([]);
@@ -27,10 +27,10 @@ function ProductCategories() {
 
   // ---------------- FETCH DATA ----------------
   const fetchData = async () => {
-    const catRes = await fetch(`${API}/product/getallcategories`);
+    const catRes = await fetch(`${API}/api/product/getallcategories`);
     const catData = await catRes.json();
 
-    const imgRes = await fetch(`${API}/getallimages`);
+    const imgRes = await fetch(`${API}/api/getallimages`);
     const imgData = await imgRes.json();
 
     setCategories(catData);
@@ -71,13 +71,13 @@ function ProductCategories() {
     console.log("Submitting:", payload);
 
     if (editData) {
-      await fetch(`${API}/product/updatecategory/${editData.id}`, {
+      await fetch(`${API}/api/product/updatecategory/${editData.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
     } else {
-      await fetch(`${API}/product/addcategory`, {
+      await fetch(`${API}/api/product/addcategory`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -93,7 +93,7 @@ function ProductCategories() {
 
   // ---------------- DELETE ----------------
   const handleDelete = async (id) => {
-    await fetch(`${API}/product/deletecategory/${id}`, {
+    await fetch(`${API}/api/product/deletecategory/${id}`, {
       method: "DELETE"
     });
     fetchData();

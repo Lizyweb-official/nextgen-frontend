@@ -4,7 +4,7 @@ import '../css/style-2.css';
 import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"></link>
+
 const orderItems = [
   { id: 1, name: "Chicken Boneless", meta: "500g × 1", price: 220, icon: "bi-box" },
   { id: 2, name: "Chicken Wings",    meta: "1kg × 1",  price: 180, icon: "bi-basket" },

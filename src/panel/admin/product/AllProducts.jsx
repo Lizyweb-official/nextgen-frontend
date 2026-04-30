@@ -7,7 +7,7 @@ import '../../../css/style.css';
 import React, { useEffect, useState } from "react";
 import { Link ,useNavigate } from "react-router-dom";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 function AllProducts() {
   const [products, setProducts] = useState([]);
@@ -22,7 +22,7 @@ function AllProducts() {
 
   const getProducts = async () => {
     try {
-      const res = await fetch(`${API}/product/getallproducts`);
+      const res = await fetch(`${API}/api/product/getallproducts`);
       const data = await res.json();
 
       const updatedProducts = await Promise.all(
@@ -33,7 +33,7 @@ function AllProducts() {
 
           try {
             const imgRes = await fetch(
-              `${API}/getimagebyid/${product.image_id}`
+              `${API}/api/getimagebyid/${product.image_id}`
             );
             const imgData = await imgRes.json();
 
@@ -73,7 +73,7 @@ function AllProducts() {
     if (!window.confirm("Delete this product?")) return;
 
     try {
-      await fetch(`${API}/product/deleteproduct/${id}`, {
+      await fetch(`${API}/api/product/deleteproduct/${id}`, {
         method: "DELETE",
       });
 

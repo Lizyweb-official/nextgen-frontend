@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 function AdminLoginPanel(){
 
     const [formData, setFormData] = useState({
@@ -28,7 +30,7 @@ function AdminLoginPanel(){
     e.preventDefault();
 
     try {
-        const res = await fetch("http://localhost:5000/api/getAdminLogins");
+        const res = await fetch(`${API}/api/getAdminLogins`);
         const data = await res.json();
 
         // Find user by username
@@ -46,7 +48,7 @@ function AdminLoginPanel(){
         alert("You're logged in as admin ✅");
         
             const sendun = async () => {
-                    const response = await fetch("http://localhost:5000/api/getidbyadminun", {
+                    const response = await fetch(`${API}/api/getidbyadminun`, {
                         method: "POST",
                         headers: {
                         "Content-Type": "application/json",

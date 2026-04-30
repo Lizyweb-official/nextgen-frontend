@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+import { showWebMessage } from "../context/webMessageHandler";
+
 const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
@@ -67,7 +69,8 @@ function SingleProductPage() {
 
             const result = await response.json();
 
-            console.log(result.message);
+            showWebMessage("Product added to cart!");
+
         } catch (error) {
             console.error("Error adding to cart:", error);
         }

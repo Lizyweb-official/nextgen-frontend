@@ -7,7 +7,7 @@ import '../../../css/style.css';
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 function ProductEditPage() {
   const { id } = useParams();
@@ -41,7 +41,7 @@ function ProductEditPage() {
 
   // 🔹 Fetch Product
   const getProduct = async () => {
-    const res = await fetch(`${API}/product/getproduct/${id}`);
+    const res = await fetch(`${API}/api/product/getproduct/${id}`);
     const data = await res.json();
 
     setForm({
@@ -59,14 +59,14 @@ function ProductEditPage() {
 
   // 🔹 Fetch Images
   const getImages = async () => {
-    const res = await fetch(`${API}/getallimages`);
+    const res = await fetch(`${API}/api/getallimages`);
     const data = await res.json();
     setImages(data);
   };
 
   // 🔹 Fetch Categories
   const getCategories = async () => {
-    const res = await fetch(`${API}/product/getallcategories`);
+    const res = await fetch(`${API}/api/product/getallcategories`);
     const data = await res.json();
     setCategories(data);
   };
@@ -131,7 +131,7 @@ function ProductEditPage() {
     const finalCategories =
       form.categories.length > 0 ? form.categories : [27]; // default
 
-    await fetch(`${API}/product/updateproduct/${id}`, {
+    await fetch(`${API}/api/product/updateproduct/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
