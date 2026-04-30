@@ -10,6 +10,7 @@ import ProductCategories from './product/ProductCategories';
 import AddProductPage from './product/AddProductPage';
 import AllProducts from './product/AllProducts';
 
+
 function ProductManage(){
     const [activeTab, setActiveTab] = useState("allproducts");
     

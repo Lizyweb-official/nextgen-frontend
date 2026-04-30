@@ -5,6 +5,7 @@ import '../../css/style-4.css';
 import '../../css/style.css';
 
 import { useState, useEffect } from "react";
+const API = import.meta.env.VITE_API_URL;
 
 function AllMedia(){
 
@@ -21,7 +22,7 @@ function AllMedia(){
         const formData = new FormData();
         formData.append("image", file);
 
-        const res = await fetch("http://localhost:5000/api/upload-image", {
+        const res = await fetch(`${API}/api/upload-image`, {
         method: "POST",
         body: formData
         });
@@ -70,7 +71,7 @@ function MediaGallery(){
     // Fetch images
     const fetchImages = async () => {
         try {
-        const res = await fetch("http://localhost:5000/api/getallimages");
+        const res = await fetch(`${API}/api/getallimages`);
         const data = await res.json();
         setImages(data);
         } catch (err) {

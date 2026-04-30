@@ -8,6 +8,8 @@ import React, { useState , useEffect} from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 function UserLoginPanel(){
     const [users, setUsers] = useState([]);
     const [activeForm, setActiveForm] = useState("login");
@@ -35,7 +37,7 @@ function UserLoginPanel(){
 
             try {
                 // 1️⃣ Get all users from backend
-                const res = await fetch("http://localhost:5000/api/customerlogins");
+                const res = await fetch(`${API}/api/customerlogins`);
                 const users = await res.json();
 
                 // 2️⃣ Check if phone already exists
@@ -58,7 +60,7 @@ function UserLoginPanel(){
                 }
 
                 // 3️⃣ If new user → send data to backend (POST)
-                const createRes = await fetch("http://localhost:5000/api/addcustomer", {
+                const createRes = await fetch(`${API}/api/addcustomer`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -69,7 +71,7 @@ function UserLoginPanel(){
                 const newUser = await createRes.json();
 
                 const sendPhone = async () => {
-                    const response = await fetch("http://localhost:5000/api/getidbyphonecustomer", {
+                    const response = await fetch(`${API}/api/getidbyphonecustomer`, {
                         method: "POST",
                         headers: {
                         "Content-Type": "application/json",
@@ -106,7 +108,7 @@ function UserLoginPanel(){
         e.preventDefault();
 
         try {
-            const res = await fetch("http://localhost:5000/api/customerlogins");
+            const res = await fetch(`${API}/api/customerlogins`);
             const users = await res.json();
 
             // Check if phone exists
@@ -124,7 +126,7 @@ function UserLoginPanel(){
                 alert("Login successful ✅");
 
                  const sendPhone = async () => {
-                    const response = await fetch("http://localhost:5000/api/getidbyphonecustomer", {
+                    const response = await fetch(`${API}/api/getidbyphonecustomer`, {
                         method: "POST",
                         headers: {
                         "Content-Type": "application/json",
@@ -163,7 +165,7 @@ function UserLoginPanel(){
     const handleDpLoginSubmit = async (e) => {
         e.preventDefault();
             try {
-            const res = await fetch("http://localhost:5000/api/getalldp");
+            const res = await fetch(`${API}/api/getalldp`);
             const users = await res.json();
 
             // Check if phone exists
@@ -181,7 +183,7 @@ function UserLoginPanel(){
                 alert("Login successful ✅");
 
                  const sendPhone = async () => {
-                    const response = await fetch("http://localhost:5000/api/getDpByUn", {
+                    const response = await fetch(`${API}/api/getDpByUn`, {
                         method: "POST",
                         headers: {
                         "Content-Type": "application/json",
