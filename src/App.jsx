@@ -31,8 +31,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Footer from './Sections/Footer';
-import PrivacyPolicy from './Pages/Privacypolicy';
-
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsandConditions from './Pages/TermsandConditions'
+import ShippingPolicy from './Pages/ShippingPolicy';
+import ReturnPolicy from './Pages/ReturnPolicy';
 
 function Layout() {
   const location = useLocation();
@@ -56,6 +58,9 @@ function Layout() {
         <Route path="/Checkout" element={<Checkout />} />
          <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
          <Route path="/Termsconditions" element={<Termsconditions/>} />
+         <Route path="/ShippingPolicy" element={<ShippingPolicy/>} />
+         <Route path="/ReturnPolicy" element={<ReturnPolicy/>} />
+         
          
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />

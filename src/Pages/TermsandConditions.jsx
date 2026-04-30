@@ -1,6 +1,6 @@
 import React from "react";
 
-const FAQ = () => {
+function FAQ (){
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">AyamNow – FAQs</h1>
