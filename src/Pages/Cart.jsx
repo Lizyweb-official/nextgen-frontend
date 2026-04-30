@@ -67,6 +67,7 @@ function Cart() {
 
   useEffect(() => {
   if (user?.id) {
+    console.log(user.id);
     fetchCartItems(user.id);
   }
 }, [user]);
