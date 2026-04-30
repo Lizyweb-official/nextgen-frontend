@@ -109,7 +109,7 @@ function Aboutus(){
           <p className="meat-text">
             We are committed to delivering farm-fresh meat and seafood directly
             to your doorstep. Our products are carefully sourced, hygienically
-            processed, and packed to ensure maximum freshness and taste.
+            processed and packed to ensure maximum freshness and taste.
           </p>
 
           <p className="meat-text light">
