@@ -48,25 +48,53 @@ function AllMedia(){
 
         alert(err.message || "Something went wrong");
     }
-    };
-
+};
 
     return(
-        <>
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-            <button onClick={handleUpload}>Upload</button>
+    <>         
+        <div className="admin-media-tab-upload-wrapper">
+            <input
+                type="file"
+                className="admin-media-tab-upload-input"
+                onChange={(e) => setFile(e.target.files[0])}
+            />
+
+            <div className="admin-media-tab-upload-icon">
+                <svg viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+            </div>
+
+            <p className="admin-media-tab-upload-label">
+                Click or drag a file to upload
+            </p>
+            <p className="admin-media-tab-upload-sub">
+                PNG, JPG, GIF, MP4 up to 50MB
+            </p>
+
+            <span className={`admin-media-tab-upload-filename ${file ? "admin-media-tab-upload-filename--visible" : ""}`}>
+                {file?.name}
+            </span>
+            </div>
+
+            <button
+            onClick={handleUpload}
+            disabled={!file}
+            className="admin-media-tab-upload-btn"
+            >
+            Upload
+            </button>
 
             <MediaGallery />
         </>
-  
     );
-
 }
 
 function MediaGallery(){
 
     const [images, setImages] = useState([]);
-
 
     // Fetch images
     const fetchImages = async () => {
@@ -95,52 +123,54 @@ function MediaGallery(){
         fetchImages();
     };
 
-
     return(
         <>
-            <div style={{ padding: "20px" }}>
-            <h2 style={{ paddingBottom: "40px" }}>All Media</h2>
-
-            <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                gap: "15px"
-            }}>
-                {images.map((img) => (
-                <div key={img.id} style={{
-                    border: "1px solid #ddd",
-                    padding: "10px",
-                    borderRadius: "8px",
-                    textAlign: "left"
-                }}>
-                    <img
-                    src={img.url}
-                    alt="gallery"
-                    style={{ width: "100%", height: "150px", objectFit: "cover" }}
-                    />
-                    
-                        <a href={img.url} style={{ wordBreak: "break-all",display: "block"}}>
-                            {(img.url)}
-                        </a>
-
-                    <button
-                    onClick={() => deleteImage(img.id)}
-                    style={{
-                        marginTop: "10px",
-                        background: "red",
-                        color: "#fff",
-                        border: "none",
-                        padding: "8px 12px",
-                        cursor: "pointer",
-                        borderRadius: "5px"
-                    }}
-                    >
-                    Delete
-                    </button>
+           <div className="admin-media-tab-wrapper">
+                <div className="admin-media-tab-header">
+                    <h2 className="admin-media-tab-title">All Media</h2>
+                    <span className="admin-media-tab-count">{images.length} files</span>
                 </div>
-                ))}
-            </div>
-            </div>
+
+                <div className="admin-media-tab-grid">
+                    {images.length === 0 ? (
+                    <div className="admin-media-tab-empty">No media files yet.</div>
+                    ) : (
+                    images.map((img) => (
+                        <div key={img.id} className="admin-media-tab-card">
+
+                        <div className="admin-media-tab-img-wrap">
+                            <img
+                            src={img.url}
+                            alt="gallery"
+                            className="admin-media-tab-img"
+                            />
+                            <div className="admin-media-tab-overlay">
+                            <span className="admin-media-tab-overlay-label">VIEW</span>
+                            </div>
+                        </div>
+
+                        <div className="admin-media-tab-body">
+                            <a
+                            href={img.url}
+                            className="admin-media-tab-url"
+                            title={img.url}
+                            >
+                            {img.url}
+                            </a>
+
+                            <button
+                            onClick={() => deleteImage(img.id)}
+                            className="admin-media-tab-delete-btn"
+                            >
+                            Delete
+                            </button>
+                        </div>
+
+                        </div>
+                    ))
+                    )}
+                </div>
+                </div>
 
         </>
     );

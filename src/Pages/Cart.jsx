@@ -6,11 +6,7 @@ import '../css/style.css';
 
 const API = import.meta.env.VITE_API_URL;
 
-import chickenBreast from "../media/Website-Images/images-2/BONELESS.png";
-import wings from "../media/Website-Images/images-2/WINGS.png";
-import boneless from "../media/Website-Images/images-2/CHEST.png";
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
-
 import { showWebMessage } from "../context/webMessageHandler";
 
 const DELIVERY_THRESHOLD = 0;
@@ -22,7 +18,6 @@ import { useAuth } from "../context/AuthContext";
 function Cart() {
   const { user } = useAuth();
   const [cartItems, setCartItems] = useState([
-      
     ]);
 
     const fetchCartItems = async (customerId) => {
@@ -164,8 +159,6 @@ function Cart() {
           </h1>
         <div className="ayam-cart-hero__divider"></div>
           
-
-        
         </div>
       </section>
 
