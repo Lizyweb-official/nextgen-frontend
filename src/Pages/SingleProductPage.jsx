@@ -13,6 +13,7 @@ import { showWebMessage } from "../context/webMessageHandler";
 const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
+
   const { id } = useParams();
   const { user } = useAuth();
 
@@ -53,18 +54,19 @@ function SingleProductPage() {
 
     const handleAddToCart = async (productId) => {
         try {
+
             const data = {
-            customer_id: user.id,   // ✅ match backend
-            product_id: productId,
-            quantity: qty,
+                customer_id: user.id,   // ✅ match backend
+                product_id: productId,
+                quantity: qty,
             };
 
             const response = await fetch("http://localhost:5000/api/product/addproducttocart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             });
 
             const result = await response.json();
@@ -189,7 +191,7 @@ function SingleProductPage() {
                     +
                     </button>
                 </div>
-                </div>
+            </div>
 
                 <button 
                     className="single-page-add-to-cart"
@@ -200,7 +202,7 @@ function SingleProductPage() {
 
             </div>
         </div>
-        </div>
+    </div>
     </>
   );
 }

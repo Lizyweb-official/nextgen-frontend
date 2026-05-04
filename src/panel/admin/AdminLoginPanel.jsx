@@ -39,8 +39,8 @@ function AdminLoginPanel(){
         );
 
         if (!user) {
-        alert("Username not found");
-        return;
+            alert("Username not found");
+            return;
         }
 
         // Check password
@@ -83,9 +83,7 @@ function AdminLoginPanel(){
         console.error("Error:", error);
         alert("Server error");
     }
-    };
-
-
+};
 
     return(
         <>

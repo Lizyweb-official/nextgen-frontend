@@ -46,7 +46,6 @@ function ProductManage(){
                 >
                 Categories
                 </button>
-
             </div>
 
             {/* Tabs Content */}
@@ -68,9 +67,8 @@ function ProductManage(){
                     <ProductCategories/>
                 </div>
                 )}
-
+                
             </div>
-
         </div>
 
     </>
