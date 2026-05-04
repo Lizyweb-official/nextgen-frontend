@@ -47,7 +47,6 @@ function ProductManage(){
                 Categories
                 </button>
 
-
             </div>
 
             {/* Tabs Content */}
