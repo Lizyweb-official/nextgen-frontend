@@ -31,7 +31,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Footer from './Sections/Footer';
-
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsandConditions from './Pages/TermsandConditions'
+import ShippingPolicy from './Pages/ShippingPolicy';
+import ReturnPolicy from './Pages/ReturnPolicy';
 
 function Layout() {
   const location = useLocation();
@@ -41,6 +44,7 @@ function Layout() {
     location.pathname === "/admin-login-page"||
     location.pathname.startsWith("/product-editor/") ||
     location.pathname === "/admin-db";
+    
 
   return (
     <>
@@ -53,6 +57,12 @@ function Layout() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Checkout" element={<Checkout />} />
+         <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
+         <Route path="/Termsconditions" element={<TermsandConditions/>} />
+         <Route path="/ShippingPolicy" element={<ShippingPolicy/>} />
+         <Route path="/ReturnPolicy" element={<ReturnPolicy/>} />
+         
+         
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
