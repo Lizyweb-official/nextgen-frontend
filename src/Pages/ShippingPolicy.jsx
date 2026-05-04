@@ -3,7 +3,6 @@ function ShippingPolicy ()  {
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">AyamNow – Shipping Policy</h1>
-
       <p>
         At <strong>AyamNow</strong>, we aim to deliver fresh and high-quality
         products quickly and safely to your doorstep. Please review our shipping

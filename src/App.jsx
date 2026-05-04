@@ -57,7 +57,7 @@ function Layout() {
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Checkout" element={<Checkout />} />
          <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
-         <Route path="/Termsconditions" element={<Termsconditions/>} />
+         <Route path="/Termsconditions" element={<TermsandConditions/>} />
          <Route path="/ShippingPolicy" element={<ShippingPolicy/>} />
          <Route path="/ReturnPolicy" element={<ReturnPolicy/>} />
          

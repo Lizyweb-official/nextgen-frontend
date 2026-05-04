@@ -4,6 +4,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+
 const API = import.meta.env.VITE_API_URL;
 
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
@@ -18,9 +19,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Cart() {
   const { user } = useAuth();
-  const [cartItems, setCartItems] = useState([
-      
-    ]);
+  const [cartItems, setCartItems] = useState([]);
 
     const fetchCartItems = async (customerId) => {
     try {
