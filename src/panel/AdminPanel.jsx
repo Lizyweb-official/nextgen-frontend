@@ -4,9 +4,11 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-
 import { useAuth } from "../context/AuthContext";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import logo from '../media/Website-Images/images-1/admin-logo.jpg';
 
 import AdminLoginPanel from './admin/AdminLoginPanel';
 
@@ -46,48 +48,51 @@ function AdminPanel(){
       default:
         return <div>Select a tab</div>;
     };
-
 }
 
+  return (
+    <div className="admin-db-container">
 
-    return (
-    <div className="admin-db-main-tab-container">
-      
-      {/* TOP BAR */}
-      <div className="admin-db-main-tab-topbar">
-        <a href="/" className="admin-db-main-tab-home-link">AyamKini</a>
+      {/* SIDEBAR */}
+      <div className="admin-db-sidebar">
+        
+        {/* LOGO */}
+        <div className="admin-db-logo">
+          <Link to="/"><img className='admin-db-logo-inside' src={logo} /></Link>
+        </div>
 
-        <div className="admin-db-main-tab-tabs">
+        {/* MENU */}
+        <div className="admin-db-menu">
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "media" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "media" ? "active" : ""}`}
             onClick={() => setActiveTab("media")}
           >
             Media
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "products" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "products" ? "active" : ""}`}
             onClick={() => setActiveTab("products")}
           >
             Products
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "users" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "users" ? "active" : ""}`}
             onClick={() => setActiveTab("users")}
           >
             Users
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "orders" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "orders" ? "active" : ""}`}
             onClick={() => setActiveTab("orders")}
           >
             Orders
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "settings" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "settings" ? "active" : ""}`}
             onClick={() => setActiveTab("settings")}
           >
             ⚙️ Settings
@@ -95,10 +100,11 @@ function AdminPanel(){
         </div>
       </div>
 
-      {/* CONTENT */}
-      <div className="admin-db-main-tab-content">
+      {/* MAIN CONTENT */}
+      <div className="admin-db-main">
         {renderContent()}
       </div>
+
     </div>
   );
 }

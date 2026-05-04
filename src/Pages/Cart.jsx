@@ -8,7 +8,6 @@ import '../css/style.css';
 const API = import.meta.env.VITE_API_URL;
 
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
-
 import { showWebMessage } from "../context/webMessageHandler";
 
 const DELIVERY_THRESHOLD = 0;
@@ -160,8 +159,6 @@ function Cart() {
           </h1>
         <div className="ayam-cart-hero__divider"></div>
           
-
-        
         </div>
       </section>
 
