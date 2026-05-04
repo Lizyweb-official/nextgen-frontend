@@ -6,9 +6,9 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 const orderItems = [
-  { id: 1, name: "Chicken Boneless", meta: "500g × 1", price: 220, icon: "bi-box" },
-  { id: 2, name: "Chicken Wings",    meta: "1kg × 1",  price: 180, icon: "bi-basket" },
-  { id: 3, name: "Chicken Breast",   meta: "1kg × 1",  price: 180, icon: "bi-egg-fried" },
+  { id: 1, name: "Chicken Boneless", meta: "500g × 1", price: 220 },
+  { id: 2, name: "Chicken Wings",    meta: "1kg × 1",  price: 180},
+  { id: 3, name: "Chicken Breast",   meta: "1kg × 1",  price: 180 },
 ];
 
 const slots = [
@@ -168,7 +168,6 @@ function Checkout() {
           </div>
 
         </div>
-
         {/* RIGHT — Order Summary */}
         <div className="co-right">
           <div className="co-summary-card">

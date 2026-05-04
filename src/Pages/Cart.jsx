@@ -4,6 +4,8 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+import { Link } from  "react-router-dom";
+
 const API = import.meta.env.VITE_API_URL;
 
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
@@ -250,7 +252,7 @@ function Cart() {
               </div>
             </div>
 
-            <button className="tc-checkout-btn">Proceed to Checkout →</button>
+            <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
 
             {/* Trust Badges */}
             <div className="tc-trust">

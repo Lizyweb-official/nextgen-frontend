@@ -89,34 +89,59 @@ function AdminLoginPanel(){
 
     return(
         <>
-             <div className="admin-loginf-container">
-                <form className="admin-loginf-form" onSubmit={handleSubmit}>
-                    <h2 className="admin-loginf-title">Admin Login</h2>
-
-                    <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    className="admin-loginf-input"
-                    required
-                    />
-
-                    <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="admin-loginf-input"
-                    required
-                    />
-
-                    <button type="submit" className="admin-loginf-button">
-                    Login
+             <div className="admin-login-panel-container">
+                <div className="admin-login-panel-form">
+                    <div className="admin-login-panel-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M12 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 10c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z" />
+                    </svg>
+                    </div>
+            
+                    <h2 className="admin-login-panel-title">Admin Portal</h2>
+                    <p className="admin-login-panel-sub">Sign in to your admin account</p>
+            
+                    <form onSubmit={handleSubmit}>
+                    <div className="admin-login-panel-field">
+                        <label className="admin-login-panel-label" htmlFor="username">Username</label>
+                        <input
+                        id="username"
+                        className="admin-login-panel-input"
+                        type="text"
+                        name="username"
+                        placeholder="Enter username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
+                        />
+                    </div>
+            
+                    <div className="admin-login-panel-field">
+                        <label className="admin-login-panel-label" htmlFor="password">Password</label>
+                        <input
+                        id="password"
+                        className="admin-login-panel-input"
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        />
+                    </div>
+            
+                    <button type="submit" className="admin-login-panel-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M15 3h6v18h-6M10 17l5-5-5-5M15 12H3" />
+                        </svg>
+                        Sign in
                     </button>
-                </form>
+                    </form>
+            
+                    <div className="admin-login-panel-footer">
+                    <span className="admin-login-panel-dot" />
+                    Secure admin access
+                    </div>
+                </div>
                 </div>
         </>
     );
