@@ -6,18 +6,18 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import P1 from "../media/Website-Images/images-3/Boneless.PNG";
-import P2 from "../media/Website-Images/images-3/Breast.JPG";
-import P3 from "../media/Website-Images/images-3/Thigh.PNG";
-import P4 from "../media/Website-Images/images-3/Leg piece.JPG";
-import P5 from "../media/Website-Images/images-3/Chicken Wings.JPG";
-import P6 from "../media/Website-Images/images-3/Chicken Tenderloin.PNG";
-import P7 from "../media/Website-Images/images-3/Chicken Mince.JPG";
-import P8 from "../media/Website-Images/images-3/Chicken Liver.PNG";
-import P9 from "../media/Website-Images/images-3/Chicken Gizzard.PNG";
-import P10 from "../media/Website-Images/images-3/Chicken Neck.PNG";
-import P11 from "../media/Website-Images/images-3/Chicken Back.JPG";
-import P12 from "../media/Website-Images/images-3/Chicken Feet.PNG";
+import P1 from "../media/Website-Images/images-3/Boneless.png";
+import P2 from "../media/Website-Images/images-3/Breast.jpg";
+import P3 from "../media/Website-Images/images-3/Thigh.png";
+import P4 from "../media/Website-Images/images-3/Leg piece.jpg";
+import P5 from "../media/Website-Images/images-3/Chicken Wings.jpg";
+import P6 from "../media/Website-Images/images-3/Chicken Tenderloin.png";
+import P7 from "../media/Website-Images/images-3/Chicken Mince.jpg";
+import P8 from "../media/Website-Images/images-3/Chicken Liver.png";
+import P9 from "../media/Website-Images/images-3/Chicken Gizzard.png";
+import P10 from "../media/Website-Images/images-3/Chicken Neck.png";
+import P11 from "../media/Website-Images/images-3/Chicken Back.jpg";
+import P12 from "../media/Website-Images/images-3/Chicken Feet.png";
 
 import { Link } from "react-router-dom";
 
