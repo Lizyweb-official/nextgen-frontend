@@ -67,7 +67,7 @@ function ProductManage(){
                     <ProductCategories/>
                 </div>
                 )}
-                
+
             </div>
         </div>
 
