@@ -170,8 +170,8 @@ function ProductCategories() {
           <td>{node.slug}</td>
 
           <td>
-            <button onClick={() => handleEdit(node)}>Edit</button>
-            <button onClick={() => handleDelete(node.id)}>Delete</button>
+            <button class="admin-db-pro-cat-edit-del-btn" onClick={() => handleEdit(node)}>Edit</button>
+            <button class="admin-db-pro-cat-edit-del-btn" onClick={() => handleDelete(node.id)}>Delete</button>
           </td>
         </tr>
 
@@ -184,146 +184,146 @@ function ProductCategories() {
     <>
     <div className="admin-db-pro-cat-wrapper">
 
-    {/* ── HEADER ── */}
-    <div className="admin-db-pro-cat-header">
-      <h2 className="admin-db-pro-cat-title">Category Manager</h2>
-      <div className="admin-db-pro-cat-toolbar">
-        <input
-          type="text"
-          className="admin-db-pro-cat-search"
-          placeholder="Search categories..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button className="admin-db-pro-cat-add-btn" onClick={() => setShowModal(true)}>
-          <span>+</span> Add Category
-        </button>
-      </div>
+  {/* ── HEADER ── */}
+  <div className="admin-db-pro-cat-header">
+    <h2 className="admin-db-pro-cat-title">Category Manager</h2>
+    <div className="admin-db-pro-cat-toolbar">
+      <input
+        type="text"
+        className="admin-db-pro-cat-search"
+        placeholder="Search categories..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button className="admin-db-pro-cat-add-btn" onClick={() => setShowModal(true)}>
+        <span>+</span> Add Category
+      </button>
     </div>
-
-    {/* ── TABLE ── */}
-    <div className="admin-db-pro-cat-table-wrap">
-      <table className="admin-db-pro-cat-table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Slug</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{renderTree(filteredTree)}</tbody>
-      </table>
-    </div>
-
-    {/* ── CATEGORY MODAL ── */}
-    {showModal && (
-      <div className="admin-db-pro-cat-overlay">
-        <div className="admin-db-pro-cat-modal">
-          <h3 className="admin-db-pro-cat-modal-title">
-            {editData ? "Edit Category" : "Add Category"}
-          </h3>
-
-          <div className="admin-db-pro-cat-field">
-            <label className="admin-db-pro-cat-label">Name</label>
-            <input
-              name="name"
-              className="admin-db-pro-cat-input"
-              placeholder="e.g. Electronics"
-              value={form.name}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="admin-db-pro-cat-field">
-            <label className="admin-db-pro-cat-label">Slug</label>
-            <input
-              name="slug"
-              className="admin-db-pro-cat-input"
-              placeholder="e.g. electronics"
-              value={form.slug}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="admin-db-pro-cat-field">
-            <label className="admin-db-pro-cat-label">Parent Category</label>
-            <select
-              name="parent_id"
-              className="admin-db-pro-cat-select"
-              value={form.parent_id || ""}
-              onChange={handleChange}
-            >
-              <option value="">No Parent</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="admin-db-pro-cat-field">
-            <label className="admin-db-pro-cat-label">Image</label>
-            <button
-              className="admin-db-pro-cat-img-select-btn"
-              onClick={() => setShowImageModal(true)}
-            >
-              🖼 Select Image
-            </button>
-            {form.image_id && (
-              <div className="admin-db-pro-cat-img-preview">
-                <img src={getImageUrl(Number(form.image_id))} alt="" />
-              </div>
-            )}
-          </div>
-
-          <div className="admin-db-pro-cat-modal-actions">
-            <button className="admin-db-pro-cat-submit-btn" onClick={handleSubmit}>
-              {editData ? "Update" : "Add"}
-            </button>
-            <button className="admin-db-pro-cat-cancel-btn" onClick={() => setShowModal(false)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* ── IMAGE GALLERY MODAL ── */}
-    {showImageModal && (
-      <div className="admin-db-pro-cat-overlay">
-        <div className="admin-db-pro-cat-img-gallery-modal">
-          <div className="admin-db-pro-cat-gallery-header">
-            <h3 className="admin-db-pro-cat-gallery-title">Select Image</h3>
-            <button
-              className="admin-db-pro-cat-gallery-close"
-              onClick={() => setShowImageModal(false)}
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="admin-db-pro-cat-gallery-grid">
-            {images.map((img) => (
-              <div
-                key={img.id}
-                className={`admin-db-pro-cat-gallery-item${
-                  form.image_id === img.id ? " selected" : ""
-                }`}
-                onClick={() => {
-                  setForm((prev) => ({ ...prev, image_id: img.id }));
-                  setShowImageModal(false);
-                }}
-              >
-                <img src={img.url} alt="" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    )}
   </div>
+
+  {/* ── TABLE ── */}
+  <div className="admin-db-pro-cat-table-wrap">
+    <table className="admin-db-pro-cat-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>{renderTree(filteredTree)}</tbody>
+    </table>
+  </div>
+
+  {/* ── CATEGORY MODAL ── */}
+  {showModal && (
+    <div className="admin-db-pro-cat-overlay">
+      <div className="admin-db-pro-cat-modal">
+        <h3 className="admin-db-pro-cat-modal-title">
+          {editData ? "Edit Category" : "Add Category"}
+        </h3>
+
+        <div className="admin-db-pro-cat-field">
+          <label className="admin-db-pro-cat-label">Name</label>
+          <input
+            name="name"
+            className="admin-db-pro-cat-input"
+            placeholder="e.g. Electronics"
+            value={form.name}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="admin-db-pro-cat-field">
+          <label className="admin-db-pro-cat-label">Slug</label>
+          <input
+            name="slug"
+            className="admin-db-pro-cat-input"
+            placeholder="e.g. electronics"
+            value={form.slug}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="admin-db-pro-cat-field">
+          <label className="admin-db-pro-cat-label">Parent Category</label>
+          <select
+            name="parent_id"
+            className="admin-db-pro-cat-select"
+            value={form.parent_id || ""}
+            onChange={handleChange}
+          >
+            <option value="">No Parent</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="admin-db-pro-cat-field">
+          <label className="admin-db-pro-cat-label">Image</label>
+          <button
+            className="admin-db-pro-cat-img-select-btn"
+            onClick={() => setShowImageModal(true)}
+          >
+            🖼 Select Image
+          </button>
+          {form.image_id && (
+            <div className="admin-db-pro-cat-img-preview">
+              <img src={getImageUrl(Number(form.image_id))} alt="" />
+            </div>
+          )}
+        </div>
+
+        <div className="admin-db-pro-cat-modal-actions">
+          <button className="admin-db-pro-cat-submit-btn" onClick={handleSubmit}>
+            {editData ? "Update" : "Add"}
+          </button>
+          <button className="admin-db-pro-cat-cancel-btn" onClick={() => setShowModal(false)}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {/* ── IMAGE GALLERY MODAL ── */}
+  {showImageModal && (
+    <div className="admin-db-pro-cat-overlay">
+      <div className="admin-db-pro-cat-img-gallery-modal">
+        <div className="admin-db-pro-cat-gallery-header">
+          <h3 className="admin-db-pro-cat-gallery-title">Select Image</h3>
+          <button
+            className="admin-db-pro-cat-gallery-close"
+            onClick={() => setShowImageModal(false)}
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="admin-db-pro-cat-gallery-grid">
+          {images.map((img) => (
+            <div
+              key={img.id}
+              className={`admin-db-pro-cat-gallery-item${
+                form.image_id === img.id ? " selected" : ""
+              }`}
+              onClick={() => {
+                setForm((prev) => ({ ...prev, image_id: img.id }));
+                setShowImageModal(false);
+              }}
+            >
+              <img src={img.url} alt="" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+</div>
   </>
   )
 }

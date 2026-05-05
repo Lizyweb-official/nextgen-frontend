@@ -14,64 +14,60 @@ function ProductManage(){
     const [activeTab, setActiveTab] = useState("allproducts");
     
     return(
+      
         <>
-        <div className="admin-db-product-maintab-container">
+            <div className="admin-db-product-maintab-container">
 
-            {/* Tabs Header */}
-            <div className="admin-db-product-maintab-header">
+                {/* Tabs Header */}
+                <div className="admin-db-product-maintab-header">
 
                 <button
-                className={`admin-db-product-maintab-btn ${
-                    activeTab === "allproducts" ? "admin-db-product-maintab-active" : ""
-                }`}
-                onClick={() => setActiveTab("allproducts")}
+                    className={`admin-db-product-maintab-btn ${activeTab === "allproducts" ? "admin-db-product-maintab-active" : ""}`}
+                    onClick={() => setActiveTab("allproducts")}
                 >
-                All Products
+                    <i className="bi bi-grid admin-db-product-maintab-btn-icon"></i>
+                    All Products
                 </button>
 
                 <button
-                className={`admin-db-product-maintab-btn ${
-                    activeTab === "addnewproduct" ? "admin-db-product-maintab-active" : ""
-                }`}
-                onClick={() => setActiveTab("addnewproduct")}
+                    className={`admin-db-product-maintab-btn ${activeTab === "addnewproduct" ? "admin-db-product-maintab-active" : ""}`}
+                    onClick={() => setActiveTab("addnewproduct")}
                 >
-                Add New Product
+                    <i className="bi bi-plus-circle admin-db-product-maintab-btn-icon"></i>
+                    Add New Product
                 </button>
 
                 <button
-                className={`admin-db-product-maintab-btn ${
-                    activeTab === "Categories" ? "admin-db-product-maintab-active" : ""
-                }`}
-                onClick={() => setActiveTab("Categories")}
+                    className={`admin-db-product-maintab-btn ${activeTab === "Categories" ? "admin-db-product-maintab-active" : ""}`}
+                    onClick={() => setActiveTab("Categories")}
                 >
-                Categories
+                    <i className="bi bi-list-ul admin-db-product-maintab-btn-icon"></i>
+                    Categories
                 </button>
-            </div>
 
-            {/* Tabs Content */}
-            <div className="admin-db-product-maintab-content">
+                </div>
+
+                {/* Tabs Content */}
+                <div className="admin-db-product-maintab-content">
                 {activeTab === "allproducts" && (
-                <div className="admin-db-product-maintab-panel">
-                    <AllProducts/>
-                </div>
+                    <div className="admin-db-product-maintab-panel">
+                    <AllProducts />
+                    </div>
                 )}
-
                 {activeTab === "addnewproduct" && (
-                <div className="admin-db-product-maintab-panel">
-                    <AddProductPage/>
-                </div>
+                    <div className="admin-db-product-maintab-panel">
+                    <AddProductPage />
+                    </div>
                 )}
-
                 {activeTab === "Categories" && (
-                <div className="admin-db-product-maintab-panel">
-                    <ProductCategories/>
-                </div>
+                    <div className="admin-db-product-maintab-panel">
+                    <ProductCategories />
+                    </div>
                 )}
+                </div>
 
             </div>
-        </div>
-
-    </>
+        </>
     );
 }
 

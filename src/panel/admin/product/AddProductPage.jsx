@@ -242,7 +242,7 @@ function AddProductPage() {
     className="admin-db-add-product-sec-select-img-btn"
     onClick={() => setShowGallery(true)}
     >
-    📷 Select Image
+    Select Image
     </button>
 
 
