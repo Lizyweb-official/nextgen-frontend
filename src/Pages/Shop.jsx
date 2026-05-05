@@ -4,131 +4,234 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import React, { useState } from "react";
-import ShopCategories from '../Sections/ShopCategories';
+import { useEffect, useState } from "react";
+import { Link ,useParams} from "react-router-dom";
 
-import a1 from "../media/Website-Images/images-3/e1.jpg";
-import a2 from "../media/Website-Images/images-3/e2.jpg";
-import a3 from "../media/Website-Images/images-3/e8.jpg";
-import a4 from "../media/Website-Images/images-3/e4.jpg";
-import a5 from "../media/Website-Images/images-3/e5.jpg";
-import a6 from "../media/Website-Images/images-3/e6.jpg";
+
+
+const API = import.meta.env.VITE_API_URL;
 
 function Shop() {
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [activeCat, setActiveCat] = useState(null);
+  const { catId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
 
-  const productsData = [
-    { id: 1, name: "Premium Boneless Cut", category: "Beef", price: 24.99, old: 29.99, badge: "hot", rating: 4.9, image: a1 },
-    { id: 2, name: "Chicken Breast", category: "Chicken", price: 8.99, old: 11.99, badge: "fresh", rating: 4.6, image: a2 },
-    { id: 3, name: "Lamb Chops", category: "Lamb", price: 22.99, old: 27.99, badge: "new", rating: 4.8, image: a3 },
-    { id: 4, name: "Chicken Wings", category: "Chicken", price: 10.99, old: 13.99, badge: "hot", rating: 4.5, image: a4 },
-    { id: 5, name: "Chicken Mince", category: "Chicken", price: 9.99, old: 12.99, badge: "fresh", rating: 4.7, image: a5 },
-    { id: 6, name: "Chicken Feet", category: "Chicken", price: 11.99, old: 14.99, badge: "new", rating: 4.2, image: a6 },
-  ];
+  // ✅ GET IMAGE URL
+  const getImageUrl = async (id) => {
+    try {
+      const res = await fetch(`${API}/api/getimagebyid/${id}`);
+      const data = await res.json();
+      return data.url; // make sure backend returns {url: "..."}
+    } catch {
+      return "";
+    }
+  };
 
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("");
-  const [showFilter, setShowFilter] = useState(false);
 
-  const filteredProducts = productsData
-    .filter((item) => category === "All" || item.category === category)
-    .sort((a, b) => {
-      if (sort === "low") return a.price - b.price;
-      if (sort === "high") return b.price - a.price;
-      if (sort === "az") return a.name.localeCompare(b.name);
-      if (sort === "za") return b.name.localeCompare(a.name);
-      return 0;
+    const loadAllProducts = async () => {
+    setActiveCat(null);
+
+    const res = await fetch(`${API}/api/product/getallproducts`);
+    const data = await res.json();
+
+    const fullProducts = await Promise.all(
+      data.map(async (p) => {
+        const image = await getImageUrl(p.image_id);
+        return { ...p, image };
+      })
+    );
+    setCurrentPage(1);
+    setProducts(fullProducts);
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      // load categories
+      const res = await fetch(`${API}/api/product/getallcategories`);
+      const data = await res.json();
+
+      const updated = await Promise.all(
+        data.map(async (cat) => ({
+          ...cat,
+          image: await getImageUrl(cat.image_id),
+        }))
+      );
+
+      setCategories(updated);
+
+      // 🔥 CHECK IF CATEGORY ID EXISTS
+      if (catId) {
+        loadProducts(catId);
+      } else {
+        loadAllProducts();
+      }
+    };
+
+    init();
+  }, [catId]);
+
+
+  // ✅ LOAD PRODUCTS BY CATEGORY
+  const loadProducts = async (catId) => {
+    setActiveCat(catId);
+
+    // 1. get product ids
+    const res = await fetch(
+      `${API}/api/product/getproductsbycategory/${catId}`
+    );
+    const ids = await res.json();
+
+    // 2. get full product details
+    const fullProducts = await Promise.all(
+      ids.map(async (item) => {
+        const res = await fetch(
+          `${API}/api/product/getproduct/${item.product_id}`
+        );
+        const data = await res.json();
+
+        const image = await getImageUrl(data.image_id);
+
+        return { ...data, image };
+        setCurrentPage(1);
+      })
+    );
+
+    setProducts(fullProducts);
+  };
+
+  // ✅ ADD TO CART
+  const addToCart = async (productId) => {
+    await fetch(`${API}/api/product/addproducttocart`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customer_id: 1, // 🔥 replace with logged user id
+        product_id: productId,
+        quantity: 1,
+      }),
     });
 
+    alert("Added to cart");
+  };
+
+
+
+  const indexOfLast = currentPage * productsPerPage;
+  const indexOfFirst = indexOfLast - productsPerPage;
+
+  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
   return (
-    <>
-      <Path />
-  
-      <ShopCategories 
-        products={productsData}
-        setCategory={setCategory}
-      />
-  
-      <div className="shop-container center">
-        <ProductSection products={filteredProducts} />
+    <div className="container mt-4">
+      
+      {/* ================= CATEGORIES ================= */}
+      <div className="d-flex gap-3 overflow-auto mb-4">
+        {categories.map((cat) => (
+          <div
+            key={cat.id}
+            className={`text-center p-2 border rounded ${
+              activeCat === cat.id ? "bg-dark text-white" : ""
+            }`}
+            style={{ minWidth: "120px", cursor: "pointer" }}
+            onClick={() => loadProducts(cat.id)}
+          >
+            <img
+              src={cat.image}
+              alt={cat.name}
+              style={{ width: "80px", height: "80px", objectFit: "cover" }}
+            />
+            <p className="mt-2 mb-0">{cat.name}</p>
+          </div>
+        ))}
       </div>
-    </>
-  );
-}
-
-export default Shop;
 
 
+      {/* ================= PRODUCTS ================= */}
+      <div className="row">
+        {currentProducts.map((p) => (
+          <div className="col-md-3 mb-4" key={p.id}>
+            
+            <Link to={`/single-product-page/${p.id}`} className="text-decoration-none text-dark">
+              
+              <div className="card h-100">
+                <img
+                  src={p.image}
+                  className="card-img-top"
+                  style={{ height: "180px", objectFit: "cover" }}
+                />
 
+                <div className="card-body">
+                  <h6>{p.name}</h6>
 
+                  {/* one line description */}
+                  <p className="text-muted" style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
+                  }}>
+                    {p.short_description}
+                  </p>
 
-/* ================= PATH ================= */
+                  {/* custom field */}
+                  {p.custom_fields?.map((f, i) => (
+                    <small key={i} className="d-block">
+                      {f.field_name}: {f.field_value}
+                    </small>
+                  ))}
 
-function Path() {
-  return (
-    <div className="shop-path">
-      <div className="path-content">
-        <h2>Shop</h2>
-        <p>
-          <span>Home</span> / <span className="active">Shop</span>
-        </p>
+                  {/* price */}
+                  <div className="mt-2">
+                    <span className="text-muted text-decoration-line-through me-2">
+                      ₹{p.base_price}
+                    </span>
+                    <span className="fw-bold text-success">
+                      ₹{p.sale_price}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="card-footer bg-white border-0">
+                  <button
+                    className="btn btn-dark w-100"
+                    onClick={(e) => {
+                      e.preventDefault(); // 🔥 prevent Link click
+                      addToCart(p.id);
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+
+            </Link>
+
+          </div>
+        ))}
       </div>
+
+
+      <div className="d-flex justify-content-center mt-4 gap-2 flex-wrap">
+        {[...Array(totalPages)].map((_, i) => (
+          <button
+            key={i}
+            className={`btn ${
+              currentPage === i + 1 ? "btn-dark" : "btn-outline-dark"
+            }`}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+
     </div>
   );
 }
-
-
-/* ================= PRODUCTS ================= */
-
-function ProductSection({ products }) {
-
-  if (products.length === 0) {
-    return (
-      <div className="no-products">
-        <h3>No Products Available</h3>
-        <p>Try selecting another category</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="product-grid">
-      {products.map((item) => (
-        <ProductCard key={item.id} item={item} />
-      ))}
-    </div>
-  );
-}
-
-
-
-/* ================= PRODUCT CARD ================= */
-
-function ProductCard({ item }) {
-  const discount = Math.round(((item.old - item.price) / item.old) * 100);
-
-  return (
-    <div className="product-card">
-
-      <span className="badge">{item.badge}</span>
-      <span className="wishlist">♡</span>
-
-      <img src={item.image} alt={item.name} />
-
-      <h4>{item.name}</h4>
-      <p className="category">{item.category}</p>
-
-      <div className="rating">
-        <span className="stars">★★★★★</span>
-        <span className="count">({item.rating})</span>
-      </div>
-
-      <div className="price">
-        <span className="new">${item.price}</span>
-        <span className="old">${item.old}</span>
-        <span className="discount">{discount}% OFF</span>
-      </div>
-
-      <button>Add to Cart</button>
-    </div>
-  );
-}
+export default Shop
