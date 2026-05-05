@@ -9,49 +9,49 @@ const API = import.meta.env.VITE_API_URL;
 
 function UserAccountManagement(){
 
-    const [activeTab, setActiveTab] = useState("customers");
+    const [activeTab, setActiveTab] = useState("custacc");
 
     return(
         <>
-            <div className="admin-db-user-manage-container">
-      
-                {/* Tabs Header */}
-                <div className="admin-db-user-manage-header">
-                    <button
-                    className={`admin-db-user-manage-btn ${
-                        activeTab === "customers" ? "admin-db-user-manage-active" : ""
-                    }`}
-                    onClick={() => setActiveTab("customers")}
-                    >
-                    Customers Accounts
-                    </button>
+            <div className="admin-db-secondary-maintab-container">
 
-                    <button
-                    className={`admin-db-user-manage-btn ${
-                        activeTab === "delivery" ? "admin-db-user-manage-active" : ""
-                    }`}
-                    onClick={() => setActiveTab("delivery")}
-                    >
+                {/* Tabs Header */}
+                <div className="admin-db-secondary-maintab-header">
+
+                <button
+                    className={`admin-db-secondary-maintab-btn ${activeTab === "custacc" ? "admin-db-secondary-maintab-active" : ""}`}
+                    onClick={() => setActiveTab("custacc")}
+                >
+                    <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
+                    Customers Accounts
+                </button>
+
+                <button
+                    className={`admin-db-secondary-maintab-btn ${activeTab === "dpacc" ? "admin-db-secondary-maintab-active" : ""}`}
+                    onClick={() => setActiveTab("dpacc")}
+                >
+                    <i className="bi bi-plus-circle admin-db-secondary-maintab-btn-icon"></i>
                     Delivery Partner Accounts
-                    </button>
+                </button>
+
+
                 </div>
 
                 {/* Tabs Content */}
-                <div className="admin-db-user-manage-content">
-                    
-                    {activeTab === "customers" && (
-                    <div className="admin-db-user-manage-panel">
-                        <CustomerAccountManage/>
+                <div className="admin-db-secondary-maintab-content">
+                {activeTab === "custacc" && (
+                    <div className="admin-db-secondary-maintab-panel">
+                    <CustomerAccountManage />
                     </div>
-                    )}
-
-                    {activeTab === "delivery" && (
-                    <div className="admin-db-user-manage-panel">
-                        <DeliveryPartnerAccountManage/>
+                )}
+                {activeTab === "dpacc" && (
+                    <div className="admin-db-secondary-maintab-panel">
+                    <DeliveryPartnerAccountManage />
                     </div>
-                    )}
-
+                )}
+                
                 </div>
+
             </div>
         </>
     )

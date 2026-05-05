@@ -655,12 +655,12 @@
 }
 
 /* product manage tab */
-.admin-db-product-maintab-container {
+.admin-db-secondary-maintab-container {
   font-family: inherit;
   width:100%;
 }
 
-.admin-db-product-maintab-header {
+.admin-db-secondary-maintab-header {
   -ms-overflow-style: none;  /* IE & Edge */
   scrollbar-width: none;
   display: flex;
@@ -674,11 +674,11 @@
   margin-bottom: 24px;
 }
 @media(max-width:469px){
-  .admin-db-product-maintab-header {
+  .admin-db-secondary-maintab-header {
     overflow-x: scroll;
 }}
 
-.admin-db-product-maintab-btn {
+.admin-db-secondary-maintab-btn {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -695,28 +695,28 @@
   letter-spacing: 0.01em;
 }
 
-.admin-db-product-maintab-btn:hover {
+.admin-db-secondary-maintab-btn:hover {
   color: #111827;
   background: #ffffff;
 }
 
-.admin-db-product-maintab-active {
+.admin-db-secondary-maintab-active {
   background: #ffffff !important;
   color: #111827 !important;
   border: 0.5px solid #d1d5db !important;
 }
 
-.admin-db-product-maintab-btn-icon {
+.admin-db-secondary-maintab-btn-icon {
   font-size: 14px;
   opacity: 0.55;
   line-height: 1;
 }
 
-.admin-db-product-maintab-active .admin-db-product-maintab-btn-icon {
+.admin-db-secondary-maintab-active .admin-db-secondary-maintab-btn-icon {
   opacity: 1;
 }
 
-.admin-db-product-maintab-badge {
+.admin-db-secondary-maintab-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -732,21 +732,21 @@
   line-height: 1;
 }
 
-.admin-db-product-maintab-active .admin-db-product-maintab-badge {
+.admin-db-secondary-maintab-active .admin-db-secondary-maintab-badge {
   background: #EAF3DE;
   color: #3B6D11;
   border-color: #C0DD97;
 }
 
-.admin-db-product-maintab-content {
+.admin-db-secondary-maintab-content {
   width: 100%;
 }
 
-.admin-db-product-maintab-panel {
-  animation: admin-db-product-maintab-fadein 0.2s ease;
+.admin-db-secondary-maintab-panel {
+  animation: admin-db-secondary-maintab-fadein 0.2s ease;
 }
 
-@keyframes admin-db-product-maintab-fadein {
+@keyframes admin-db-secondary-maintab-fadein {
   from {
     opacity: 0;
     transform: translateY(5px);
