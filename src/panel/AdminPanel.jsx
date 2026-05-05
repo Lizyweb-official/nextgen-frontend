@@ -63,39 +63,44 @@ function AdminPanel(){
 
         {/* MENU */}
         <div className="admin-db-menu">
-          <button 
+         <button 
             className={`admin-db-menu-btn ${activeTab === "media" ? "active" : ""}`}
             onClick={() => setActiveTab("media")}
           >
-            Media
+            <i className="bi bi-image menu-icon"></i>
+            <span className="menu-text">Media</span>
           </button>
 
           <button 
             className={`admin-db-menu-btn ${activeTab === "products" ? "active" : ""}`}
             onClick={() => setActiveTab("products")}
           >
-            Products
+            <i className="bi bi-box-seam menu-icon"></i>
+            <span className="menu-text">Products</span>
           </button>
 
           <button 
             className={`admin-db-menu-btn ${activeTab === "users" ? "active" : ""}`}
             onClick={() => setActiveTab("users")}
           >
-            Users
+            <i className="bi bi-people menu-icon"></i>
+            <span className="menu-text">Users</span>
           </button>
 
           <button 
             className={`admin-db-menu-btn ${activeTab === "orders" ? "active" : ""}`}
             onClick={() => setActiveTab("orders")}
           >
-            Orders
+            <i className="bi bi-cart menu-icon"></i>
+            <span className="menu-text">Orders</span>
           </button>
 
           <button 
             className={`admin-db-menu-btn ${activeTab === "settings" ? "active" : ""}`}
             onClick={() => setActiveTab("settings")}
           >
-            ⚙️ Settings
+            <i className="bi bi-gear menu-icon"></i>
+            <span className="menu-text">Settings</span>
           </button>
         </div>
       </div>
