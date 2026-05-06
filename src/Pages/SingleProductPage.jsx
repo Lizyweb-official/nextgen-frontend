@@ -20,6 +20,7 @@ function SingleProductPage() {
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [qty, setQty] = useState(1);
+  const [pprice, setPprice] = useState();
 
     // INCREMENT
     const increaseQty = () => {
@@ -37,6 +38,7 @@ function SingleProductPage() {
       .then(res => res.json())
       .then(data => {
         setProduct(data);
+        setPprice(data.sale_price || data.base_price);
 
         if (data.image_id) {
           fetch(`${API}/api/getimagebyid/${data.image_id}`)
@@ -59,8 +61,10 @@ function SingleProductPage() {
                 customer_id: user.id,   // ✅ match backend
                 product_id: productId,
                 quantity: qty,
+                price: pprice
             };
 
+            console.log(data);
             const response = await fetch("http://localhost:5000/api/product/addproducttocart", {
                 method: "POST",
                 headers: {
@@ -108,7 +112,7 @@ function SingleProductPage() {
         </nav>
 
     </div>
-    </div>
+</div>
 
     <div className="single-product-page-container mt-5">
 

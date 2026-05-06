@@ -103,7 +103,7 @@ function Shop() {
   };
 
   // ✅ ADD TO CART
-  const addToCart = async (productId) => {
+  const addToCart = async (productId,productPrice) => {
     await fetch(`${API}/api/product/addproducttocart`, {
       method: "POST",
       headers: {
@@ -113,6 +113,7 @@ function Shop() {
         customer_id: 1, // 🔥 replace with logged user id
         product_id: productId,
         quantity: 1,
+        price : productPrice
       }),
     });
 
@@ -188,12 +189,21 @@ function Shop() {
 
                   {/* price */}
                   <div className="mt-2">
-                    <span className="text-muted text-decoration-line-through me-2">
-                      ₹{p.base_price}
-                    </span>
-                    <span className="fw-bold text-success">
-                      ₹{p.sale_price}
-                    </span>
+                    {p.sale_price ? (
+                      <>
+                        <span className="text-muted text-decoration-line-through me-2">
+                          ₹{p.base_price}
+                        </span>
+
+                        <span className="fw-bold text-success">
+                          ₹{p.sale_price}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="fw-bold">
+                        ₹{p.base_price}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -202,7 +212,7 @@ function Shop() {
                     className="btn btn-dark w-100"
                     onClick={(e) => {
                       e.preventDefault(); // 🔥 prevent Link click
-                      addToCart(p.id);
+                      addToCart(p.id,p.sale_price || p.base_price);
                     }}
                   >
                     Add to Cart
@@ -215,7 +225,6 @@ function Shop() {
           </div>
         ))}
       </div>
-
 
       <div className="d-flex justify-content-center mt-4 gap-2 flex-wrap">
         {[...Array(totalPages)].map((_, i) => (
