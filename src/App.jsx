@@ -44,7 +44,6 @@ function Layout() {
     location.pathname === "/admin-login-page"||
     location.pathname.startsWith("/product-editor/") ||
     location.pathname === "/admin-db";
-    
 
   return (
     <>
