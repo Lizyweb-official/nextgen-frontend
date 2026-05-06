@@ -47,13 +47,34 @@
 
 /* ── Body Grid ── */
 .tc-body {
-  max-width: 980px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 20px 16px;
-  display: grid;
-  grid-template-columns: 1fr 340px;
+  display: flex;
   gap: 20px;
-  align-items: start;
+  align-items: flex-start;
+}
+
+/* Left content */
+.tc-body > :first-child {
+  flex: 1;
+}
+
+/* Right sidebar */
+.tc-body > :last-child {
+  width: 340px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .tc-body {
+    max-width:90%;
+    flex-direction: column;
+  }
+
+  .tc-body > :last-child {
+    width: 100%;
+  }
 }
 
 /* ── Section Title ── */
