@@ -4,10 +4,12 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+
+import { showWebMessage } from "../context/webMessageHandler";
+
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -37,7 +39,7 @@ function Checkout() {
       icon: "bi-phone",
       name: "UPI / GPay / PhonePe",
       sub: "Pay instantly via UPI",
-      badge: "Recommended"
+      badge: null
     },
     {
       id: "cod",
@@ -232,7 +234,7 @@ function Checkout() {
 
       if (response.ok) {
 
-        alert("Order placed successfully");
+        showWebMessage("Order placed successfully");
 
         await fetch(`${API}/api/order/clearcartbyid/${user.id}`, {
           method: "DELETE",
@@ -243,14 +245,14 @@ function Checkout() {
 
       } else {
 
-        alert("Failed to place order");
+        showWebMessage("Failed to place order");
       }
 
     } catch (err) {
 
       console.log(err);
 
-      alert("Something went wrong");
+      showWebMessage("Something went wrong");
     }
   };
 
@@ -460,7 +462,6 @@ function Checkout() {
 
             </div>
           </div>
-
         </div>
 
         {/* RIGHT */}

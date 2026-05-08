@@ -7,6 +7,7 @@ import '../css/style.css';
 import { useEffect, useState } from "react";
 import { Link ,useParams} from "react-router-dom";
 
+import { showWebMessage } from "../context/webMessageHandler";
 
 
 const API = import.meta.env.VITE_API_URL;
@@ -117,7 +118,7 @@ function Shop() {
       }),
     });
 
-    alert("Added to cart");
+    showWebMessage("product Added Added to cart");
   };
 
 
