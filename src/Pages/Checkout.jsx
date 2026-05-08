@@ -8,6 +8,9 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
+import { showWebMessage } from "../context/webMessageHandler";
+
+
 const API = import.meta.env.VITE_API_URL;
 
 function Checkout() {
@@ -231,7 +234,7 @@ function Checkout() {
 
       if (response.ok) {
 
-        alert("Order placed successfully");
+        showWebMessage("Order placed successfully");
 
         await fetch(`${API}/api/order/clearcartbyid/${user.id}`, {
           method: "DELETE",
@@ -242,14 +245,14 @@ function Checkout() {
 
       } else {
 
-        alert("Failed to place order");
+        showWebMessage("Failed to place order");
       }
 
     } catch (err) {
 
       console.log(err);
 
-      alert("Something went wrong");
+      showWebMessage("Something went wrong");
     }
   };
 
