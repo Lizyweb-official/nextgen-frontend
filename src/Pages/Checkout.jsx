@@ -4,7 +4,6 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +36,7 @@ function Checkout() {
       icon: "bi-phone",
       name: "UPI / GPay / PhonePe",
       sub: "Pay instantly via UPI",
-      badge: "Recommended"
+      badge: null
     },
     {
       id: "cod",
@@ -460,7 +459,6 @@ function Checkout() {
 
             </div>
           </div>
-
         </div>
 
         {/* RIGHT */}
