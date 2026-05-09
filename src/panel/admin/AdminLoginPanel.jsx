@@ -8,6 +8,9 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import { showWebMessage } from "../../context/webMessageHandler";
+
+
 const API = import.meta.env.VITE_API_URL;
 
 function AdminLoginPanel(){
@@ -39,13 +42,13 @@ function AdminLoginPanel(){
         );
 
         if (!user) {
-            alert("Username not found");
+            showWebMessage("Username not found");
             return;
         }
 
         // Check password
         if (user.password === formData.password) {
-        alert("You're logged in as admin ✅");
+        showWebMessage("You're logged in as admin");
         
             const sendun = async () => {
                     const response = await fetch(`${API}/api/getidbyadminun`, {
@@ -76,7 +79,7 @@ function AdminLoginPanel(){
         // Optional: store login
         localStorage.setItem("admin", JSON.stringify(user));
         } else {
-        alert("Incorrect password ❌");
+        showWebMessage("Incorrect password !!");
         }
 
     } catch (error) {

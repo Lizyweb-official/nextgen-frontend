@@ -7,6 +7,9 @@ import '../../../css/style.css';
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { showWebMessage } from "../../../context/webMessageHandler";
+
+
 const API = import.meta.env.VITE_API_URL;
 
 function ProductEditPage() {
@@ -140,7 +143,7 @@ function ProductEditPage() {
       })
     });
 
-    alert("Product updated successfully");
+    showWebMessage("Product updated successfully");
   };
 
   return (

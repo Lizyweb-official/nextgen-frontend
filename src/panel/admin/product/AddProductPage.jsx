@@ -105,17 +105,17 @@ function AddProductPage() {
    
   // ✅ Required field validation
   if (!form.name.trim()) {
-    alert("Product Name is required");
+    showWebMessage("Product Name is required");
     return;
   }
 
   if (!form.description.trim()) {
-    alert("Description is required");
+    showWebMessage("Description is required");
     return;
   }
 
   if (!form.base_price) {
-    alert("Base Price is required");
+    showWebMessage("Base Price is required");
     return;
   }
 
@@ -139,7 +139,7 @@ function AddProductPage() {
   })
     .then(res => res.json())
     .then(data => {
-      alert("Product Added Successfully");
+      showWebMessage("Product Added Successfully");
 
       setForm({
         name: "",

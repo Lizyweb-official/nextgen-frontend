@@ -8,6 +8,9 @@ import React, { useState , useEffect} from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import { showWebMessage } from "../../context/webMessageHandler";
+
+
 const API = import.meta.env.VITE_API_URL;
 
 function UserLoginPanel(){
@@ -46,7 +49,7 @@ function UserLoginPanel(){
                 );
 
                 if (userExists) {
-                    alert("You are already registered, try logging in");
+                    showWebMessage("You are already registered, try logging in");
                     return;
                 }
                 
@@ -55,7 +58,7 @@ function UserLoginPanel(){
                 );
 
                 if (userExistsUsername) {
-                    alert("Username already registered, try Another Username");
+                    showWebMessage("Username already registered, try Another Username");
                     return;
                 }
 
@@ -93,7 +96,7 @@ function UserLoginPanel(){
                 sendPhone();
                 
 
-                alert("Registration successful 🎉");
+                showWebMessage("Registration successful");
                 navigate("/CustomerPanel");
 
             } catch (error) {
@@ -117,13 +120,13 @@ function UserLoginPanel(){
             );
             
             if (!user) {
-                alert("User not registered");
+                showWebMessage("User not registered");
                 return;
             }
 
             // Check password
             if (user.password === loginData.password) {
-                alert("Login successful ✅");
+                showWebMessage("Login successful ! ");
 
                  const sendPhone = async () => {
                     const response = await fetch(`${API}/api/getidbyphonecustomer`, {
@@ -150,13 +153,13 @@ function UserLoginPanel(){
 
 
             } else {
-                alert("Incorrect password ❌");
+                showWebMessage("Incorrect password !!");
             }
 
 
         } catch (error) {
             console.error("Error:", error);
-            alert("Server error");
+            showWebMessage("Server error");
         }
     };
 
@@ -174,13 +177,13 @@ function UserLoginPanel(){
             );
 
             if (!user) {
-                alert("User not registered");
+                showWebMessage("User not registered");
                 return;
             }
 
             // Check password
             if (user.password === DpLoginData.password) {
-                alert("Login successful ✅");
+                showWebMessage("Login successful !!");
 
                  const sendPhone = async () => {
                     const response = await fetch(`${API}/api/getDpByUn`, {
@@ -207,13 +210,13 @@ function UserLoginPanel(){
 
 
             } else {
-                alert("Incorrect password ❌");
+                showWebMessage("Incorrect password !!");
             }
 
 
         } catch (error) {
             console.error("Error:", error);
-            alert("Server error");
+            showWebMessage("Server error");
         }
     };
 

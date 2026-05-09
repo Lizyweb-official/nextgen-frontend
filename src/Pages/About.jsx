@@ -11,7 +11,6 @@ import vision from "../media/Website-Images/images-3/vision-1.png";
 import mision from "../media/Website-Images/images-3/mision-2.png";
 import whychoose from "../media/Website-Images/images-3/why_1.jpg";
 
-
 import Cta from '../Sections/Cta';
 
 
