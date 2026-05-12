@@ -171,26 +171,6 @@ function Shop() {
 
   // ================= ADD TO CART =================
 
-  const addToCart = async (
-    productId,
-    productPrice
-  ) => {
-
-    await fetch(
-      `${API}/api/product/addproducttocart`,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-
-          customer_id: 1,
-
-          product_id: productId,
-
   // ✅ ADD TO CART
   const addToCart = async (productId,productPrice) => {
     await fetch(`${API}/api/product/addproducttocart`, {
