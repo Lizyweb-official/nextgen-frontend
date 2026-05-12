@@ -26,6 +26,7 @@ import AdminLoginPanel from './panel/admin/AdminLoginPanel';
 
 import ProductEditPage from './panel/admin/product/ProductEditPage';
 import SingleProductPage from './Pages/SingleProductPage';
+import OrderDetailsPage from './panel/admin/orders/OrderDetailsPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation  } from "react-router-dom";
 
@@ -42,6 +43,7 @@ function Layout() {
     location.pathname === "/user-login-page" ||
     location.pathname === "/admin-login-page"||
     location.pathname.startsWith("/product-editor/") ||
+    location.pathname.startsWith("/orderdetailpage") ||
     location.pathname === "/admin-db";
 
   return (
@@ -67,6 +69,7 @@ function Layout() {
 
         <Route path="/product-editor/:id" element={<ProductEditPage />} />
         <Route path="/single-product-page/:id" element={<SingleProductPage />} />
+        <Route path="/orderdetailpage/:id" element={<OrderDetailsPage />} />
       </Routes>
       
       {!hideHeaderFooter && <Footer />}

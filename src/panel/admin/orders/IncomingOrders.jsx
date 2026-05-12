@@ -14,6 +14,7 @@ function IncomingOrders(){
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [custsearch, setCustSearch] = useState("");
 
     useEffect(() => {
         getOrders();
@@ -36,6 +37,7 @@ function IncomingOrders(){
         );
 
         setOrders(filtered);
+
         setFilteredOrders(filtered);
         } catch (error) {
         console.log(error);
@@ -52,6 +54,18 @@ function IncomingOrders(){
             order.name.toLowerCase().includes(value.toLowerCase()) ||
             order.id.toString().includes(value) ||
             order.status_name.toLowerCase().includes(value.toLowerCase())
+        );
+        });
+
+        setFilteredOrders(filtered);
+    };
+
+    const handlecustSearch = (value) => {
+        setCustSearch(value);
+
+        const filtered = orders.filter((order) => {
+        return (
+            order.customer_id.toString().includes(value) 
         );
         });
 
@@ -89,6 +103,8 @@ function IncomingOrders(){
                 : order
             )
         );
+
+
         } catch (error) {
         console.log(error);
         }
@@ -136,8 +152,10 @@ function IncomingOrders(){
         return <h2 className="text-center mt-5">Loading Orders...</h2>;
     }
 
+    
+
     return (
-        <div className="container mt-4">
+        <div className=" container mt-4">
         {/* top section */}
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <h2>Admin Orders</h2>
@@ -181,6 +199,16 @@ function IncomingOrders(){
             onChange={(e) => handleSearch(e.target.value)}
             />
         </div>
+        {/* customer search */}
+        <div className="mb-4">
+            <input
+            type="text"
+            className="form-control"
+            placeholder="Search by customer id"
+            value={custsearch}
+            onChange={(e) => handlecustSearch(e.target.value)}
+            />
+        </div>
 
         {/* table */}
         <div className="table-responsive">
@@ -188,6 +216,7 @@ function IncomingOrders(){
             <thead className="table-dark">
                 <tr>
                 <th>Order ID</th>
+                <th>Customer ID</th>
                 <th>Customer Name</th>
                 <th>Order Time</th>
                 <th>Total Amount</th>
@@ -203,7 +232,7 @@ function IncomingOrders(){
                 filteredOrders.map((order) => (
                     <tr key={order.id}>
                     <td>#{order.id}</td>
-
+                    <td>#{order.customer_id}</td>
                     <td>{order.name}</td>
 
                     <td>
@@ -235,7 +264,7 @@ function IncomingOrders(){
                     <td>
                         <div className="d-flex gap-2">
                         <Link
-                            to={`/admin/order/${order.id}`}
+                            to={`/Orderdetailpage/${order.id}`}
                             className="btn btn-primary btn-sm"
                         >
                             View Details
