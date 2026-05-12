@@ -86,6 +86,18 @@ function UserLoginPanel(){
                     console.log("sendphone program");
 
                     const data = await response.json();
+
+                     // 6️⃣ Create empty customerdetails row
+                    await fetch(`${API}/api/adduserdetailsbycusid`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            uid: data.userId,
+                        }),
+                    });
+
                     login({
                     id: data.userId ,
                     name: registerData.username,
@@ -104,7 +116,6 @@ function UserLoginPanel(){
                 alert("Something went wrong");
             }
         };
-
 
 
         const handleLoginSubmit = async (e) => {

@@ -30,7 +30,6 @@ function Checkout() {
     district: "",
     state: "",
     pincode: "",
-    email_Address: ""
   });
 
   const payMethods = [
@@ -81,7 +80,6 @@ function Checkout() {
           district: data.district || "",
           state: data.state || "",
           pincode: data.pincode || "",
-          email_Address: data.emailAddress || "",
         });
 
 
@@ -198,8 +196,6 @@ function Checkout() {
 
         name: userData.name,
         contact_number: userData.contact_Number,
-        email_address: userData.email_Address,
-
         street: userData.street,
         city: userData.city,
         district: userData.district,

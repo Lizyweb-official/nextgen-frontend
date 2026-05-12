@@ -6,11 +6,13 @@ import '../../css/style.css';
 
 import React, { useState , useEffect } from "react";
 
-import Orders from './orders/Orders';
+import Orders from './orders/IncomingOrders';
 import OrderHistory from './orders/OrderHistory';
+import DeliveryTracking from './orders/DeliveryTracking';
+import DeliveryPartnerHistory from './orders/DeliveryPartnerHistory';
 
 function ProductManage(){
-    const [activeTab, setActiveTab] = useState("orders");
+    const [activeTab, setActiveTab] = useState("IncomingOrders");
     
     return(
         <>
@@ -21,10 +23,26 @@ function ProductManage(){
 
                     <button
                         className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
-                        onClick={() => setActiveTab("orders")}
+                        onClick={() => setActiveTab("IncomingOrders")}
                     >
                         <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
-                        Orders Manager
+                        Incoming Orders
+                    </button>
+
+                    <button
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
+                        onClick={() => setActiveTab("DeliveryTracking")}
+                    >
+                        <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
+                        Delivery Tracking
+                    </button>
+
+                    <button
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
+                        onClick={() => setActiveTab("DeliveryPartnerHistory")}
+                    >
+                        <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
+                        Delivery Partner History
                     </button>
 
                     <button
@@ -39,9 +57,19 @@ function ProductManage(){
 
                 {/* Tabs Content */}
                 <div className="admin-db-secondary-maintab-content">
-                    {activeTab === "orders" && (
+                    {activeTab === "IncomingOrders" && (
                         <div className="admin-db-secondary-maintab-panel">
                             <Orders/>
+                        </div>
+                    )}
+                    {activeTab === "DeliveryTracking" && (
+                        <div className="admin-db-secondary-maintab-panel">
+                            <DeliveryTracking/>
+                        </div>
+                    )}
+                    {activeTab === "DeliveryPartnerHistory" && (
+                        <div className="admin-db-secondary-maintab-panel">
+                            <DeliveryPartnerHistory/>
                         </div>
                     )}
                     {activeTab === "orderh" && (

@@ -4,11 +4,11 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from "react";
 import { Link ,useParams} from "react-router-dom";
 
 import { showWebMessage } from "../context/webMessageHandler";
-
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -18,6 +18,7 @@ function Shop() {
   const [activeCat, setActiveCat] = useState(null);
   const { catId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
+  const { user } = useAuth();
   const productsPerPage = 12;
 
   // ✅ GET IMAGE URL
@@ -111,7 +112,7 @@ function Shop() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        customer_id: 1, // 🔥 replace with logged user id
+        customer_id: user.id, // 🔥 replace with logged user id
         product_id: productId,
         quantity: 1,
         price : productPrice
