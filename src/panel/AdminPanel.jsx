@@ -15,7 +15,7 @@ import AdminLoginPanel from './admin/AdminLoginPanel';
 import UserAccountManagement from './admin/UserAccountManagement';
 import AllMedia from './admin/AllMedia';
 import ProductManage from './admin/ProductManage';
-
+import OrderManage from './admin/OrdersManage';
 
 function AdminPanel(){
     const {user} = useAuth();
@@ -38,7 +38,7 @@ function AdminPanel(){
       case "users":
         return <UserAccountManagement/>;
       case "orders":
-        return <div>Order Management</div>;
+        return <OrderManage/>;
       case "settings":
         return (
           <div>

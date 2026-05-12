@@ -5,7 +5,9 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link ,useParams} from "react-router-dom";
+
+
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -199,7 +201,6 @@ function Shop() {
     );
 
     alert("Added to cart");
-
   };
 
   // ================= PAGINATION =================

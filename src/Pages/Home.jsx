@@ -48,7 +48,7 @@ function Home(){
   <Hero/>
   <MeatFeatures/>
   <HomeCategories/>
-  <TopPickes/>
+  <TopPicks/>
   <AyamFaqSection/>
   <Testimonial/>
   <Cta/>
