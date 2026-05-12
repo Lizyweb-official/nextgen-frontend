@@ -4,9 +4,9 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from "react";
 import { Link ,useParams} from "react-router-dom";
-
 
 
 const API = import.meta.env.VITE_API_URL;
@@ -20,7 +20,7 @@ function Shop() {
   const { catId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-
+  const { user } = useAuth();
   const productsPerPage = 12;
 
   // ================= GET IMAGE URL =================
@@ -191,16 +191,22 @@ function Shop() {
 
           product_id: productId,
 
-          quantity: 1,
+  // ✅ ADD TO CART
+  const addToCart = async (productId,productPrice) => {
+    await fetch(`${API}/api/product/addproducttocart`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customer_id: user.id, // 🔥 replace with logged user id
+        product_id: productId,
+        quantity: 1,
+        price : productPrice
+      }),
+    });
 
-          price: productPrice
-
-        }),
-
-      }
-    );
-
-    alert("Added to cart");
+    showWebMessage("product Added Added to cart");
   };
 
   // ================= PAGINATION =================

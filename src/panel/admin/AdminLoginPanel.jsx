@@ -60,7 +60,6 @@ function AdminLoginPanel(){
                         adminusername: formData.username,
                         }),
                     });
-                    
 
                     const data = await response.json();
                     login({
@@ -72,9 +71,6 @@ function AdminLoginPanel(){
                 
                 };
                 sendun();
-
-
-
         
         // Optional: store login
         localStorage.setItem("admin", JSON.stringify(user));
@@ -139,11 +135,11 @@ function AdminLoginPanel(){
                     </form>
             
                     <div className="admin-login-panel-footer">
-                    <span className="admin-login-panel-dot" />
-                    Secure admin access
+                        <span className="admin-login-panel-dot" />
+                        Secure admin access
                     </div>
                 </div>
-                </div>
+            </div>
         </>
     );
 }

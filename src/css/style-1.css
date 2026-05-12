@@ -2770,3 +2770,359 @@
   font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
+
+
+
+
+
+/* admin db incoming order tab */
+
+
+.admin-db-inc-order-root {
+  padding: 60px;
+  background: #000000;
+  width:80%;
+  margin: 0 auto;
+  margin-top:30px;
+  margin-bottom:30px;
+}
+ 
+/* ============================================================
+   HEADER
+   ============================================================ */
+.admin-db-inc-order-header {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+ 
+.admin-db-inc-order-header-id {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+ 
+.admin-db-inc-order-header-num {
+  font-size: 22px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0;
+}
+ 
+.admin-db-inc-order-header-date {
+  font-size: 13px;
+  color: #888780;
+  margin-top: 2px;
+}
+ 
+.admin-db-inc-order-header-amount-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #888780;
+  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 4px;
+}
+ 
+.admin-db-inc-order-header-amount {
+  font-size: 28px;
+  font-weight: 500;
+  color: #3b6d11;
+  margin: 0;
+  text-align: right;
+}
+ 
+/* ============================================================
+   SECTION CARD
+   ============================================================ */
+.admin-db-inc-order-section {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+ 
+.admin-db-inc-order-section-header {
+  padding: 0.875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: var(--sub);
+  color: white;
+}
+ 
+.admin-db-inc-order-section-header i {
+  font-size: 18px;
+  color: #888780;
+}
+ 
+.admin-db-inc-order-section-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+}
+ 
+.admin-db-inc-order-section-body {
+  padding: 1.5rem;
+}
+ 
+/* ============================================================
+   STATUS TRACKER
+   ============================================================ */
+.admin-db-inc-order-tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+ 
+.admin-db-inc-order-tracker-step {
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  background: #ffffff;
+  transition: all 0.15s;
+}
+ 
+.admin-db-inc-order-tracker-step-current {
+  border: 2px solid #185fa5;
+  background: #e6f1fb;
+}
+ 
+.admin-db-inc-order-tracker-step-done {
+  background: #f5f5f3;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+ 
+.admin-db-inc-order-tracker-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #185fa5;
+  color: #e6f1fb;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+ 
+.admin-db-inc-order-tracker-step-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+ 
+.admin-db-inc-order-tracker-status-done {
+  font-size: 12px;
+  font-weight: 500;
+  color: #3b6d11;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+ 
+.admin-db-inc-order-tracker-status-done i {
+  font-size: 14px;
+}
+ 
+.admin-db-inc-order-tracker-status-inprogress {
+  font-size: 12px;
+  font-weight: 500;
+  color: #185fa5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+ 
+.admin-db-inc-order-tracker-status-inprogress i {
+  font-size: 14px;
+}
+ 
+.admin-db-inc-order-tracker-date {
+  font-size: 11px;
+  color: #888780;
+  margin-top: 2px;
+}
+ 
+.admin-db-inc-order-tracker-pending {
+  font-size: 12px;
+  color: #b4b2a9;
+}
+ 
+/* ============================================================
+   CUSTOMER DETAILS
+   ============================================================ */
+.admin-db-inc-order-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+ 
+.admin-db-inc-order-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+ 
+.admin-db-inc-order-detail-item-full {
+  grid-column: 1 / -1;
+}
+ 
+.admin-db-inc-order-detail-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #888780;
+}
+ 
+.admin-db-inc-order-detail-value {
+  font-size: 14px;
+  color: #1a1a1a;
+}
+ 
+.admin-db-inc-order-detail-amount {
+  font-size: 14px;
+  color: #3b6d11;
+  font-weight: 500;
+}
+ 
+.admin-db-inc-order-detail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+ 
+.admin-db-inc-order-badge-paid {
+  background: #eaf3de;
+  color: #3b6d11;
+}
+ 
+.admin-db-inc-order-badge-status {
+  background: #e6f1fb;
+  color: #185fa5;
+}
+ 
+.admin-db-inc-order-badge-paid i,
+.admin-db-inc-order-badge-status i {
+  font-size: 13px;
+}
+ 
+/* ============================================================
+   PRODUCT TABLE
+   ============================================================ */
+.admin-db-inc-order-table-wrap {
+  overflow-x: auto;
+}
+ 
+.admin-db-inc-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+ 
+.admin-db-inc-order-table th {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #888780;
+  padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+  text-align: left;
+  background: #f5f5f3;
+}
+ 
+.admin-db-inc-order-table td {
+  padding: 12px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  color: #1a1a1a;
+  vertical-align: top;
+}
+ 
+.admin-db-inc-order-table tbody tr:last-child td {
+  border-bottom: none;
+}
+ 
+.admin-db-inc-order-table tbody tr:hover td {
+  background: #f5f5f3;
+}
+ 
+.admin-db-inc-order-product-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+ 
+.admin-db-inc-order-product-desc {
+  font-size: 12px;
+  color: #888780;
+}
+ 
+.admin-db-inc-order-cat-tag {
+  display: inline-block;
+  font-size: 11px;
+  background: #f5f5f3;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  padding: 2px 7px;
+  color: #5f5e5a;
+  margin: 1px 0;
+}
+ 
+.admin-db-inc-order-custom-field {
+  font-size: 12px;
+  color: #5f5e5a;
+  margin-bottom: 2px;
+}
+ 
+.admin-db-inc-order-custom-field strong {
+  color: #1a1a1a;
+}
+ 
+.admin-db-inc-order-table-total {
+  font-weight: 500;
+}
+ 
+/* ============================================================
+   TABLE FOOTER
+   ============================================================ */
+.admin-db-inc-order-tfoot {
+  padding: 14px 12px;
+  background: #f5f5f3;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888780;
+  text-align: right;
+}
+ 
+.admin-db-inc-order-tfoot-total {
+  font-size: 16px;
+  font-weight: 500;
+  color: #3b6d11;
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: left;
+}

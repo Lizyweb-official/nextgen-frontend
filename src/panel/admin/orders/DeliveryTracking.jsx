@@ -4,8 +4,8 @@ import '../../../css/style-3.css';
 import '../../../css/style-4.css';
 import '../../../css/style.css';
 
-function Orders(){
-    return(<><h1>Order</h1></>);
+function DeliveryTracking(){
+    return(<><h1>Delivery Tracking</h1></>);
 }
 
-export default Orders
+export default DeliveryTracking
