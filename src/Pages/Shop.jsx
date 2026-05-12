@@ -5,242 +5,409 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 import { useEffect, useState } from "react";
-import { Link ,useParams} from "react-router-dom";
-
-
+import { Link, useParams } from "react-router-dom";
 
 const API = import.meta.env.VITE_API_URL;
 
 function Shop() {
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeCat, setActiveCat] = useState(null);
+
   const { catId } = useParams();
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const productsPerPage = 12;
 
-  // ✅ GET IMAGE URL
+  // ================= GET IMAGE URL =================
+
   const getImageUrl = async (id) => {
     try {
+
       const res = await fetch(`${API}/api/getimagebyid/${id}`);
+
       const data = await res.json();
-      return data.url; // make sure backend returns {url: "..."}
+
+      return data.url;
+
     } catch {
+
       return "";
+
     }
   };
 
+  // ================= LOAD ALL PRODUCTS =================
 
-    const loadAllProducts = async () => {
+  const loadAllProducts = async () => {
+
     setActiveCat(null);
 
-    const res = await fetch(`${API}/api/product/getallproducts`);
+    const res = await fetch(
+      `${API}/api/product/getallproducts`
+    );
+
     const data = await res.json();
 
     const fullProducts = await Promise.all(
+
       data.map(async (p) => {
-        const image = await getImageUrl(p.image_id);
-        return { ...p, image };
+
+        const image = await getImageUrl(
+          p.image_id
+        );
+
+        return {
+          ...p,
+          image
+        };
+
       })
+
     );
-    setCurrentPage(1);
+
     setProducts(fullProducts);
+
+    setCurrentPage(1);
+
   };
 
+  // ================= LOAD PRODUCTS BY CATEGORY =================
+
+  const loadProducts = async (catId) => {
+
+    setActiveCat(catId);
+
+    // get product ids
+
+    const res = await fetch(
+      `${API}/api/product/getproductsbycategory/${catId}`
+    );
+
+    const ids = await res.json();
+
+    // get full product details
+
+    const fullProducts = await Promise.all(
+
+      ids.map(async (item) => {
+
+        const res = await fetch(
+          `${API}/api/product/getproduct/${item.product_id}`
+        );
+
+        const data = await res.json();
+
+        const image = await getImageUrl(
+          data.image_id
+        );
+
+        return {
+          ...data,
+          image
+        };
+
+      })
+
+    );
+
+    setProducts(fullProducts);
+
+    setCurrentPage(1);
+
+  };
+
+  // ================= INITIAL LOAD =================
+
   useEffect(() => {
+
     const init = async () => {
+
       // load categories
-      const res = await fetch(`${API}/api/product/getallcategories`);
+
+      const res = await fetch(
+        `${API}/api/product/getallcategories`
+      );
+
       const data = await res.json();
 
       const updated = await Promise.all(
+
         data.map(async (cat) => ({
+
           ...cat,
-          image: await getImageUrl(cat.image_id),
+
+          image: await getImageUrl(
+            cat.image_id
+          ),
+
         }))
+
       );
 
       setCategories(updated);
 
-      // 🔥 CHECK IF CATEGORY ID EXISTS
+      // check if category exists
+
       if (catId) {
+
         loadProducts(catId);
+
       } else {
+
         loadAllProducts();
+
       }
+
     };
 
     init();
+
   }, [catId]);
 
+  // ================= ADD TO CART =================
 
-  // ✅ LOAD PRODUCTS BY CATEGORY
-  const loadProducts = async (catId) => {
-    setActiveCat(catId);
+  const addToCart = async (
+    productId,
+    productPrice
+  ) => {
 
-    // 1. get product ids
-    const res = await fetch(
-      `${API}/api/product/getproductsbycategory/${catId}`
+    await fetch(
+      `${API}/api/product/addproducttocart`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+
+          customer_id: 1,
+
+          product_id: productId,
+
+          quantity: 1,
+
+          price: productPrice
+
+        }),
+
+      }
     );
-    const ids = await res.json();
-
-    // 2. get full product details
-    const fullProducts = await Promise.all(
-      ids.map(async (item) => {
-        const res = await fetch(
-          `${API}/api/product/getproduct/${item.product_id}`
-        );
-        const data = await res.json();
-
-        const image = await getImageUrl(data.image_id);
-
-        return { ...data, image };
-        setCurrentPage(1);
-      })
-    );
-
-    setProducts(fullProducts);
-  };
-
-  // ✅ ADD TO CART
-  const addToCart = async (productId,productPrice) => {
-    await fetch(`${API}/api/product/addproducttocart`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        customer_id: 1, // 🔥 replace with logged user id
-        product_id: productId,
-        quantity: 1,
-        price : productPrice
-      }),
-    });
 
     alert("Added to cart");
+
   };
 
+  // ================= PAGINATION =================
 
+  const indexOfLast =
+    currentPage * productsPerPage;
 
-  const indexOfLast = currentPage * productsPerPage;
-  const indexOfFirst = indexOfLast - productsPerPage;
+  const indexOfFirst =
+    indexOfLast - productsPerPage;
 
-  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+  const currentProducts =
+    products.slice(indexOfFirst, indexOfLast);
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages =
+    Math.ceil(products.length / productsPerPage);
 
   return (
-    <div className="container mt-4">
-      
+
+    <div className="container shop-page">
+
       {/* ================= CATEGORIES ================= */}
-      <div className="d-flex gap-3 overflow-auto mb-4">
+
+      <div className="category-wrapper">
+
         {categories.map((cat) => (
+
           <div
             key={cat.id}
-            className={`text-center p-2 border rounded ${
-              activeCat === cat.id ? "bg-dark text-white" : ""
+            className={`category-item ${
+              activeCat === cat.id
+                ? "active-category"
+                : ""
             }`}
-            style={{ minWidth: "120px", cursor: "pointer" }}
             onClick={() => loadProducts(cat.id)}
           >
+
             <img
               src={cat.image}
               alt={cat.name}
-              style={{ width: "80px", height: "80px", objectFit: "cover" }}
+              className="category-image"
             />
-            <p className="mt-2 mb-0">{cat.name}</p>
+
+            <p className="category-name">
+              {cat.name}
+            </p>
+
           </div>
+
         ))}
+
       </div>
 
-
       {/* ================= PRODUCTS ================= */}
-      <div className="row">
+
+      <div className="row product-row">
+
         {currentProducts.map((p) => (
-          <div className="col-md-3 mb-4" key={p.id}>
-            
-            <Link to={`/single-product-page/${p.id}`} className="text-decoration-none text-dark">
-              
-              <div className="card h-100">
-                <img
-                  src={p.image}
-                  className="card-img-top"
-                  style={{ height: "180px", objectFit: "cover" }}
-                />
+
+          <div
+            className="col-lg-3 col-md-4 col-sm-6"
+            key={p.id}
+          >
+
+            <Link
+              to={`/single-product-page/${p.id}`}
+              className="text-decoration-none text-dark"
+            >
+
+              <div className="card h-100 product-card">
+
+                {/* PRODUCT IMAGE */}
+
+                <div className='product-imgbox'>
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="card-img-top product-image"
+                  />
+                </div>
+
+                {/* PRODUCT CONTENT */}
 
                 <div className="card-body">
-                  <h6>{p.name}</h6>
 
-                  {/* one line description */}
-                  <p className="text-muted" style={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap"
-                  }}>
+                  <h6 className="product-title">
+                    {p.name}
+                  </h6>
+
+                  {/* DESCRIPTION */}
+
+                  <p className="product-description">
                     {p.short_description}
                   </p>
 
-                  {/* custom field */}
+                  {/* CUSTOM FIELDS */}
+
                   {p.custom_fields?.map((f, i) => (
-                    <small key={i} className="d-block">
+
+                    <small
+                      key={i}
+                      className="d-block product-field"
+                    >
+
                       {f.field_name}: {f.field_value}
+
                     </small>
+
                   ))}
 
-                  {/* price */}
-                  <div className="mt-2">
+                  {/* PRICE */}
+
+                  <div className="mt-2 product-price-box">
+
                     {p.sale_price ? (
+
                       <>
-                        <span className="text-muted text-decoration-line-through me-2">
+
+                        <span className="old-price">
+
                           ₹{p.base_price}
+
                         </span>
 
-                        <span className="fw-bold text-success">
+                        <span className="sale-price">
+
                           ₹{p.sale_price}
+
                         </span>
+
                       </>
+
                     ) : (
-                      <span className="fw-bold">
+
+                      <span className="normal-price">
+
                         ₹{p.base_price}
+
                       </span>
+
                     )}
+
                   </div>
+
                 </div>
 
-                <div className="card-footer bg-white border-0">
+                {/* FOOTER */}
+
+                <div className="card-footer bg-white border-0 product-footer">
+
                   <button
-                    className="btn btn-dark w-100"
+                    className="btn btn-dark w-100 add-cart-btn"
                     onClick={(e) => {
-                      e.preventDefault(); // 🔥 prevent Link click
-                      addToCart(p.id,p.sale_price || p.base_price);
+
+                      e.preventDefault();
+
+                      addToCart(
+                        p.id,
+                        p.sale_price || p.base_price
+                      );
+
                     }}
                   >
+
                     Add to Cart
+
                   </button>
+
                 </div>
+
               </div>
 
             </Link>
 
           </div>
+
         ))}
+
       </div>
 
-      <div className="d-flex justify-content-center mt-4 gap-2 flex-wrap">
+      {/* ================= PAGINATION ================= */}
+
+      <div className="pagination-wrapper">
+
         {[...Array(totalPages)].map((_, i) => (
+
           <button
             key={i}
             className={`btn ${
-              currentPage === i + 1 ? "btn-dark" : "btn-outline-dark"
+              currentPage === i + 1
+                ? "btn-dark"
+                : "btn-outline-dark"
             }`}
-            onClick={() => setCurrentPage(i + 1)}
+            onClick={() =>
+              setCurrentPage(i + 1)
+            }
           >
+
             {i + 1}
+
           </button>
+
         ))}
+
       </div>
 
     </div>
+
   );
 }
-export default Shop
+
+export default Shop;
