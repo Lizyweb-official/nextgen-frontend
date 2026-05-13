@@ -19,6 +19,7 @@ function SingleProductPage() {
 
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [customPieces, setCustomPieces] = useState("");
   const [qty, setQty] = useState(1);
   const [pprice, setPprice] = useState();
 
@@ -55,23 +56,39 @@ function SingleProductPage() {
   }
 
     const handleAddToCart = async (productId) => {
+
+        // ✅ Check custom pieces selection
+        if (
+            product.custom_pieces_k &&
+            product.custom_pieces_k.trim() !== "" &&
+            customPieces === ""
+        ) {
+            showWebMessage("Please select pieces");
+            return;
+        }
+
         try {
 
             const data = {
-                customer_id: user.id,   // ✅ match backend
+                customer_id: user.id,
                 product_id: productId,
                 quantity: qty,
-                price: pprice
+                price: pprice,
+                custompieces: customPieces
             };
 
             console.log(data);
-            const response = await fetch("http://localhost:5000/api/product/addproducttocart", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+
+            const response = await fetch(
+                "http://localhost:5000/api/product/addproducttocart",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
 
             const result = await response.json();
 
@@ -174,7 +191,38 @@ function SingleProductPage() {
                 )}
             </div>
 
-            {/* QUANTITY */}
+
+        {product.custom_pieces_k && product.custom_pieces_k.trim() !== "" && (
+            <div className="single-pro-page-pieces-wrapper mb-3">
+                <label className="single-pro-page-pieces-label">
+                    <span className="single-pro-page-pieces-icon">✦</span>
+                    Select Pieces
+                </label>
+
+                <div className="single-pro-page-select-container">
+                    <select
+                        className="single-pro-page-pieces-select"
+                        value={customPieces}
+                        onChange={(e) => setCustomPieces(e.target.value)}
+                    >
+                        <option value="">— Choose a Piece —</option>
+
+                        {product.custom_pieces_k
+                            .split(",")
+                            .map((piece, index) => (
+                                <option key={index} value={piece.trim()}>
+                                    {piece.trim()}
+                                </option>
+                            ))}
+                    </select>
+                    <span className="single-pro-page-select-arrow">›</span>
+                </div>
+            </div>
+        )}
+
+
+
+        {/* QUANTITY */}
             <div className="single-page-qty-row">
                 <label className="single-page-qty-label">Qty</label>
 

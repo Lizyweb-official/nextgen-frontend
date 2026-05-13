@@ -53,6 +53,7 @@ function Cart() {
             origPrice: Number(product.base_price),
             qty: item.quantity,
             image: image.url,
+            custompieces : item.custom_pieces
           };
         })
       );
@@ -211,7 +212,7 @@ function Cart() {
 
                 <div className="tc-item-info">
                   <div className="tc-item-name">{item.name}</div>
-                  <div className="tc-item-weight">{item.weight}</div>
+                  <div className="tc-item-weight">{item.custompieces} Pieces</div>
                   <div className="tc-fresh-badge">
                     <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
                   </div>
@@ -234,7 +235,7 @@ function Cart() {
                       <span>{item.qty}</span>
                       <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
                     </div>
-                    <div className="tc-subtotal">Subtotal: ₹{item.price * item.qty}</div>
+                    <div className="tc-subtotal">Subtotal: ₹{item.origPrice * item.qty}</div>
                   </div>
                 </div>
 
