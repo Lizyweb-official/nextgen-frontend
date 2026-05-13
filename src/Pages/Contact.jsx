@@ -5,7 +5,7 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 import Contacthero from "../media/Website-Images/images-3/Contacthero-1.jpg";
-import FAQ from "../media/Website-Images/images-3/faq-1.PNG";
+import FAQ from "../media/Website-Images/images-3/faq-1.png";
 
 
 import Cta from '../Sections/Cta';

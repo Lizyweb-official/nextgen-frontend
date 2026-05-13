@@ -3,9 +3,12 @@ import '../../../css/style-2.css';
 import '../../../css/style-3.css';
 import '../../../css/style-4.css';
 import '../../../css/style.css';
+
 import React, { useEffect, useState } from "react";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
+
+import { showWebMessage } from "../../../context/webMessageHandler";
 
 function AddProductPage() {
   const [form, setForm] = useState({
@@ -22,17 +25,16 @@ function AddProductPage() {
 
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
-
   const [showGallery, setShowGallery] = useState(false);
 
   // ✅ Load categories & images
   useEffect(() => {
-    fetch(`${API}/product/getallcategories`)
+    fetch(`${API}/api/product/getallcategories`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error(err));
 
-    fetch(`${API}/getallimages`)
+    fetch(`${API}/api/getallimages`)
       .then(res => res.json())
       .then(data => setImages(data))
       .catch(err => console.error(err));
@@ -103,17 +105,17 @@ function AddProductPage() {
    
   // ✅ Required field validation
   if (!form.name.trim()) {
-    alert("Product Name is required");
+    showWebMessage("Product Name is required");
     return;
   }
 
   if (!form.description.trim()) {
-    alert("Description is required");
+    showWebMessage("Description is required");
     return;
   }
 
   if (!form.base_price) {
-    alert("Base Price is required");
+    showWebMessage("Base Price is required");
     return;
   }
 
@@ -128,7 +130,7 @@ function AddProductPage() {
     custom_fields: form.custom_fields || []
   };
 
-  fetch(`${API}/product/addproduct`, {
+  fetch(`${API}/api/product/addproduct`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -137,7 +139,7 @@ function AddProductPage() {
   })
     .then(res => res.json())
     .then(data => {
-      alert("Product Added Successfully");
+      showWebMessage("Product Added Successfully");
 
       setForm({
         name: "",
@@ -240,7 +242,7 @@ function AddProductPage() {
     className="admin-db-add-product-sec-select-img-btn"
     onClick={() => setShowGallery(true)}
     >
-    📷 Select Image
+    Select Image
     </button>
 
 

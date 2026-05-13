@@ -6,13 +6,16 @@ import '../css/style.css';
 
 import { useAuth } from "../context/AuthContext";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import logo from '../media/Website-Images/images-1/admin-logo.jpg';
 
 import AdminLoginPanel from './admin/AdminLoginPanel';
 
 import UserAccountManagement from './admin/UserAccountManagement';
 import AllMedia from './admin/AllMedia';
 import ProductManage from './admin/ProductManage';
-
+import OrderManage from './admin/OrdersManage';
 
 function AdminPanel(){
     const {user} = useAuth();
@@ -35,7 +38,7 @@ function AdminPanel(){
       case "users":
         return <UserAccountManagement/>;
       case "orders":
-        return <div>Order Management</div>;
+        return <OrderManage/>;
       case "settings":
         return (
           <div>
@@ -45,59 +48,68 @@ function AdminPanel(){
       default:
         return <div>Select a tab</div>;
     };
-
 }
 
+  return (
+    <div className="admin-db-container">
 
-    return (
-    <div className="admin-db-main-tab-container">
-      
-      {/* TOP BAR */}
-      <div className="admin-db-main-tab-topbar">
-        <a href="/" className="admin-db-main-tab-home-link">AyamKini</a>
+      {/* SIDEBAR */}
+      <div className="admin-db-sidebar">
+        
+        {/* LOGO */}
+        <div className="admin-db-logo">
+          <Link to="/"><img className='admin-db-logo-inside' src={logo} /></Link>
+        </div>
 
-        <div className="admin-db-main-tab-tabs">
-          <button 
-            className={`admin-db-main-tab-btn ${activeTab === "media" ? "admin-db-main-tab-active" : ""}`}
+        {/* MENU */}
+        <div className="admin-db-menu">
+         <button 
+            className={`admin-db-menu-btn ${activeTab === "media" ? "active" : ""}`}
             onClick={() => setActiveTab("media")}
           >
-            Media
+            <i className="bi bi-image menu-icon"></i>
+            <span className="menu-text">Media</span>
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "products" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "products" ? "active" : ""}`}
             onClick={() => setActiveTab("products")}
           >
-            Products
+            <i className="bi bi-box-seam menu-icon"></i>
+            <span className="menu-text">Products</span>
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "users" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "users" ? "active" : ""}`}
             onClick={() => setActiveTab("users")}
           >
-            Users
+            <i className="bi bi-people menu-icon"></i>
+            <span className="menu-text">Users</span>
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "orders" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "orders" ? "active" : ""}`}
             onClick={() => setActiveTab("orders")}
           >
-            Orders
+            <i className="bi bi-cart menu-icon"></i>
+            <span className="menu-text">Orders</span>
           </button>
 
           <button 
-            className={`admin-db-main-tab-btn ${activeTab === "settings" ? "admin-db-main-tab-active" : ""}`}
+            className={`admin-db-menu-btn ${activeTab === "settings" ? "active" : ""}`}
             onClick={() => setActiveTab("settings")}
           >
-            ⚙️ Settings
+            <i className="bi bi-gear menu-icon"></i>
+            <span className="menu-text">Settings</span>
           </button>
         </div>
       </div>
 
-      {/* CONTENT */}
-      <div className="admin-db-main-tab-content">
+      {/* MAIN CONTENT */}
+      <div className="admin-db-main">
         {renderContent()}
       </div>
+
     </div>
   );
 }

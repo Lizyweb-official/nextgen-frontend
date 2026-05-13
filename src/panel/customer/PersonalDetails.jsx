@@ -8,6 +8,8 @@ import {useAuth} from "../../context/AuthContext"
 import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
+const API = import.meta.env.VITE_API_URL;
+
 function PersonalDetails(){
     const { user } = useAuth();
 
@@ -28,7 +30,7 @@ function PersonalDetails(){
 
         const sendPhone = async () => {
             try {
-            const response = await fetch("http://localhost:5000/api/getuserdetailsbyuid", {
+            const response = await fetch(`${API}/api/getuserdetailsbyuid`, {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
@@ -85,7 +87,7 @@ function PersonalDetails(){
     const handleSave = async () => {
         try {
             // 🔍 Step 1: Get all user details
-            const checkRes = await fetch("http://localhost:5000/api/getalluserdetails");
+            const checkRes = await fetch(`${API}/api/getalluserdetails`);
             const checkData = await checkRes.json();
 
             // 🔎 Step 2: Check if user.id exists in customer_id
@@ -97,7 +99,7 @@ function PersonalDetails(){
 
             // 🟢 Step 3: If exists → UPDATE
             if (userExists) {
-                response = await fetch("http://localhost:5000/api/updateuserdetails", {
+                response = await fetch(`${API}/api/updateuserdetails`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
@@ -117,7 +119,7 @@ function PersonalDetails(){
             } 
             // 🔵 Step 4: If NOT exists → ADD
             else {
-                response = await fetch("http://localhost:5000/api/adduserdetailsbycusid", {
+                response = await fetch(`${API}/api/adduserdetailsbycusid`, {
                     method: "POST", // 👈 usually POST for insert
                     headers: {
                         "Content-Type": "application/json"

@@ -13,19 +13,21 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Link,useNavigate } from "react-router-dom";
 
 
-import slider1 from "../media/Website-Images/images-3/b1.PNG";
-import slider2 from "../media/Website-Images/images-3/b2.PNG";
-import slider3 from "../media/Website-Images/images-3/b3.PNG";
+import slider1 from "../media/Website-Images/images-3/b1.png";
+import slider2 from "../media/Website-Images/images-3/b2.png";
+import slider3 from "../media/Website-Images/images-3/b3.png";
 
 
 import "swiper/css";
 
 
 
-import bg1 from "../media/Website-Images/images-3/bgimage.PNG";
+import bg1 from "../media/Website-Images/images-3/bgimage.png";
 
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
+import AyamFaqSection from '../Sections/AyamFaqSection';
+import TopPicks from '../Sections/TopPicks';
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
 import a2 from "../media/Website-Images/images-3/e2.jpg";
@@ -46,8 +48,8 @@ function Home(){
   <Hero/>
   <MeatFeatures/>
   <HomeCategories/>
-  <BestProduct/>
-  <WhyChoose/>
+  <TopPicks/>
+  <AyamFaqSection/>
   <Testimonial/>
   <Cta/>
   </>

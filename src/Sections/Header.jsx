@@ -43,9 +43,9 @@ function Header(){
           
           {/* ICONS */}
           <div className="header-icon-cartshop col-4 col-md-3 text-start ">
-            <button className="btn btn-outline-dark me-2">
+            <Link to="/Cart" className="btn btn-outline-dark me-2">
               <FaShoppingCart />
-            </button>
+            </Link>
 
             {user? (
               user.usertype == "customer" ? (    
