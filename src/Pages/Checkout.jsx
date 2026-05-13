@@ -135,6 +135,7 @@ function Checkout() {
         );
 
         const cartData = await cartResponse.json();
+        console.log(cartData);
 
         // product details
         const products = await Promise.all(
@@ -150,7 +151,9 @@ function Checkout() {
             return {
               ...item,
               product_name: productData.name,
-              custom_fields:productData.custom_fields
+              custom_fields:productData.custom_fields,
+              custom_pieces:productData.custom_pieces,
+              
             };
 
           })

@@ -2184,8 +2184,78 @@
   background: #333;
 }
 
+/* Wrapper */
+.single-pro-page-pieces-wrapper {
+    position: relative;
+}
 
+/* Label */
+.single-pro-page-pieces-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
 
+.single-pro-page-pieces-icon {
+    color: #f59e0b;
+    font-size: 0.65rem;
+}
+
+/* Select container (for custom arrow) */
+.single-pro-page-select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Select */
+.single-pro-page-pieces-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #f9fafb;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 11px 40px 11px 14px;
+    font-size: 0.9rem;
+    color: #111827;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    outline: none;
+}
+
+.single-pro-page-pieces-select:hover {
+    border-color: #d1d5db;
+    background: #fff;
+}
+
+.single-pro-page-pieces-select:focus {
+    border-color: var();
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    background: #fff;
+}
+
+/* Custom arrow */
+.single-pro-page-select-arrow {
+    position: absolute;
+    right: 14px;
+    font-size: 1.2rem;
+    color: #9ca3af;
+    pointer-events: none;
+    transform: rotate(90deg);
+    transition: color 0.2s ease;
+}
+
+.single-pro-page-select-container:focus-within .single-pro-page-select-arrow {
+    color: #f59e0b;
+}
 
 
 /* HERO SECTION */
@@ -2253,7 +2323,6 @@
   color: #fff;
   font-weight: 600;
 }
-
 
 /* admin media tab */
 
@@ -2899,12 +2968,12 @@
 }
  
 .admin-db-inc-order-tracker-step-current {
-  border: 2px solid #185fa5;
-  background: #e6f1fb;
+  border: 2px solid black;
+  background: #ffffff;
 }
  
 .admin-db-inc-order-tracker-step-done {
-  background: #f5f5f3;
+  background: #ffffff;
   border-color: rgba(0, 0, 0, 0.2);
 }
  
@@ -2914,8 +2983,8 @@
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: #185fa5;
-  color: #e6f1fb;
+  background: var(--brand);
+  color: #000000;
   border-radius: 4px;
   padding: 2px 8px;
   margin-bottom: 8px;
@@ -2944,7 +3013,7 @@
 .admin-db-inc-order-tracker-status-inprogress {
   font-size: 12px;
   font-weight: 500;
-  color: #185fa5;
+  color: #000000;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -3125,4 +3194,35 @@
   text-transform: none;
   letter-spacing: 0;
   text-align: left;
+}
+
+
+
+.admin-db-inc-order-cancelled-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-background-danger, #FCEBEB);
+  border: 0.5px solid var(--color-border-danger, #E24B4A);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 1.25rem;
+}
+
+.admin-db-inc-order-cancelled-banner i {
+  font-size: 20px;
+  color: #A32D2D;
+}
+
+.admin-db-inc-order-cancelled-banner-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #A32D2D;
+}
+
+.admin-db-inc-order-cancelled-banner-sub {
+  font-size: 13px;
+  color: #A32D2D;
+  opacity: 0.8;
+  margin-top: 2px;
 }
