@@ -22,7 +22,7 @@ function ProductManage(){
                 <div className="admin-db-secondary-maintab-header">
 
                     <button
-                        className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "IncomingOrders" ? "admin-db-secondary-maintab-active" : ""}`}
                         onClick={() => setActiveTab("IncomingOrders")}
                     >
                         <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
@@ -30,7 +30,7 @@ function ProductManage(){
                     </button>
 
                     <button
-                        className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "DeliveryTracking" ? "admin-db-secondary-maintab-active" : ""}`}
                         onClick={() => setActiveTab("DeliveryTracking")}
                     >
                         <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
@@ -38,7 +38,7 @@ function ProductManage(){
                     </button>
 
                     <button
-                        className={`admin-db-secondary-maintab-btn ${activeTab === "allproducts" ? "admin-db-secondary-maintab-active" : ""}`}
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "DeliveryPartnerHistory" ? "admin-db-secondary-maintab-active" : ""}`}
                         onClick={() => setActiveTab("DeliveryPartnerHistory")}
                     >
                         <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
@@ -46,7 +46,7 @@ function ProductManage(){
                     </button>
 
                     <button
-                        className={`admin-db-secondary-maintab-btn ${activeTab === "addnewproduct" ? "admin-db-secondary-maintab-active" : ""}`}
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "orderh" ? "admin-db-secondary-maintab-active" : ""}`}
                         onClick={() => setActiveTab("orderh")}
                     >
                         <i className="bi bi-plus-circle admin-db-secondary-maintab-btn-icon"></i>

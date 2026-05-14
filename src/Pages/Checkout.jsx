@@ -495,6 +495,12 @@ function Checkout() {
                       Qty : {item.quantity}
                     </div>
 
+                    {item.custom_pieces?.trim() && (
+                      <div>
+                        Pieces : {item.custom_pieces}
+                      </div>
+                    )}
+
                   </div>
 
                   </div>

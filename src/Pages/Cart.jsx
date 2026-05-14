@@ -108,7 +108,7 @@ function Cart() {
 
   const removeItem = async (productId) => {
     try {
-      const response = await fetch("http://localhost:5000/api/product/removefromcart", {
+      const response = await fetch(`${API}/api/product/removefromcart`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -212,7 +212,11 @@ function Cart() {
 
                 <div className="tc-item-info">
                   <div className="tc-item-name">{item.name}</div>
-                  <div className="tc-item-weight">{item.custompieces} Pieces</div>
+                  
+                    {item.custompieces?.trim() && (
+                    <div className="tc-item-weight">{item.custompieces} Pieces</div>
+                    )}
+
                   <div className="tc-fresh-badge">
                     <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
                   </div>

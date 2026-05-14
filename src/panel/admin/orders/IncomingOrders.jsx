@@ -7,7 +7,7 @@ import '../../../css/style.css';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:5000/api/order";
+const API = import.meta.env.VITE_API_URL;
 
 function IncomingOrders(){
     const [orders, setOrders] = useState([]);
@@ -28,7 +28,7 @@ function IncomingOrders(){
         try {
         setLoading(true);
 
-        const response = await fetch(`${API}/getallorders`);
+        const response = await fetch(`${API}/api/order/getallorders`);
         const data = await response.json();
 
         // show only status_id 1 and 2
@@ -74,7 +74,7 @@ function IncomingOrders(){
 
     const updateStatus = async (order_id, status_id) => {
         try {
-        const response = await fetch(`${API}/updateOrderStatus`, {
+        const response = await fetch(`${API}/api/order/updateOrderStatus`, {
             method: "PUT",
             headers: {
             "Content-Type": "application/json",
@@ -118,7 +118,7 @@ function IncomingOrders(){
         if (!confirmDelete) return;
 
         try {
-        const response = await fetch(`${API}/deleteOrder/${id}`, {
+        const response = await fetch(`${API}/api/order/deleteOrder/${id}`, {
             method: "DELETE",
         });
 
@@ -151,14 +151,13 @@ function IncomingOrders(){
     if (loading) {
         return <h2 className="text-center mt-5">Loading Orders...</h2>;
     }
-
     
 
     return (
         <div className=" container mt-4">
         {/* top section */}
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <h2>Admin Orders</h2>
+            <h2>Incoming Orders</h2>
 
             <button
             className="btn btn-success"
