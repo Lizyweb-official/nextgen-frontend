@@ -54,7 +54,7 @@ function ProductEditPage() {
       description: data.description || "",
       short_description: data.short_description || "",
       image_id: data.image_id || null,
-      custompieces:data.custom_pieces || "",
+      custompieces:data.custom_pieces_k || "",
       base_price: data.base_price || "",
       sale_price: data.sale_price || "",
       categories: data.categories?.map(c => c.id) || [],

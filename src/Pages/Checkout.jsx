@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { showWebMessage } from "../context/webMessageHandler";
 
-
 const API = import.meta.env.VITE_API_URL;
 
 function Checkout() {
@@ -70,7 +69,6 @@ function Checkout() {
         });
 
         const data = await response.json();
-        console.log(data);
 
         setUserData({
           name: data.name || "",
@@ -135,7 +133,6 @@ function Checkout() {
         );
 
         const cartData = await cartResponse.json();
-        console.log(cartData);
 
         // product details
         const products = await Promise.all(
@@ -147,13 +144,12 @@ function Checkout() {
             );
 
             const productData = await productResponse.json();
-            console.log(productData);
+
             return {
               ...item,
               product_name: productData.name,
               custom_fields:productData.custom_fields,
-              custom_pieces:productData.custom_pieces,
-              
+              custom_pieces:item.custom_pieces,
             };
 
           })
@@ -212,11 +208,10 @@ function Checkout() {
         items: cartItems.map((item) => ({
           product_id: item.product_id,
           quantity: item.quantity,
-          price: item.price
+          price: item.price,
+          custom_pieces:item.custom_pieces
         }))
       };
-
-      console.log(payload);
 
       const response = await fetch(
         `${API}/api/order/addOrder`,
@@ -240,7 +235,6 @@ function Checkout() {
         });
 
         navigate("/Checkout-t");
-        console.log(data);
 
       } else {
 
