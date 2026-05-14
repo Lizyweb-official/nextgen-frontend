@@ -258,6 +258,7 @@ function IncomingOrders(){
                         >
                         <option value={1}>Preparing</option>
                         <option value={2}>Ready To Dispatch</option>
+                        <option value={5}>Cancel</option>
                         </select>
                     </td>
 

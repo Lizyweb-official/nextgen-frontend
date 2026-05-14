@@ -335,24 +335,35 @@ function Shop() {
                 {/* FOOTER */}
 
                 <div className="card-footer bg-white border-0 product-footer">
+                  {p.custom_fields && p.custom_fields.length > 0 ? (
 
-                  <button
-                    className="btn btn-dark w-100 add-cart-btn"
-                    onClick={(e) => {
+                     <button
+                      className="btn btn-dark w-100 add-cart-btn"
+                      onClick={(e) => {
 
-                      e.preventDefault();
+                        e.preventDefault();
 
-                      addToCart(
-                        p.id,
-                        p.sale_price || p.base_price
-                      );
+                        addToCart(
+                          p.id,
+                          p.sale_price || p.base_price
+                        );
 
-                    }}
-                  >
+                      }}
+                    >
+                      Add to Cart
+                    </button>
 
-                    Add to Cart
+                   
 
-                  </button>
+                  ) : (
+                     <Link
+                      to={`/single-product-page/${p.id}`}
+                      className="btn btn-dark w-100 add-cart-btn"
+                    >
+                      View Option
+                    </Link>
+                   
+                  )}
 
                 </div>
 
