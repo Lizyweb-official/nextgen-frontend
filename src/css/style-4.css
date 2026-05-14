@@ -183,7 +183,7 @@
   width: 100%;
   padding: 10px;
   border: none;
-  background: #111;
+  background: #111111;
   color: #fff;
   border-radius: 6px;
   cursor: pointer;
@@ -312,7 +312,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #111;
+  background: #1a1a1a;
   color: #fff;
   border: none;
   width: 35px;
@@ -331,8 +331,9 @@
 }
 
 .slider-btn:hover {
-  background: #e63946;
+  background: #180506;
 }
+
 
 /* disabled category */
 .shop-category-card.disabled {

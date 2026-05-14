@@ -151,13 +151,22 @@ function CustomerAccountManage(){
 
 
 
-        <button
-            className="admin-db-customer-manage-refresh-btn"
-            onClick={fetchUsers}
-            disabled={loading}
-        >
-            {loading ? "Refreshing..." : "🔄 Refresh"}
-        </button>
+        <div className="admin-db-customer-manage-refresh-container">
+            <button
+                className="admin-db-customer-manage-refresh-btn"
+                onClick={fetchUsers}
+                disabled={loading}
+            >
+                {loading ? (
+                    "Refreshing..."
+                ) : (
+                    <>
+                        <i className="bi bi-arrow-clockwise"></i>
+                        Refresh
+                    </>
+                )}
+            </button>
+        </div>
 
 
 
