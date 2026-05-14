@@ -1,7 +1,4 @@
 import { useState } from "react";
-import "bootstrap-icons/font/bootstrap-icons.css";
-
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -14,72 +11,115 @@ import '../css/style.css';
 const products = [
   {
     id: 1,
-    name: "Chicken Curry Cut (Skin On)",
-    qty: "10–12 pcs",
-    weight: "960–1000 gms",
-    oldPrice: 355,
-    newPrice: 349,
-    icon: "bi-egg-fried",
-    tag: "Popular",
+    name: "Whole Chicken with Head & Feet",
+    qty: "Processed • With/Without Skin",
+    weight: "1kg–1.5kg | 1.5kg–2kg | 2kg–2.5kg",
+    oldPrice: 16,
+    newPrice: 15,
+    tag: "Free Delivery",
     tagStyle: "coral",
+    img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&q=80&auto=format&fit=crop",
   },
+
   {
     id: 2,
-    name: "Freshwater Pomfret — Yellow",
-    qty: "6–8 pcs",
-    weight: "Gross 500–700 gms · Net 350–490 gms",
-    oldPrice: 179,
-    newPrice: 169,
-    icon: "bi-water",
-    tag: "Fresh catch",
+    name: "Whole Chicken without Head & Feet",
+    qty: "Processed • With/Without Skin",
+    weight: "1kg–1.5kg | 1.5kg–2kg | 2kg–2.5kg",
+    oldPrice: 16,
+    newPrice: 15,
+    tag: "Fresh",
     tagStyle: "teal",
+    img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400&q=80&auto=format&fit=crop",
   },
+
   {
     id: 3,
-    name: "Chicken Breast Boneless",
-    qty: "2–3 pcs",
-    weight: "240–280 gms",
-    oldPrice: 185,
-    newPrice: 179,
-    icon: "bi-box2",
-    tag: null,
-    tagStyle: null,
+    name: "Whole Chicken – Custom Cuts",
+    qty: "4 / 6 / 8 / 10 / 12 / 16 / 18 / 20 pcs",
+    weight: "Custom Cut • Extra RM 2",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Custom",
+    tagStyle: "purple",
+    img: "https://images.unsplash.com/photo-1529692236671-f1deff8f7d2b?w=400&q=80&auto=format&fit=crop",
   },
+
   {
     id: 4,
-    name: "Premium Curry Cut (Skin On)",
-    qty: "5–6 pcs",
-    weight: "480–500 gms",
-    oldPrice: 179,
-    newPrice: 175,
-    icon: "bi-award",
-    tag: "New",
-    tagStyle: "purple",
+    name: "Whole Leg",
+    qty: "2 / 4 / 6 / 8 pcs",
+    weight: "Extra RM 2 • Premium Cut",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Popular",
+    tagStyle: "amber",
+    img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&q=80&auto=format&fit=crop",
   },
+
   {
     id: 5,
-    name: "Premium Curry Cut (Skin On)",
-    qty: "5–6 pcs",
-    weight: "480–500 gms",
-    oldPrice: 175,
-    newPrice: 169,
-    icon: "bi-award",
-    tag: "Limited",
+    name: "Drumsticks",
+    qty: "2 / 4 / 6 / 8 pcs",
+    weight: "Extra RM 2 • Tender Pieces",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Hot Sale",
+    tagStyle: "coral",
+    img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=400&q=80&auto=format&fit=crop",
+  },
+
+  {
+    id: 6,
+    name: "Boneless Breast",
+    qty: "Premium Boneless Cut",
+    weight: "Extra RM 2",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Healthy",
+    tagStyle: "teal",
+    img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80&auto=format&fit=crop",
+  },
+
+  {
+    id: 7,
+    name: "Chicken Wings",
+    qty: "2 / 4 / 6 / 8 pcs",
+    weight: "Extra RM 2 • Crispy Wings",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Snack",
+    tagStyle: "purple",
+    img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80&auto=format&fit=crop",
+  },
+
+  {
+    id: 8,
+    name: "Boneless Chicken Cubes",
+    qty: "4 / 6 / 8 pcs",
+    weight: "Extra RM 2 • Ready to Cook",
+    oldPrice: 17,
+    newPrice: 15,
+    tag: "Ready Cut",
     tagStyle: "amber",
+    img: "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80&auto=format&fit=crop",
   },
 ];
-
 const tagColors = {
-  coral:  { bg: "#FAECE7", color: "#712B13" },
-  teal:   { bg: "#E1F5EE", color: "#085041" },
-  purple: { bg: "#EEEDFE", color: "#3C3489" },
-  amber:  { bg: "#FAEEDA", color: "#633806" },
+  coral: { bg: "#FAECE7", color: "#712B13" },
+  teal:  { bg: "#E1F5EE", color: "#085041" },
+  purple:{ bg: "#EEEDFE", color: "#3C3489" },
+  amber: { bg: "#FAEEDA", color: "#633806" },
 };
 
 function ProductCard({ product, onAdd }) {
   const [wished, setWished] = useState(false);
-  const [added, setAdded] = useState(false);
-  const discount = Math.round((product.oldPrice - product.newPrice) / product.oldPrice * 100);
+  const [added, setAdded]   = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const discount = Math.round(
+    ((product.oldPrice - product.newPrice) / product.oldPrice) * 100
+  );
   const tag = product.tagStyle ? tagColors[product.tagStyle] : null;
 
   const handleAdd = () => {
@@ -90,37 +130,64 @@ function ProductCard({ product, onAdd }) {
   };
 
   return (
-    <div style={styles.card}>
+    <div
+      style={{
+        ...styles.card,
+        transform: hovered ? "translateY(-2px)" : "translateY(0)",
+        borderColor: hovered ? "#d0d0d0" : "#e8e8e8",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Image area */}
       <div style={styles.imgArea}>
-        <i className={`bi ${product.icon}`} style={styles.mainIcon} aria-hidden="true" />
+        <img
+          src={product.img}
+          alt={product.name}
+          style={styles.img}
+          loading="lazy"
+        />
+        <div style={styles.imgOverlay} />
+
         {tag && (
           <span style={{ ...styles.tag, background: tag.bg, color: tag.color }}>
             {product.tag}
           </span>
         )}
+
         <button
-          onClick={() => setWished(w => !w)}
+          onClick={() => setWished((w) => !w)}
           style={styles.wishBtn}
           aria-label="Save to wishlist"
         >
-          <i
-            className={wished ? "bi bi-heart-fill" : "bi bi-heart"}
-            style={{ fontSize: 13, color: wished ? "#D4537E" : "#aaa" }}
-          />
+          {wished ? (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D4537E" stroke="#D4537E" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          ) : (
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          )}
         </button>
       </div>
 
+      {/* Body */}
       <div style={styles.body}>
         <p style={styles.name}>{product.name}</p>
 
         <div style={styles.metaRow}>
           <span style={styles.metaItem}>
-            <i className="bi bi-box" style={styles.metaIcon} />
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="2" style={{ flexShrink: 0 }}>
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
             {product.qty}
           </span>
-          <span style={styles.metaDot}>·</span>
+          <span style={{ color: "#ccc" }}>·</span>
           <span style={styles.metaItem}>
-            <i className="bi bi-rulers" style={styles.metaIcon} />
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="2" style={{ flexShrink: 0 }}>
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
             {product.weight}
           </span>
         </div>
@@ -145,10 +212,15 @@ function ProductCard({ product, onAdd }) {
             }}
             aria-label={`Add ${product.name} to cart`}
           >
-            <i
-              className={added ? "bi bi-check-lg" : "bi bi-plus-lg"}
-              style={{ fontSize: 14, color: added ? "#3B6D11" : "#222" }}
-            />
+            {added ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" strokeWidth="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            )}
           </button>
         </div>
       </div>
@@ -167,23 +239,28 @@ export default function TopPicks() {
           <h2 style={styles.title}>Top picks</h2>
         </div>
         <button style={styles.viewAll}>
-          View all <i className="bi bi-arrow-right" style={{ fontSize: 12 }} />
+          View all
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
         </button>
       </div>
 
       <div style={styles.row}>
-        {products.map(p => (
+        {products.map((p) => (
           <ProductCard
             key={p.id}
             product={p}
-            onAdd={() => setCartCount(c => c + 1)}
+            onAdd={() => setCartCount((c) => c + 1)}
           />
         ))}
       </div>
 
       {cartCount > 0 && (
         <div style={styles.cartBar}>
-          <i className="bi bi-bag" style={{ fontSize: 15, color: "#555" }} />
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
           <span style={styles.cartText}>Added to cart</span>
           <span style={styles.cartCount}>
             {cartCount} {cartCount === 1 ? "item" : "items"}
@@ -197,26 +274,28 @@ export default function TopPicks() {
 const styles = {
   section: {
     padding: "24px 16px",
-    fontFamily: "'Segoe UI', system-ui, sans-serif",
+    fontFamily: "'DM Sans', 'Segoe UI', system-ui, sans-serif",
     background: "#fff",
   },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginBottom: "18px",
+    marginBottom: "20px",
   },
   eyebrow: {
     fontSize: "10px",
     fontWeight: "600",
-    letterSpacing: "1.2px",
+    letterSpacing: "1.8px",
     textTransform: "uppercase",
     color: "#999",
     margin: "0 0 4px",
   },
   title: {
-    fontSize: "20px",
-    fontWeight: "600",
+    fontSize: "22px",
+    fontWeight: "500",
+    fontStyle: "italic",
+    fontFamily: "'Fraunces', Georgia, serif",
     color: "#111",
     margin: 0,
     letterSpacing: "-0.3px",
@@ -234,36 +313,39 @@ const styles = {
     cursor: "pointer",
   },
   row: {
-    display: "flex",
-    gap: "13px",
-    overflowX: "auto",
-    paddingBottom: "10px",
-    scrollbarWidth: "thin",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(178px, 1fr))",
+    gap: "12px",
+    width: "100%",
   },
   card: {
-    minWidth: "175px",
-    maxWidth: "190px",
-    flexShrink: 0,
+    width: "100%",
     background: "#fff",
     border: "0.5px solid #e8e8e8",
     borderRadius: "16px",
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
+    transition: "transform 0.2s ease, border-color 0.2s ease",
   },
   imgArea: {
-    width: "100%",
-    height: "130px",
-    background: "#f7f7f5",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     position: "relative",
+    width: "100%",
+    height: "148px",
+    overflow: "hidden",
     flexShrink: 0,
   },
-  mainIcon: {
-    fontSize: "48px",
-    color: "#bbb",
+  img: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  },
+  imgOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 55%)",
+    pointerEvents: "none",
   },
   tag: {
     position: "absolute",
@@ -303,6 +385,7 @@ const styles = {
     color: "#111",
     lineHeight: "1.35",
     margin: 0,
+    minHeight: "36px",
   },
   metaRow: {
     display: "flex",
@@ -311,18 +394,12 @@ const styles = {
     gap: "4px",
     color: "#999",
     fontSize: "11px",
+    minHeight: "30px",
   },
   metaItem: {
     display: "flex",
     alignItems: "center",
     gap: "3px",
-  },
-  metaIcon: {
-    fontSize: "11px",
-    color: "#bbb",
-  },
-  metaDot: {
-    color: "#ccc",
   },
   divider: {
     height: "0.5px",
@@ -333,6 +410,7 @@ const styles = {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "space-between",
+    marginTop: "auto",
   },
   prices: {
     display: "flex",
@@ -350,7 +428,7 @@ const styles = {
     gap: "6px",
   },
   newPrice: {
-    fontSize: "17px",
+    fontSize: "18px",
     fontWeight: "700",
     color: "#111",
     letterSpacing: "-0.3px",
@@ -385,6 +463,7 @@ const styles = {
     background: "#f7f7f5",
     borderRadius: "12px",
     border: "0.5px solid #e8e8e8",
+    animation: "slideup 0.25s ease",
   },
   cartText: {
     flex: 1,
