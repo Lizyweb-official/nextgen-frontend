@@ -35,7 +35,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import Footer from './Sections/Footer';
 
-
 function Layout() {
   const location = useLocation();
 
