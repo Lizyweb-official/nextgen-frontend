@@ -27,7 +27,6 @@ import bg1 from "../media/Website-Images/images-3/bgimage.png";
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
 import AyamFaqSection from '../Sections/AyamFaqSection';
-import TopPicks from '../Sections/TopPicks';
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
 import a2 from "../media/Website-Images/images-3/e2.jpg";
