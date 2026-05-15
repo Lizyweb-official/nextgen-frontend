@@ -106,7 +106,7 @@ function Cart() {
   );
 };
 
-  const removeItem = async (productId) => {
+  const removeItem = async (cartid) => {
     try {
       const response = await fetch(`${API}/api/product/removefromcart`, {
         method: "DELETE",
@@ -114,8 +114,8 @@ function Cart() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customer_id: user.id,   // logged-in user id
-          product_id: productId,  // product id
+          cartId:cartid,
+          customer_id:user.id
         }),
       });
 
@@ -126,7 +126,7 @@ function Cart() {
 
       if (response.ok) {
         // remove from UI after success
-        setCartItems(prev => prev.filter(item => item.product_id !== productId));
+        setCartItems(prev => prev.filter(item => item.id !== cartid));
         console.log(data.message);
       } else {
         console.error(data.error);
@@ -239,11 +239,14 @@ function Cart() {
                       <span>{item.qty}</span>
                       <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
                     </div>
-                    <div className="tc-subtotal">Subtotal: ₹{item.origPrice * item.qty}</div>
+
+                    <div className="tc-subtotal">
+                      Subtotal: ₹{(item.price || item.origPrice) * item.qty}
+                    </div>
                   </div>
                 </div>
 
-                <button className="tc-delete" onClick={() => removeItem(item.product_id)}>
+                <button className="tc-delete" onClick={() => removeItem(item.id)}>
                   <i className="bi bi-x-lg"></i>
                 </button>
               </div>

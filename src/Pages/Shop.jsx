@@ -83,7 +83,7 @@ function Shop() {
 
     // get product ids
 
-    const res = await fetch(``
+    const res = await fetch(
       `${API}/api/product/getproductsbycategory/${catId}`
     );
 
@@ -325,14 +325,13 @@ function Shop() {
                     )}
 
                   </div>
-
                 </div>
 
                 {/* FOOTER */}
 
                 <div className="card-footer bg-white border-0 product-footer">
 
-                  {p.custom_fields && p.custom_fields.length > 0 ? (
+                  {p.custom_pieces_k && p.custom_pieces_k.length > 0 ? (
 
                     <button
                       className="btn btn-dark w-100 add-cart-btn"
