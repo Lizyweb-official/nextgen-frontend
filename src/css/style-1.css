@@ -3386,6 +3386,7 @@
   z-index: 999;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
   animation: popupFade 0.25s ease;
+  padding: 20px;
 }
 
 @keyframes popupFade {
