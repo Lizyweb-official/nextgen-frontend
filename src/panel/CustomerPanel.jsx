@@ -17,7 +17,18 @@ function CustomerPanel() {
 
     // Redirect / Login Message
     if (!user) {
-        navigate("/UserLoginPanel");
+        return (
+            <div className="customer-db-login-message">
+                <h2>Please Login</h2>
+
+                <button
+                    className="customer-db-login-btn"
+                    onClick={() => navigate("/login")}
+                >
+                    Go to Login
+                </button>
+            </div>
+        );
     }
 
     // Tab Data
@@ -93,6 +104,30 @@ function CustomerPanel() {
     );
 }
 
+/* -------------------------------     
+   Personal Details
+-------------------------------- */
+
+function PersonalDetail() {
+    const { user } = useAuth();
+
+    return (
+        <div className="customer-db-details">
+            {/* <h2>Personal Details</h2> */}
+
+            <div className="customer-db-details-card">
+                <p>
+                    <strong>Name:</strong> {user?.name}
+                </p>
+
+                <p>
+                    <strong>Email:</strong> {user?.email}
+                </p>
+            </div>
+        </div>
+    );
+}
+
 /* -------------------------------
    Order Status
 -------------------------------- */
@@ -131,7 +166,7 @@ function Settings() {
 
     const handleLogout = () => {
         logout();
-        navigate("/UserLoginPanel");
+        navigate("/login");
     };
 
     return (
