@@ -42,6 +42,7 @@ function OrderDetailsPage() {
                         quantity: item.quantity,
                         order_price: item.price,
                         total_price: item.q_price,
+                        custom_pieces:item.custom_pieces
                     };
                 });
                 const allProducts = await Promise.all(productPromises);
@@ -292,6 +293,7 @@ function OrderDetailsPage() {
                     <table className="admin-db-inc-order-table">
                         <thead>
                             <tr>
+                                <th style={{ width: "28%" }}>Product Id</th>
                                 <th style={{ width: "28%" }}>Product</th>
                                 <th style={{ width: "14%" }}>Category</th>
                                 <th style={{ width: "22%" }}>Custom fields</th>
@@ -304,6 +306,9 @@ function OrderDetailsPage() {
                         <tbody>
                             {products.map((product) => (
                                 <tr key={product.id}>
+                                    <td>
+                                        <div>{product.id}</div>
+                                    </td>
                                     <td>
                                         <Link to={`/single-product-page/${product.id}`} className="admin-db-inc-order-product-name">{product.name}</Link>
                                         <div className="admin-db-inc-order-product-desc">{product.short_description}</div>
@@ -323,15 +328,15 @@ function OrderDetailsPage() {
                                         ))}
                                     </td>
                                     <td>₹{product.order_price}</td>
+                                    <td>{product.custom_pieces}</td>
                                     <td>{product.quantity}</td>
                                     <td className="admin-db-inc-order-table-total">₹{product.total_price}</td>
-                                    <td className="admin-db-inc-order-table-total">₹{product.custom_pieces}</td>
                                 </tr>
                             ))}
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colSpan={5} className="admin-db-inc-order-tfoot">Grand total</td>
+                                <td colSpan={7} className="admin-db-inc-order-tfoot">Grand total</td>
                                 <td className="admin-db-inc-order-tfoot admin-db-inc-order-tfoot-total">
                                     ₹{order.total_amount}
                                 </td>

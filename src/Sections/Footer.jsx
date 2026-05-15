@@ -7,7 +7,6 @@ import '../css/style-4.css';
 import '../css/style.css';
 
 import logo from '../media/Website-Images/images-1/foot-logo.jpg'
-
 import { Link } from "react-router-dom";
 
 function Footer(){
