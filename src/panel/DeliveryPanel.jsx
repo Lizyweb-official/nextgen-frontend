@@ -4,22 +4,79 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import {useAuth} from "../context/AuthContext"
+import {useAuth} from "../context/AuthContext";
+import { useNavigate } from 'react-router-dom';
+import { useState , useEffect } from "react";
+
+import OrdersDp from './dp/OrdersDp';
 
 function DeliveryPanel(){
     const { user } = useAuth();
-    const { logout } = useAuth();
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("Orders");
 
-
-    if (user) {
-        return (
-            <>
-                <h1>Logged in as {user.name}</h1>;
-                <button onClick={logout}>Logout</button>;
-            </>)
-    } else {
-        return <h1>Please login</h1>;
+    // Redirect / Login Message
+    if (!user) {
+        navigate("/UserLoginPanel");
     }
+
+    // Tab Data
+    const tabs = [
+        {
+            id: "Orders",
+            label: "Orders",
+            component: <OrdersDp/>,
+        },
+        
+    ];
+
+    // Active Component
+    const activeContent = tabs.find(
+        (tab) => tab.id === activeTab
+    )?.component;
+
+     return (
+        <div className="customer-db">
+
+            {/* Welcome Section */}
+            <div className="customer-db-tab-welcome">
+                <h2 className="customer-db-tab-welcome-title">
+                    Hi {user?.name} 👋
+                </h2>
+
+                <p className="customer-db-tab-welcome-subtitle">
+                    Welcome to AyamKini
+                </p>
+            </div>
+
+            {/* Tab Container */}
+            <div className="customer-db-tab-container">
+
+                {/* Tab Header */}
+                <div className="customer-db-tab-header">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            className={`customer-db-tab-btn ${
+                                activeTab === tab.id ? "active" : ""
+                            }`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Tab Content */}
+                <div className="customer-db-tab-content">
+                    <div className="customer-db-tab-pane">
+                        {activeContent}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
 }
 
 export default DeliveryPanel;

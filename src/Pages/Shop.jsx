@@ -71,7 +71,6 @@ function Shop() {
     );
 
     setProducts(fullProducts);
-
     setCurrentPage(1);
 
   };
@@ -91,11 +90,9 @@ function Shop() {
     const ids = await res.json();
 
     // get full product details
-
     const fullProducts = await Promise.all(
 
       ids.map(async (item) => {
-
         const res = await fetch(
           `${API}/api/product/getproduct/${item.product_id}`
         );
@@ -270,7 +267,6 @@ function Shop() {
                 {/* PRODUCT CONTENT */}
 
                 <div className="card-body">
-
                   <h6 className="product-title">
                     {p.name}
                   </h6>
@@ -329,19 +325,36 @@ function Shop() {
                     )}
 
                   </div>
-
                 </div>
 
                 {/* FOOTER */}
 
                 <div className="card-footer bg-white border-0 product-footer">
-                  {p.custom_fields && p.custom_fields.length > 0 ? (
 
-                     <button
+                  {p.custom_pieces_k && p.custom_pieces_k.length > 0 ? (
+
+                    <button
                       className="btn btn-dark w-100 add-cart-btn"
                       onClick={(e) => {
 
                         e.preventDefault();
+                        e.stopPropagation();
+
+                        window.location.href = `/single-product-page/${p.id}`;
+
+                      }}
+                    >
+                      View Option
+                    </button>
+
+                  ) : (
+
+                    <button
+                      className="btn btn-dark w-100 add-cart-btn"
+                      onClick={(e) => {
+
+                        e.preventDefault();
+                        e.stopPropagation();
 
                         addToCart(
                           p.id,
@@ -353,16 +366,6 @@ function Shop() {
                       Add to Cart
                     </button>
 
-                   
-
-                  ) : (
-                     <Link
-                      to={`/single-product-page/${p.id}`}
-                      className="btn btn-dark w-100 add-cart-btn"
-                    >
-                      View Option
-                    </Link>
-                   
                   )}
 
                 </div>
