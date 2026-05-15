@@ -344,7 +344,7 @@ function Ourvalues(){
       <div className="meat-values-container">
 
         <div className="meat-value-card">
-          <i className="bi bi-droplet-fill meat-value-icon"></i>
+          <i className="bi bi-droplet meat-value-icon"></i>
           <h3>Freshness First</h3>
           <p>We deliver farm-fresh meat daily with zero compromise.</p>
         </div>
