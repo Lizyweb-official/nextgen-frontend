@@ -112,9 +112,9 @@ function OrderSuccessPage() {
               <strong>Phone:</strong> {order.contact_number}
             </div>
 
-            <div className="col-md-6 mb-3">
+            {/* <div className="col-md-6 mb-3">
               <strong>Email:</strong> {order.email_address}
-            </div>
+            </div> */}
 
             <div className="col-md-6 mb-3">
               <strong>Payment Method:</strong>{" "}

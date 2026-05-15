@@ -5,6 +5,7 @@ import '../../css/style-4.css';
 import '../../css/style.css';
 
 import { useState, useEffect } from "react";
+
 const API = import.meta.env.VITE_API_URL;
 
 function AllMedia(){
@@ -112,7 +113,7 @@ function MediaGallery(){
     }, []);
 
     const deleteImage = async (id) => {
-        const res = await fetch(`http://localhost:5000/api/deleteimagemedia/${id}`, {
+        const res = await fetch(`${API}/api/deleteimagemedia/${id}`, {
             method: "DELETE"
         });
 

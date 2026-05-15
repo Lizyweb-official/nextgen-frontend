@@ -5,9 +5,9 @@ import '../../../css/style-4.css';
 import '../../../css/style.css';
  
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
  
-const API = "http://localhost:5000";
+const API = import.meta.env.VITE_API_URL;
  
 function OrderDetailsPage() {
  
@@ -296,6 +296,7 @@ function OrderDetailsPage() {
                                 <th style={{ width: "14%" }}>Category</th>
                                 <th style={{ width: "22%" }}>Custom fields</th>
                                 <th style={{ width: "12%" }}>Price</th>
+                                <th style={{ width: "12%" }}>Custom Pieces</th>
                                 <th style={{ width: "8%" }}>Qty</th>
                                 <th style={{ width: "16%" }}>Total</th>
                             </tr>
@@ -304,7 +305,7 @@ function OrderDetailsPage() {
                             {products.map((product) => (
                                 <tr key={product.id}>
                                     <td>
-                                        <div className="admin-db-inc-order-product-name">{product.name}</div>
+                                        <Link to={`/single-product-page/${product.id}`} className="admin-db-inc-order-product-name">{product.name}</Link>
                                         <div className="admin-db-inc-order-product-desc">{product.short_description}</div>
                                     </td>
                                     <td>
@@ -324,6 +325,7 @@ function OrderDetailsPage() {
                                     <td>₹{product.order_price}</td>
                                     <td>{product.quantity}</td>
                                     <td className="admin-db-inc-order-table-total">₹{product.total_price}</td>
+                                    <td className="admin-db-inc-order-table-total">₹{product.custom_pieces}</td>
                                 </tr>
                             ))}
                         </tbody>

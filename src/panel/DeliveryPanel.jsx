@@ -10,7 +10,6 @@ function DeliveryPanel(){
     const { user } = useAuth();
     const { logout } = useAuth();
 
-
     if (user) {
         return (
             <>

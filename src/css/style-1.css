@@ -2705,7 +2705,7 @@
 
 .admin-db-inc-order-root {
   padding: 60px;
-  background: #000000;
+  background: #ffffff;
   width: 80%;
   margin: 0 auto;
   margin-top: 30px;
@@ -2718,6 +2718,7 @@
 .admin-db-inc-order-header {
   background: #ffffff;
   border: 0.5px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
   border-radius: 12px;
   padding: 1.5rem 2rem;
   display: flex;
@@ -2774,6 +2775,7 @@
 .admin-db-inc-order-section {
   background: #ffffff;
   border: 0.5px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
   border-radius: 12px;
   margin-bottom: 1.25rem;
   overflow: hidden;
@@ -3052,7 +3054,6 @@
   text-align: left;
 }
 
-<<<<<<< HEAD
 /* =========================================================
    USER MANAGEMENT PROFESSIONAL UI
 ========================================================= */
@@ -3503,6 +3504,7 @@
   border-radius: 12px;
   padding: 14px 18px;
   margin-bottom: 1.25rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
 }
 
 .admin-db-inc-order-cancelled-banner i {
