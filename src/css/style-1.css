@@ -2094,7 +2094,6 @@
 }
 
 .single-pro-page-pieces-select:focus {
-  border-color: var();
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
   background: #fff;
 }
