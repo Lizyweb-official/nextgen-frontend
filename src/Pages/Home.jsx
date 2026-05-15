@@ -48,7 +48,6 @@ function Home(){
   <Hero/>
   <MeatFeatures/>
   <HomeCategories/>
-  <TopPicks/>
   <AyamFaqSection/>
   <Testimonial/>
   <Cta/>
