@@ -74,7 +74,33 @@ function DeliveryPanel(){
                     </div>
                 </div>
 
+                <Settings/>
+
             </div>
+        </div>
+    );
+}
+
+
+function Settings() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/UserLoginPanel");
+    };
+
+    return (
+        <div className="customer-db-settings">
+            {/* <h2>Settings</h2> */}
+
+            <button
+                className="customer-db-tab-logout-btn"
+                onClick={handleLogout}
+            >
+                Logout
+            </button>
         </div>
     );
 }
