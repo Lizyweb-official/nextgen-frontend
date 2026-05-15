@@ -28,7 +28,7 @@ import ProductEditPage from './panel/admin/product/ProductEditPage';
 import SingleProductPage from './Pages/SingleProductPage';
 import OrderDetailsPage from './panel/admin/orders/OrderDetailsPage';
 
-import { BrowserRouter as Router, Routes, Route, useLocation  } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -51,7 +51,7 @@ function Layout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/About" element={<About />} />
         <Route path="/Shop" element={<Shop />} />
         <Route path="/Shop/:catId" element={<Shop />} />
         <Route path="/Contact" element={<Contact />} />
