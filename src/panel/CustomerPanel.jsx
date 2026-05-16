@@ -65,11 +65,8 @@ function CustomerPanel() {
 
             {/* Welcome Section */}
             <div className="customer-db-tab-welcome">
-                <h2 className="customer-db-tab-welcome-title">
-                    Hi {user?.name} 👋
-                </h2>
 
-                <p className="customer-db-tab-welcome-subtitle">
+                <p className="customer-db-tab-welcome-subtitle"style={{ color: "#000",fontWeight:700, fontSize:30}}>
                     Welcome to AyamKini
                 </p>
             </div>
@@ -104,29 +101,6 @@ function CustomerPanel() {
     );
 }
 
-/* -------------------------------     
-   Personal Details
--------------------------------- */
-
-function PersonalDetail() {
-    const { user } = useAuth();
-
-    return (
-        <div className="customer-db-details">
-            {/* <h2>Personal Details</h2> */}
-
-            <div className="customer-db-details-card">
-                <p>
-                    <strong>Name:</strong> {user?.name}
-                </p>
-
-                <p>
-                    <strong>Email:</strong> {user?.email}
-                </p>
-            </div>
-        </div>
-    );
-}
 
 /* -------------------------------
    Order Status

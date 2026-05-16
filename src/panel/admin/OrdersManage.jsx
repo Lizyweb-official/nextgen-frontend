@@ -9,7 +9,6 @@ import React, { useState , useEffect } from "react";
 import Orders from './orders/IncomingOrders';
 import OrderHistory from './orders/OrderHistory';
 import DeliveryTracking from './orders/DeliveryTracking';
-import DeliveryPartnerHistory from './orders/DeliveryPartnerHistory';
 
 function ProductManage(){
     const [activeTab, setActiveTab] = useState("IncomingOrders");
@@ -38,14 +37,6 @@ function ProductManage(){
                     </button>
 
                     <button
-                        className={`admin-db-secondary-maintab-btn ${activeTab === "DeliveryPartnerHistory" ? "admin-db-secondary-maintab-active" : ""}`}
-                        onClick={() => setActiveTab("DeliveryPartnerHistory")}
-                    >
-                        <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
-                        Delivery Partner History
-                    </button>
-
-                    <button
                         className={`admin-db-secondary-maintab-btn ${activeTab === "orderh" ? "admin-db-secondary-maintab-active" : ""}`}
                         onClick={() => setActiveTab("orderh")}
                     >
@@ -67,11 +58,7 @@ function ProductManage(){
                             <DeliveryTracking/>
                         </div>
                     )}
-                    {activeTab === "DeliveryPartnerHistory" && (
-                        <div className="admin-db-secondary-maintab-panel">
-                            <DeliveryPartnerHistory/>
-                        </div>
-                    )}
+                    
                     {activeTab === "orderh" && (
                         <div className="admin-db-secondary-maintab-panel">
                             <OrderHistory/>
