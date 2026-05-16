@@ -9,25 +9,41 @@ import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
 import OrdersDp from './dp/OrdersDp';
+import DeliveryTracking from './dp/DeliverypTracking';
 
-function DeliveryPanel(){
+function DeliveryPanel() {
     const { user } = useAuth();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("Orders");
+    const [activeTab, setActiveTab] = useState("orders");
 
     // Redirect / Login Message
     if (!user) {
-        navigate("/UserLoginPanel");
+        return (
+            <div className="customer-db-login-message">
+                <h2>Please Login</h2>
+
+                <button
+                    className="customer-db-login-btn"
+                    onClick={() => navigate("/login")}
+                >
+                    Go to Login
+                </button>
+            </div>
+        );
     }
 
     // Tab Data
     const tabs = [
         {
-            id: "Orders",
+            id: "orders",
             label: "Orders",
             component: <OrdersDp/>,
         },
-        
+        {
+            id: "deliverytracking",
+            label: "Delivery Tracking",
+            component: <DeliveryTracking/>,
+        },
     ];
 
     // Active Component
@@ -35,16 +51,13 @@ function DeliveryPanel(){
         (tab) => tab.id === activeTab
     )?.component;
 
-     return (
+    return (
         <div className="customer-db">
 
             {/* Welcome Section */}
             <div className="customer-db-tab-welcome">
-                <h2 className="customer-db-tab-welcome-title">
-                    Hi {user?.name} 👋
-                </h2>
 
-                <p className="customer-db-tab-welcome-subtitle">
+                <p className="customer-db-tab-welcome-subtitle"style={{ color: "#000",fontWeight:700, fontSize:30}}>
                     Welcome to AyamKini
                 </p>
             </div>
@@ -78,5 +91,6 @@ function DeliveryPanel(){
         </div>
     );
 }
+
 
 export default DeliveryPanel;

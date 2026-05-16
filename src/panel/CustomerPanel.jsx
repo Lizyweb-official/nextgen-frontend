@@ -17,7 +17,18 @@ function CustomerPanel() {
 
     // Redirect / Login Message
     if (!user) {
-        navigate("/UserLoginPanel");
+        return (
+            <div className="customer-db-login-message">
+                <h2>Please Login</h2>
+
+                <button
+                    className="customer-db-login-btn"
+                    onClick={() => navigate("/login")}
+                >
+                    Go to Login
+                </button>
+            </div>
+        );
     }
 
     // Tab Data
@@ -54,11 +65,8 @@ function CustomerPanel() {
 
             {/* Welcome Section */}
             <div className="customer-db-tab-welcome">
-                <h2 className="customer-db-tab-welcome-title">
-                    Hi {user?.name} 👋
-                </h2>
 
-                <p className="customer-db-tab-welcome-subtitle">
+                <p className="customer-db-tab-welcome-subtitle"style={{ color: "#000",fontWeight:700, fontSize:30}}>
                     Welcome to AyamKini
                 </p>
             </div>
@@ -92,6 +100,7 @@ function CustomerPanel() {
         </div>
     );
 }
+
 
 /* -------------------------------
    Order Status
@@ -131,7 +140,7 @@ function Settings() {
 
     const handleLogout = () => {
         logout();
-        navigate("/UserLoginPanel");
+        navigate("/login");
     };
 
     return (
