@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
+const API = import.meta.env.VITE_API_URL;
+
 function OrdersDp() {
   const [readyOrders, setReadyOrders] = useState([]);
   const [activeOrders, setActiveOrders] = useState([]);
@@ -20,7 +22,7 @@ function OrdersDp() {
 
       // 1. ALL ORDERS
       const ordersRes = await fetch(
-        "http://localhost:5000/api/order/getallorders"
+        `${API}/api/order/getallorders`
       );
       const ordersData = await ordersRes.json();
 
@@ -36,7 +38,7 @@ function OrdersDp() {
 
       // 2. DELIVERY PARTNER ORDERS
       const dpRes = await fetch(
-        `http://localhost:5000/api/order/getorderbydp/${user.id}`
+        `${API}/api/order/getorderbydp/${user.id}`
       );
 
       const dpJson = await dpRes.json();
@@ -74,7 +76,7 @@ function OrdersDp() {
   const addDeliveryPartnerOrder = async (orderId) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/order/adddeliverypartnerorder",
+        `${API}/api/order/adddeliverypartnerorder`,
         {
           method: "POST",
           headers: {
@@ -99,7 +101,7 @@ function OrdersDp() {
       await addDeliveryPartnerOrder(orderId);
 
       const res = await fetch(
-        "http://localhost:5000/api/order/updateOrderStatus",
+        `${API}/api/order/updateOrderStatus`,
         {
           method: "PUT",
           headers: {
@@ -125,7 +127,7 @@ function OrdersDp() {
   const deliverOrder = async (orderId) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/order/updateOrderStatus",
+        `${API}/api/order/updateOrderStatus`,
         {
           method: "PUT",
           headers: {
@@ -151,7 +153,7 @@ function OrdersDp() {
   const cancelledorder = async (orderId) => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/order/updateOrderStatus",
+        `${API}/api/order/updateOrderStatus`,
         {
           method: "PUT",
           headers: {
