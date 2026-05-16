@@ -4,8 +4,13 @@ import '../../../css/style-3.css';
 import '../../../css/style-4.css';
 import '../../../css/style.css';
 
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+const API = "http://localhost:5000";
+
 function DeliveryTracking(){
-    return(<><h1>Delivery Tracking</h1></>);
+   return(<></>)
 }
 
-export default DeliveryTracking
+export default DeliveryTracking;

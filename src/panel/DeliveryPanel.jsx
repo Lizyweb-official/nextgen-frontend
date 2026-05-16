@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
 import OrdersDp from './dp/OrdersDp';
-import DeliveryTracking from './dp/DeliverypTracking';
 
 function DeliveryPanel() {
     const { user } = useAuth();
@@ -38,11 +37,6 @@ function DeliveryPanel() {
             id: "orders",
             label: "Orders",
             component: <OrdersDp/>,
-        },
-        {
-            id: "deliverytracking",
-            label: "Delivery Tracking",
-            component: <DeliveryTracking/>,
         },
     ];
 
