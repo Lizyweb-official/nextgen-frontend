@@ -8,9 +8,9 @@
 
 /* ================= PATH ================= */
 .shop-path {
-  background: #fff;
+  background: #ffffff;
   padding: 30px 40px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .path-content {
@@ -58,7 +58,7 @@
 
 /* ================= PRODUCT CARD ================= */
 .product-card {
-  background: #fff;
+  background: #ffffff;
   padding: 15px;
   border-radius: 12px;
   position: relative;
@@ -69,7 +69,7 @@
   justify-content: space-between;
   min-height: 380px;
 
-  transition: 0.3s;
+  transition: 0.5s;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
@@ -107,16 +107,16 @@
 }
 
 .stars {
-  color: #f4b400;
+  color: #ffbb00;
 }
 
 .count {
-  color: #555;
+  color: #555555;
 }
 
 /* ================= PRICE ================= */
 .price {
-  margin: 8px 0;
+  margin: 8px 0px;
 }
 
 .price .new {
@@ -166,7 +166,7 @@
   font-size: 18px;
   cursor: pointer;
 
-  background: #fff;
+  background: #ffffff;
   border-radius: 50%; /* perfect circle */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
@@ -453,12 +453,12 @@
 ===================================================== */
 
 .product-row {
-  row-gap: 25px;
+  row-gap: 25px:
 }
 
 /* =====================================================
    PRODUCT CARD
-===================================================== */
+==================================================== */
 
 .product-card {
   border: none;
