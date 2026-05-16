@@ -276,7 +276,7 @@ function OrderDetailsPage() {
                         <div className="admin-db-inc-order-detail-item">
                             <span className="admin-db-inc-order-detail-label">Delivery time</span>
                             <span className="admin-db-inc-order-detail-value">
-                                {order.start_time} – {order.end_time}
+                                {order.delivery_time}
                             </span>
                         </div>
                     </div>
