@@ -4,11 +4,14 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+
 import React, { useEffect, useState ,useRef} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
 
 import { Link,useNavigate } from "react-router-dom";
 
@@ -21,12 +24,14 @@ import slider3 from "../media/Website-Images/images-3/b3.png";
 import "swiper/css";
 
 
-
 import bg1 from "../media/Website-Images/images-3/bgimage.png";
+
 
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
 import AyamFaqSection from '../Sections/AyamFaqSection';
+import TopPicks from '../Sections/TopPicks';
+
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
 import a2 from "../media/Website-Images/images-3/e2.jpg";
@@ -47,8 +52,9 @@ function Home(){
   <Hero/>
   <MeatFeatures/>
   <HomeCategories/>
+  <TopPicks/>
   <AyamFaqSection/>
-  <Testimonial/>
+  {/* <Testimonial/> */}
   <Cta/>
   </>
   
@@ -87,7 +93,7 @@ function Hero() {
 
 function MeatFeatures() {
   return (
-    <section className="mf-container">
+    <section className="mf-container" style={{ marginBottom: "0px" }}>
       <div className="mf-wrapper">
 
         {/* ITEM 1 */}
@@ -104,7 +110,7 @@ function MeatFeatures() {
           <i className="bi bi-truck mf-icon"></i>
           <div>
             <h4>Fast & Free Delivery</h4>
-            <p>Free delivery on orders over $100</p>
+            <p>Free Doorstep Delivery Available</p>
           </div>
         </div>
 
@@ -133,7 +139,6 @@ function MeatFeatures() {
 
 
   
-
 
 
 function BestProduct() {
@@ -211,6 +216,8 @@ function BestProduct() {
   );
 }
 
+
+
 function WhyChoose() {
   return (
     <section
@@ -270,62 +277,62 @@ function WhyChoose() {
   );
 }
 
-function Testimonial(){
+// function Testimonial(){
   
-const testimonials = [
+// const testimonials = [
    
-  {
-    name: "Arun Kumar",
-    role: "Food Lover",
-    message:
-      "The chicken is always fresh and perfectly packed. Delivery is super fast. Best service in the city!",
-    image: "https://i.pravatar.cc/100?img=12",
-  },
-  {
-    name: "Priya S",
-    role: "Home Chef",
-    message:
-      "Quality is top-notch! I regularly order for my family. Very hygienic and tasty meat.",
-    image: "https://i.pravatar.cc/100?img=32",
-  },
-  {
-    name: "Rahul M",
-    role: "Restaurant Owner",
-    message:
-      "Consistent supply and premium quality chicken. My customers love the taste!",
-    image: "https://i.pravatar.cc/100?img=45",
-  },
-];
+//   {
+//     name: "Arun Kumar",
+//     role: "Food Lover",
+//     message:
+//       "The chicken is always fresh and perfectly packed. Delivery is super fast. Best service in the city!",
+//     image: "https://i.pravatar.cc/100?img=12",
+//   },
+//   {
+//     name: "Priya S",
+//     role: "Home Chef",
+//     message:
+//       "Quality is top-notch! I regularly order for my family. Very hygienic and tasty meat.",
+//     image: "https://i.pravatar.cc/100?img=32",
+//   },
+//   {
+//     name: "Rahul M",
+//     role: "Restaurant Owner",
+//     message:
+//       "Consistent supply and premium quality chicken. My customers love the taste!",
+//     image: "https://i.pravatar.cc/100?img=45",
+//   },
+// ];
 
 
-return(
-    <>
+// return(
+//     <>
 
-    <section className="testimonial-section">
-      <div className="ts-header">
-        <h2>What Our Customers Say</h2>
-        <p>Real reviews from happy customers</p>
-      </div>
+//     <section className="testimonial-section">
+//       <div className="ts-header">
+//         <h2>What Our Customers Say</h2>
+//         <p>Real reviews from happy customers</p>
+//       </div>
 
-      <div className="ts-grid">
-        {testimonials.map((item, index) => (
-          <div className="ts-card" key={index}>
-            <div className="ts-top">
-              <img src={item.image} alt={item.name} />
-              <div>
-                <h4>{item.name}</h4>
-                <span>{item.role}</span>
-              </div>
-            </div>
+//       <div className="ts-grid">
+//         {testimonials.map((item, index) => (
+//           <div className="ts-card" key={index}>
+//             <div className="ts-top">
+//               <img src={item.image} alt={item.name} />
+//               <div>
+//                 <h4>{item.name}</h4>
+//                 <span>{item.role}</span>
+//               </div>
+//             </div>
 
-            <p className="ts-message">“{item.message}”</p>
-          </div>
-        ))}
-      </div>
-    </section>
+//             <p className="ts-message">“{item.message}”</p>
+//           </div>
+//         ))}
+//       </div>
+//     </section>
 
-    </>
-  )
-}
+//     </>
+//   )
+// }
 
 export default Home;
