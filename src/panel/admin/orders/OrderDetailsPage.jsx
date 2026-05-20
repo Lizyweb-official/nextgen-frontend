@@ -6,12 +6,14 @@ import '../../../css/style.css';
  
 import React, { useEffect, useState } from "react";
 import { useParams,Link } from "react-router-dom";
+import { useAuth } from '../../../context/AuthContext' 
  
 const API = import.meta.env.VITE_API_URL;
  
 function OrderDetailsPage() {
  
     const { id } = useParams();
+    const { user } = useAuth();
  
     const [order, setOrder] = useState(null);
     const [statusHistory, setStatusHistory] = useState([]);
@@ -89,6 +91,8 @@ function OrderDetailsPage() {
         return data;
     };
 
+
+
     // ✅ Restore handler — resets cancelled order back to Preparing (status_id: 1)
     const handleRestore = async () => {
         const confirmRestore = window.confirm(
@@ -143,16 +147,19 @@ function OrderDetailsPage() {
                             </div>
                         )}
                     </div>
+                    
 
-                    {/* ✅ Restore button — only visible when order is cancelled */}
-                    <button
-                        className="btn btn-warning btn-sm"
-                        onClick={handleRestore}
-                        disabled={restoring}
-                        style={{ whiteSpace: "nowrap" }}
-                    >
-                        {restoring ? "Restoring..." : "Restore Order"}
-                    </button>
+                   {/* ✅ Show only for admin */}
+                    {user?.usertype === "admin" && (
+                        <button
+                            className="btn btn-warning btn-sm"
+                            onClick={handleRestore}
+                            disabled={restoring}
+                            style={{ whiteSpace: "nowrap" }}
+                        >
+                            {restoring ? "Restoring..." : "Restore Order"}
+                        </button>
+                    )}
                 </div>
             )}
  
