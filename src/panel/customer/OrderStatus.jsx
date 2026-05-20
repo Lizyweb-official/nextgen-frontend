@@ -268,7 +268,6 @@ export default function OrderStatus() {
 
       <div style={{
         maxWidth: "100%", margin: "0 auto", padding: "24px 16px",
-        fontFamily: "'DM Sans', sans-serif",
       }}>
         {/* Header */}
         <div style={{ marginBottom: 24 }}>
