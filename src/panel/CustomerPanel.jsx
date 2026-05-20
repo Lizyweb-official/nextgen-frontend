@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
 import PersonalDetails from './customer/PersonalDetails';   
+import OrderStatus from './customer/OrderStatus';
 
 function CustomerPanel() {
     const { user } = useAuth();
@@ -102,19 +103,6 @@ function CustomerPanel() {
 }
 
 
-/* -------------------------------
-   Order Status
--------------------------------- */
-
-function OrderStatus() {
-    return (
-        <div className="customer-db-orders">
-            {/* <h2>Order Status</h2> */}
-
-            <p>Show current orders here...</p>
-        </div>
-    );
-}
 
 /* -------------------------------
    Order History
