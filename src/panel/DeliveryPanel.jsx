@@ -9,11 +9,17 @@ import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
 import OrdersDp from './dp/OrdersDp';
+import DpOrderHistory from './dp/DpOrderHistory';
 
 function DeliveryPanel() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("orders");
+
+    const handleLogout = () => {
+        logout();
+        navigate("/user-login-page");
+    };
 
     // Redirect / Login Message
     if (!user) {
@@ -23,7 +29,7 @@ function DeliveryPanel() {
 
                 <button
                     className="customer-db-login-btn"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/user-login-page")}
                 >
                     Go to Login
                 </button>
@@ -37,6 +43,11 @@ function DeliveryPanel() {
             id: "orders",
             label: "Orders",
             component: <OrdersDp/>,
+        },
+        {
+            id: "ordershistory",
+            label: "Order History",
+            component: <DpOrderHistory/>,
         },
     ];
 
@@ -71,7 +82,16 @@ function DeliveryPanel() {
                         >
                             {tab.label}
                         </button>
+
                     ))}
+
+                    <button
+                        className="customer-db-tab-btn customer-db-tab-logout-btn"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+
                 </div>
 
                 {/* Tab Content */}

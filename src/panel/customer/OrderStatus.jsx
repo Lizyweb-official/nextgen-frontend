@@ -1,3 +1,11 @@
+import '../../css/style-1.css';
+import '../../css/style-2.css';
+import '../../css/style-3.css';
+import '../../css/style-4.css';
+import '../../css/style.css';
+
+
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -6,15 +14,17 @@ const API = "http://localhost:5000";
 
 // Status config
 const STATUS = {
-  1: { label: "Preparing", color: "#F59E0B", bg: "#FEF3C7", icon: "🍳", step: 1 },
-  2: { label: "Ready to Dispatch", color: "#3B82F6", bg: "#DBEAFE", icon: "📦", step: 2 },
-  3: { label: "Out for Delivery", color: "#8B5CF6", bg: "#EDE9FE", icon: "🛵", step: 3 },
+  1: { label: "Preparing", color: "#F59E0B", bg: "#FEF3C7", icon: "", step: 1 },
+  2: { label: "Ready to Dispatch", color: "#3B82F6", bg: "#DBEAFE", icon: "", step: 2 },
+  3: { label: "Out for Delivery", color: "#8B5CF6", bg: "#EDE9FE", icon: "", step: 3 },
+  4: { label: "Delivered", color: "#2fff00", bg: "#EDE9FE", icon: "", step: 4 },
 };
 
 const STEPS = [
   { id: 1, label: "Preparing", icon: "" },
   { id: 2, label: "Ready to Dispatch", icon: "" },
   { id: 3, label: "Out for Delivery", icon: "" },
+  { id: 4, label: "Delivered", icon: "" },
 ];
 
 const updateStatus = async (order_id, status_id) => {
@@ -113,11 +123,11 @@ function OrderCard({ order, onCancelled }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
         <div>
           <span style={{
-            fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 15, color: "#111827",
+            fontWeight: 700, fontSize: 15, color: "#111827",
           }}>
             Order #{order.id}
           </span>
-          <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 1, fontFamily: "'DM Sans', sans-serif" }}>
+          <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 1 }}>
             {new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
           </div>
         </div>

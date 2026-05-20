@@ -225,7 +225,7 @@ function DeliveryTracking() {
       <div className="card">
 
         <div className="card-header">
-          <h3>Last 10 Delivered / Cancelled Orders</h3>
+          <h3>Last Orders</h3>
         </div>
 
         <div className="card-body table-responsive">
