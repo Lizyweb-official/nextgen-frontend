@@ -163,6 +163,8 @@ function DeliveryTracking() {
               <tr>
                 <th>Order ID</th>
                 <th>Delivery Partner ID</th>
+                <th>Slot Time</th>
+                <th>Delivery Time</th>
                 <th>Delivery Status</th>
                 <th>View Details</th>
               </tr>
@@ -179,6 +181,10 @@ function DeliveryTracking() {
                     <td>{order.id}</td>
 
                     <td>{order.dp_id}</td>
+
+                    <td>{order.start_time}-{order.end_time}</td>
+
+                    <td>{order.delivery_time}</td>
 
                     <td>{getStatusText(order.status_id)}</td>
 
@@ -219,7 +225,7 @@ function DeliveryTracking() {
       <div className="card">
 
         <div className="card-header">
-          <h3>Last 10 Delivered / Cancelled Orders</h3>
+          <h3>Last Orders</h3>
         </div>
 
         <div className="card-body table-responsive">
@@ -230,6 +236,8 @@ function DeliveryTracking() {
               <tr>
                 <th>Order ID</th>
                 <th>Delivery Partner ID</th>
+                <th>Slot Time</th>
+                <th>Delivery Time</th>
                 <th>Delivery Status</th>
                 <th>View Details</th>
               </tr>
@@ -246,6 +254,10 @@ function DeliveryTracking() {
                     <td>{order.id}</td>
 
                     <td>{order.dp_id}</td>
+
+                    <td>{order.start_time}-{order.end_time}</td>
+
+                    <td>{order.delivery_time}</td>
 
                     <td>{getStatusText(order.status_id)}</td>
 

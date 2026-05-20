@@ -9,11 +9,20 @@ import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
 import PersonalDetails from './customer/PersonalDetails';   
+import OrderStatus from './customer/OrderStatus';
+import CustomerOrderHistory from './customer/CustomerOrderHistory';
 
 function CustomerPanel() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("details");
+
+    const { logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/user-login-page");
+    };
 
     // Redirect / Login Message
     if (!user) {
@@ -23,7 +32,7 @@ function CustomerPanel() {
 
                 <button
                     className="customer-db-login-btn"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/user-login-page")}
                 >
                     Go to Login
                 </button>
@@ -46,12 +55,7 @@ function CustomerPanel() {
         {
             id: "history",
             label: "Order History",
-            component: <OrderHistory />,
-        },
-        {
-            id: "setting",
-            label: "Settings",
-            component: <Settings />,
+            component: <CustomerOrderHistory />,
         },
     ];
 
@@ -87,6 +91,12 @@ function CustomerPanel() {
                             {tab.label}
                         </button>
                     ))}
+                    <button
+                        className="customer-db-tab-btn customer-db-tab-logout-btn"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
                 </div>
 
                 {/* Tab Content */}
@@ -103,56 +113,17 @@ function CustomerPanel() {
 
 
 /* -------------------------------
-   Order Status
--------------------------------- */
-
-function OrderStatus() {
-    return (
-        <div className="customer-db-orders">
-            {/* <h2>Order Status</h2> */}
-
-            <p>Show current orders here...</p>
-        </div>
-    );
-}
-
-/* -------------------------------
-   Order History
--------------------------------- */
-
-function OrderHistory() {
-    return (
-        <div className="customer-db-history">
-            {/* <h2>Order History</h2> */}
-
-            <p>Show past orders here...</p>
-        </div>
-    );
-}
-
-/* -------------------------------
    Settings
 -------------------------------- */
 
 function Settings() {
-    const { logout } = useAuth();
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        logout();
-        navigate("/login");
-    };
+    
 
     return (
         <div className="customer-db-settings">
             {/* <h2>Settings</h2> */}
 
-            <button
-                className="customer-db-tab-logout-btn"
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
+            
         </div>
     );
 }
