@@ -29,8 +29,13 @@ import bg1 from "../media/Website-Images/images-3/bgimage.png";
 
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
+<<<<<<< HEAD
+import TopPicks from '../Sections/TopPicks';
+import AyamFaqSection from '../Sections/AyamFaqSection';
+=======
 import AyamFaqSection from '../Sections/AyamFaqSection';
 import TopPicks from '../Sections/TopPicks';
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
 
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
@@ -53,6 +58,10 @@ function Home(){
   <MeatFeatures/>
   <HomeCategories/>
   <TopPicks/>
+<<<<<<< HEAD
+  <WhyChoose/>
+=======
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
   <AyamFaqSection/>
   {/* <Testimonial/> */}
   <Cta/>

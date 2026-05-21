@@ -4,7 +4,10 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+<<<<<<< HEAD
+=======
 import { Link } from  "react-router-dom";
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -19,8 +22,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Cart() {
   const { user } = useAuth();
-  const [cartItems, setCartItems] = useState([
-    ]);
+  const [cartItems, setCartItems] = useState([]);
 
     const fetchCartItems = async (customerId) => {
     try {

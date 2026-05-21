@@ -4,7 +4,21 @@ import "../css/style-3.css";
 import "../css/style-4.css";
 import "../css/style.css";
 
+<<<<<<< HEAD
+import "bootstrap/dist/css/bootstrap.min.css";
+
+<<<<<<< HEAD
+
+=======
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
+import '../css/style-1.css';
+import '../css/style-2.css';
+import '../css/style-3.css';
+import '../css/style-4.css';
+import '../css/style.css';
+=======
 import { useState } from "react";
+>>>>>>> 6320b9ca3f2fd0bfdb6285f94e478a39f597fd6b
 
 const faqs = [
   {
