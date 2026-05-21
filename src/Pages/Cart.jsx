@@ -281,18 +281,18 @@ function Cart() {
             <div className="tc-sum-row total">
               <span>Total Amount</span><span>₹{grandTotal}</span>
             </div>
-
+{/* 
             <div className="tc-saving-text">
               <i className="bi bi-emoji-smile"></i> You save ₹{savings} on this order!
-            </div>
+            </div> */}
 
             {/* Promo */}
-            <div className="tc-promo">
+            {/* <div className="tc-promo">
               <span><i className="bi bi-tag"></i></span>
               <div className="tc-promo-text">
                 Have a promo code? <span>Apply here</span>
               </div>
-            </div>
+            </div> */}
 
             <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
 
