@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
 import '../css/style-1.css';
 import '../css/style-2.css';
 import '../css/style-3.css';

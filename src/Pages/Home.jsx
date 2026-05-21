@@ -26,8 +26,13 @@ import bg1 from "../media/Website-Images/images-3/bgimage.png";
 
 import Cta from '../Sections/Cta';   
 import HomeCategories from '../Sections/HomeCategories';
+<<<<<<< HEAD
 import TopPicks from '../Sections/TopPicks';
 import AyamFaqSection from '../Sections/AyamFaqSection';
+=======
+import AyamFaqSection from '../Sections/AyamFaqSection';
+import TopPicks from '../Sections/TopPicks';
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
 
 import a1 from "../media/Website-Images/images-3/e1.jpg";
 import a2 from "../media/Website-Images/images-3/e2.jpg";
@@ -49,12 +54,15 @@ function Home(){
   <MeatFeatures/>
   <HomeCategories/>
   <TopPicks/>
+<<<<<<< HEAD
   <WhyChoose/>
+=======
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
   <AyamFaqSection/>
   <Testimonial/>
   <Cta/>
   </>
-
+  
   );
 }
 
@@ -151,6 +159,7 @@ function BestProduct() {
     { id: 5, name: "Chicken Mince",        category: "Chicken", price: "$9.99",  old: "$12.99", off: "23%", badge: "fresh", rating: "★★★★★", count: "4.7", image: a5 },
     { id: 6, name: "Chicken Feet",         category: "Chicken", price: "$11.99", old: "$14.99", off: "20%", badge: "new",   rating: "★★★☆☆", count: "4.2", image: a6 },
   ];
+
 
   const handleCart = (id) => {
     setCart(p => ({ ...p, [id]: true }));

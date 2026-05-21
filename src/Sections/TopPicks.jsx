@@ -1,13 +1,3 @@
-import { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-import '../css/style-1.css';
-import '../css/style-2.css';
-import '../css/style-3.css';
-import '../css/style-4.css';
-import '../css/style.css';
-
 const products = [
   {
     id: 1,

@@ -13,12 +13,15 @@ import { showWebMessage } from "../context/webMessageHandler";
 const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
+
   const { id } = useParams();
   const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [customPieces, setCustomPieces] = useState("");
   const [qty, setQty] = useState(1);
+  const [pprice, setPprice] = useState();
 
     // INCREMENT
     const increaseQty = () => {
@@ -36,6 +39,7 @@ function SingleProductPage() {
       .then(res => res.json())
       .then(data => {
         setProduct(data);
+        setPprice(data.sale_price || data.base_price);
 
         if (data.image_id) {
           fetch(`${API}/api/getimagebyid/${data.image_id}`)
@@ -52,20 +56,39 @@ function SingleProductPage() {
   }
 
     const handleAddToCart = async (productId) => {
+
+        // ✅ Check custom pieces selection
+        if (
+            product.custom_pieces_k &&
+            product.custom_pieces_k.trim() !== "" &&
+            customPieces === ""
+        ) {
+            showWebMessage("Please select pieces");
+            return;
+        }
+
         try {
+
             const data = {
-            customer_id: user.id,   // ✅ match backend
-            product_id: productId,
-            quantity: qty,
+                customer_id: user.id,
+                product_id: productId,
+                quantity: qty,
+                price: pprice,
+                custompieces: customPieces
             };
 
-            const response = await fetch("http://localhost:5000/api/product/addproducttocart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-            });
+            console.log(data);
+
+            const response = await fetch(
+                "http://localhost:5000/api/product/addproducttocart",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
 
             const result = await response.json();
 
@@ -106,7 +129,7 @@ function SingleProductPage() {
         </nav>
 
     </div>
-    </div>
+</div>
 
     <div className="single-product-page-container mt-5">
 
@@ -168,7 +191,38 @@ function SingleProductPage() {
                 )}
             </div>
 
-            {/* QUANTITY */}
+
+        {product.custom_pieces_k && product.custom_pieces_k.trim() !== "" && (
+            <div className="single-pro-page-pieces-wrapper mb-3">
+                <label className="single-pro-page-pieces-label">
+                    <span className="single-pro-page-pieces-icon">✦</span>
+                    Select Pieces
+                </label>
+
+                <div className="single-pro-page-select-container">
+                    <select
+                        className="single-pro-page-pieces-select"
+                        value={customPieces}
+                        onChange={(e) => setCustomPieces(e.target.value)}
+                    >
+                        <option value="">— Choose a Piece —</option>
+
+                        {product.custom_pieces_k
+                            .split(",")
+                            .map((piece, index) => (
+                                <option key={index} value={piece.trim()}>
+                                    {piece.trim()}
+                                </option>
+                            ))}
+                    </select>
+                    <span className="single-pro-page-select-arrow">›</span>
+                </div>
+            </div>
+        )}
+
+
+
+        {/* QUANTITY */}
             <div className="single-page-qty-row">
                 <label className="single-page-qty-label">Qty</label>
 
@@ -189,7 +243,7 @@ function SingleProductPage() {
                     +
                     </button>
                 </div>
-                </div>
+            </div>
 
                 <button 
                     className="single-page-add-to-cart"
@@ -200,7 +254,7 @@ function SingleProductPage() {
 
             </div>
         </div>
-        </div>
+    </div>
     </>
   );
 }

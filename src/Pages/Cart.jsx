@@ -4,6 +4,10 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+<<<<<<< HEAD
+=======
+import { Link } from  "react-router-dom";
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -51,12 +55,15 @@ function Cart() {
             origPrice: Number(product.base_price),
             qty: item.quantity,
             image: image.url,
+            custompieces : item.custom_pieces
           };
         })
       );
 
       // 3. Update state
       setCartItems(fullCart);
+
+      console.log(fullCart);
 
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -132,13 +139,23 @@ function Cart() {
     }
   };
 
-  const itemTotal      = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
-  const origTotal      = cartItems.reduce((s, i) => s + i.origPrice * i.qty, 0);
-  const savings        = origTotal - itemTotal;
-  const delivery       = itemTotal >= DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE;
-  const grandTotal     = itemTotal + delivery;
-  const totalQty       = cartItems.reduce((s, i) => s + i.qty, 0);
-  const isFreeDelivery = itemTotal >= DELIVERY_THRESHOLD;
+    const itemTotal = cartItems.reduce((s, i) => {
+      const price = i.price && i.price > 0 ? i.price : i.origPrice;
+      return s + price * i.qty;
+    }, 0);
+
+    const origTotal = cartItems.reduce((s, i) => {
+      return s + i.origPrice * i.qty;
+    }, 0);
+
+    const savings = origTotal - itemTotal;
+
+    const delivery = itemTotal >= DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE;
+    const grandTotal = itemTotal + delivery;
+
+    const totalQty = cartItems.reduce((s, i) => s + i.qty, 0);
+
+    const isFreeDelivery = itemTotal >= DELIVERY_THRESHOLD;
   
   return (
     <div className="tc-wrap">
@@ -179,39 +196,61 @@ function Cart() {
             Your Cart ({totalQty} item{totalQty !== 1 ? "s" : ""})
           </div>
 
-          {cartItems.map(item => (
-            <div className="tc-card" key={item.id}>
-              <div className="tc-item-img">
-                <img src={item.image} alt={item.name} />
-              </div>
+          {cartItems.length === 0 ? (
+            <div className="text-center p-5">
+              <h5>No Products Added in Cart</h5>
+              <p className="text-muted">Looks like your cart is empty.</p>
 
-              <div className="tc-item-info">
-                <div className="tc-item-name">{item.name}</div>
-                <div className="tc-item-weight">{item.weight}</div>
-                <div className="tc-fresh-badge">
-                  <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
-                </div>
-                <div className="tc-item-price">
-                  ₹{item.price}
-                  <span className="orig">₹{item.origPrice}</span>
-                </div>
-
-                <div className="tc-qty-row">
-                  <div className="tc-qty">
-                    <button onClick={() => updateQty(item.product_id, "dec")}>−</button>
-                    <span>{item.qty}</span>
-                    <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
-                  </div>
-                  <div className="tc-subtotal">Subtotal: ₹{item.price * item.qty}</div>
-                </div>
-              </div>
-
-              <button className="tc-delete" onClick={() => removeItem(item.product_id)}>
-                <i className="bi bi-x-lg"></i>
-              </button>
+              <Link to="/shop" className="btn btn-dark mt-3">
+                Go to Shop
+              </Link>
             </div>
-          ))}
+          ) : (
+            cartItems.map(item => (
+              <div className="tc-card" key={item.id}>
+                <div className="tc-item-img">
+                  <img src={item.image} alt={item.name} />
+                </div>
+
+                <div className="tc-item-info">
+                  <div className="tc-item-name">{item.name}</div>
+                  <div className="tc-item-weight">{item.custompieces} Pieces</div>
+                  <div className="tc-fresh-badge">
+                    <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
+                  </div>
+
+
+                  <div className="tc-item-price">
+                    {item.price ? (
+                      <>
+                        ₹{item.price}
+                        <span className="orig ms-2">₹{item.origPrice}</span>
+                      </>
+                    ) : (
+                      <>₹{item.origPrice}</>
+                    )}
+                </div>
+
+                  <div className="tc-qty-row">
+                    <div className="tc-qty">
+                      <button onClick={() => updateQty(item.product_id, "dec")}>−</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
+                    </div>
+                    <div className="tc-subtotal">Subtotal: ₹{item.origPrice * item.qty}</div>
+                  </div>
+                </div>
+
+                <button className="tc-delete" onClick={() => removeItem(item.product_id)}>
+                  <i className="bi bi-x-lg"></i>
+                </button>
+              </div>
+            ))
+          )}
         </div>
+
+        {cartItems.length > 0 && (
+          <>
 
         {/* RIGHT — Order Summary */}
         <div className="tc-right">
@@ -250,7 +289,7 @@ function Cart() {
               </div>
             </div>
 
-            <button className="tc-checkout-btn">Proceed to Checkout →</button>
+            <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
 
             {/* Trust Badges */}
             <div className="tc-trust">
@@ -266,6 +305,8 @@ function Cart() {
             </div>
           </div>
         </div>
+  </>
+)}
 
       </div>
     </div>

@@ -47,20 +47,45 @@
 
 /* ── Body Grid ── */
 .tc-body {
-  max-width: 980px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 20px 16px;
-  display: grid;
-  grid-template-columns: 1fr 340px;
+  display: flex;
   gap: 20px;
-  align-items: start;
+  align-items: flex-start;
+}
+
+/* Left content */
+.tc-body > :first-child {
+  flex: 1;
+}
+
+/* Right sidebar */
+.tc-body > :last-child {
+  width: 340px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .tc-body {
+    max-width:90%;
+    flex-direction: column;
+  }
+
+  .tc-body > :last-child {
+    width: 100%;
+  }
 }
 
 /* ── Section Title ── */
 .tc-section-title {
   font-size: 15px;
   font-weight: 700;
+<<<<<<< HEAD
   color: #150101;
+=======
+  color: #000000;
+>>>>>>> dd9423ff4ce880d4efa16e04f62fcf534c7f2bfd
   margin-bottom: 12px;
 }
 
@@ -156,7 +181,7 @@
 .tc-item-name {
   font-size: 14px;
   font-weight: 700;
-  color: #fff1f1;
+  color: #000000;
   margin-bottom: 2px;
 }
 

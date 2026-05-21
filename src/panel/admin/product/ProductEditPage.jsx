@@ -7,6 +7,9 @@ import '../../../css/style.css';
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import { showWebMessage } from "../../../context/webMessageHandler";
+
+
 const API = import.meta.env.VITE_API_URL;
 
 function ProductEditPage() {
@@ -19,6 +22,7 @@ function ProductEditPage() {
     description: "",
     short_description: "",
     image_id: null,
+    custompieces:"",
     base_price: "",
     sale_price: "",
     categories: [],
@@ -50,6 +54,7 @@ function ProductEditPage() {
       description: data.description || "",
       short_description: data.short_description || "",
       image_id: data.image_id || null,
+      custompieces:data.custom_pieces_k || "",
       base_price: data.base_price || "",
       sale_price: data.sale_price || "",
       categories: data.categories?.map(c => c.id) || [],
@@ -140,7 +145,7 @@ function ProductEditPage() {
       })
     });
 
-    alert("Product updated successfully");
+    showWebMessage("Product updated successfully");
   };
 
   return (
@@ -170,6 +175,18 @@ function ProductEditPage() {
                 value={form.slug}
                 onChange={handleChange}
                 placeholder="Enter product slug"
+            />
+            </div>
+
+            {/* Custom Pieces */}
+            <div className="product-edit-form-group mb-3">
+            <label className="product-edit-form-label">Custom Pieces (Input Ex : 2,3,4,5,6,7)</label>
+            <input
+                className="product-edit-form-input form-control"
+                name="custompieces"
+                value={form.custompieces}
+                onChange={handleChange}
+                placeholder="Enter Available Custom Pieces"
             />
             </div>
 

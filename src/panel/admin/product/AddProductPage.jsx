@@ -17,6 +17,7 @@ function AddProductPage() {
     description: "",
     short_description: "",
     image_id: "",
+    custompieces:"",
     base_price: "",
     sale_price: "",
     categories: [],
@@ -91,7 +92,7 @@ function AddProductPage() {
 
   const handleCustomFieldChange = (index, key, value) => {
     const updated = [...form.custom_fields];
-    updated[index][key] = value;
+    updated[index][key] = value; 
     setForm({ ...form, custom_fields: updated });
   };
 
@@ -105,17 +106,17 @@ function AddProductPage() {
    
   // ✅ Required field validation
   if (!form.name.trim()) {
-    alert("Product Name is required");
+    showWebMessage("Product Name is required");
     return;
   }
 
   if (!form.description.trim()) {
-    alert("Description is required");
+    showWebMessage("Description is required");
     return;
   }
 
   if (!form.base_price) {
-    alert("Base Price is required");
+    showWebMessage("Base Price is required");
     return;
   }
 
@@ -139,7 +140,7 @@ function AddProductPage() {
   })
     .then(res => res.json())
     .then(data => {
-      alert("Product Added Successfully");
+      showWebMessage("Product Added Successfully");
 
       setForm({
         name: "",
@@ -147,6 +148,7 @@ function AddProductPage() {
         description: "",
         short_description: "",
         image_id: "",
+        custompieces:"",
         base_price: "",
         sale_price: "",
         categories: [],
@@ -180,6 +182,18 @@ function AddProductPage() {
       name="slug"
       placeholder="auto-generated or enter manually"
       value={form.slug}
+      onChange={handleChange}
+    />
+  </div>
+
+  {/* custom pieces */}
+  <div className="admin-db-add-product-sec-field">
+    <label className="admin-db-add-product-sec-label">Custom Pieces (Input Ex : 2,3,4,5,6,7)</label>
+    <input
+      className="admin-db-add-product-sec-input"
+      name="custompieces"
+      placeholder="Enter Available Custom Pieces"
+      value={form.custompieces}
       onChange={handleChange}
     />
   </div>
@@ -242,7 +256,7 @@ function AddProductPage() {
     className="admin-db-add-product-sec-select-img-btn"
     onClick={() => setShowGallery(true)}
     >
-    📷 Select Image
+    Select Image
     </button>
 
 
