@@ -22,6 +22,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState([
     ]);
 
+
     const fetchCartItems = async (customerId) => {
     try {
       // 1. Get cart data
