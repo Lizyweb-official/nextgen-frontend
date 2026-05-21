@@ -219,9 +219,7 @@ function SingleProductPage() {
                 </div>
             </div>
         )}
-
-
-
+ 
         {/* QUANTITY */}
             <div className="single-page-qty-row">
                 <label className="single-page-qty-label">Qty</label>
