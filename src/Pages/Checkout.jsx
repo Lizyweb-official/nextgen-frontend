@@ -18,7 +18,7 @@ function Checkout() {
   const [selectedPay, setSelectedPay] = useState("cod");
   const [slotData, setSlotData] = useState(null);
 
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -47,6 +47,34 @@ function Checkout() {
       badge: null
     }
   ];
+
+  // -----------------------------------
+  // SLOT ON / OFF
+  // -----------------------------------
+
+  const [slotStatus, setSlotStatus] = useState("");
+  const [isSlotOn, setIsSlotOn] = useState(false);
+
+  useEffect(() => {
+    fetchSiteSetting();
+  }, []);
+
+  const fetchSiteSetting = async () => {
+    try {
+
+      const response = await fetch(
+        `${API}/api/admin/site-settings/get/1`
+      );
+
+      const data = await response.json();
+
+      setSlotStatus(data.setting_value);
+      setIsSlotOn(data.setting_value === "on");
+
+    } catch (error) {
+      console.error("Error fetching setting:", error);
+    }
+  };
 
   // -----------------------------------
   // GET USER DETAILS
@@ -79,8 +107,6 @@ function Checkout() {
           state: data.state || "",
           pincode: data.pincode || "",
         });
-
-
 
       } catch (err) {
         console.log(err);
@@ -123,18 +149,17 @@ function Checkout() {
   // -----------------------------------
 
   useEffect(() => {
+
     const getCartProducts = async () => {
 
       try {
 
-        // cart items
         const cartResponse = await fetch(
           `${API}/api/product/getcart/${user.id}`
         );
 
         const cartData = await cartResponse.json();
 
-        // product details
         const products = await Promise.all(
 
           cartData.map(async (item) => {
@@ -148,8 +173,8 @@ function Checkout() {
             return {
               ...item,
               product_name: productData.name,
-              custom_fields:productData.custom_fields,
-              custom_pieces:item.custom_pieces,
+              custom_fields: productData.custom_fields,
+              custom_pieces: item.custom_pieces,
             };
 
           })
@@ -187,6 +212,12 @@ function Checkout() {
 
   const handlePlaceOrder = async () => {
 
+    // SLOT CHECK
+    if (!isSlotOn) {
+      showWebMessage("No Slot Available");
+      return;
+    }
+
     try {
 
       const payload = {
@@ -209,7 +240,7 @@ function Checkout() {
           product_id: item.product_id,
           quantity: item.quantity,
           price: item.price,
-          custom_pieces:item.custom_pieces
+          custom_pieces: item.custom_pieces
         }))
       };
 
@@ -238,7 +269,7 @@ function Checkout() {
 
       } else {
 
-        showWebMessage("Failed to place order");
+        showWebMessage(data.message || "Failed to place order");
       }
 
     } catch (err) {
@@ -249,19 +280,23 @@ function Checkout() {
     }
   };
 
+  // -----------------------------------
+  // INPUT CHANGE
+  // -----------------------------------
 
   const handleInputChange = (e) => {
-  setUserData({
-    ...userData,
-    [e.target.name]: e.target.value
-  });
-};
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
     <div className="co-wrap">
 
       {/* Header */}
       <div className="co-header">
+
         <div className="co-logo">
           Ayam<span>Now</span>
         </div>
@@ -299,19 +334,52 @@ function Checkout() {
           {
             slotData && (
               <div className="co-section">
+
                 <div className="co-section-head">
                   <div className="sec-num">⏰</div>
                   <h3>Delivery Slot</h3>
                 </div>
 
-                <p
-                  style={{
-                    lineHeight: "28px",
-                    fontWeight: "600"
-                  }}
-                >
-                  {slotData.delivery_text}
-                </p>
+                {
+                  isSlotOn ? (
+                    <>
+                      <p
+                        style={{
+                          lineHeight: "28px",
+                          fontWeight: "600"
+                        }}
+                      >
+                        {slotData.delivery_text}
+                      </p>
+
+                      <p
+                        style={{
+                          marginTop: "10px",
+                          fontWeight: "700",
+                          color: "green"
+                        }}
+                      >
+                        Orders are Open
+                      </p>
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        marginTop: "10px",
+                        padding: "14px",
+                        borderRadius: "10px",
+                        background: "#fff3f3",
+                        color: "#d32f2f",
+                        fontWeight: "700",
+                        textAlign: "center",
+                        border: "1px solid #ffcdd2"
+                      }}
+                    >
+                      No Slot Available
+                    </div>
+                  )
+                }
+
               </div>
             )
           }
@@ -432,6 +500,7 @@ function Checkout() {
                     </div>
 
                     <div className="co-pay-info">
+
                       <div className="pay-name">
                         {pm.name}
                       </div>
@@ -439,6 +508,7 @@ function Checkout() {
                       <div className="pay-sub">
                         {pm.sub}
                       </div>
+
                     </div>
 
                     {
@@ -480,28 +550,27 @@ function Checkout() {
                       {item.product_name}
                     </div>
 
-              
-                   <div className="imeta">
+                    <div className="imeta">
 
-                    {
-                      item.custom_fields?.map((field, index) => (
-                        <div key={index}>
-                          {field.field_name} : {field.field_value}
-                        </div>
-                      ))
-                    }
+                      {
+                        item.custom_fields?.map((field, index) => (
+                          <div key={index}>
+                            {field.field_name} : {field.field_value}
+                          </div>
+                        ))
+                      }
 
-                    <div>
-                      Qty : {item.quantity}
-                    </div>
-
-                    {item.custom_pieces?.trim() && (
                       <div>
-                        Pieces : {item.custom_pieces}
+                        Qty : {item.quantity}
                       </div>
-                    )}
 
-                  </div>
+                      {item.custom_pieces?.trim() && (
+                        <div>
+                          Pieces : {item.custom_pieces}
+                        </div>
+                      )}
+
+                    </div>
 
                   </div>
 
@@ -535,8 +604,13 @@ function Checkout() {
             <button
               className="co-place-btn"
               onClick={handlePlaceOrder}
+              disabled={!isSlotOn}
+              style={{
+                opacity: !isSlotOn ? 0.6 : 1,
+                cursor: !isSlotOn ? "not-allowed" : "pointer"
+              }}
             >
-              Place Order →
+              {isSlotOn ? "Place Order →" : "No Slot Available"}
             </button>
 
             <div className="co-safe">
