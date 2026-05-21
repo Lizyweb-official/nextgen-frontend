@@ -8,8 +8,10 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
+const API = import.meta.env.VITE_API_URL;
+
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { FaShoppingCart, FaBars, FaTimes, FaUser ,FaTruck ,FaUserShield  } from "react-icons/fa";
 
@@ -17,8 +19,43 @@ import logo from '../media/Website-Images/images-1/logo.jpeg'
 
 function Header(){
 
-     const [menuOpen, setMenuOpen] = useState(false);
-     const { user } = useAuth();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [cartCount, setCartCount] = useState(0);
+    const { user } = useAuth();
+
+
+    const fetchCartCount = () => {
+      if (user?.id) {
+
+        fetch(`${API}/api/product/getcart/${user.id}`)
+          .then((res) => res.json())
+          .then((data) => {
+
+            const totalQty = data.reduce(
+              (total, item) => total + Number(item.quantity),
+              0
+            );
+
+            setCartCount(totalQty);
+
+          });
+
+      }
+
+    };
+
+    useEffect(() => {
+
+      fetchCartCount();
+
+      // auto refresh every 1 second
+      const interval = setInterval(() => {
+        fetchCartCount();
+      }, 1000);
+
+      return () => clearInterval(interval);
+
+    }, [user]);
 
   return (
     <>
@@ -43,9 +80,25 @@ function Header(){
           
           {/* ICONS */}
           <div className="header-icon-cartshop col-4 col-md-3 text-start ">
-            <Link to="/Cart" className="btn btn-outline-dark me-2">
-              <FaShoppingCart />
-            </Link>
+
+            <Link
+                to="/Cart"
+                className="btn btn-outline-dark me-2 position-relative"
+              >
+                <FaShoppingCart />
+
+                {cartCount > 0 && (
+                  <span
+                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{
+                      fontSize: "10px",
+                      padding: "5px 7px"
+                    }}
+                  >
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
 
             {user? (
               user.usertype == "customer" ? (    
@@ -60,8 +113,6 @@ function Header(){
             ) : (
               <Link to="/user-login-page" className="btn btn-dark"><FaUser/> Login </Link>
             )}
-
-
           </div>
 
           {/* LOGO */}

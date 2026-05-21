@@ -108,16 +108,16 @@ function Cart() {
   );
 };
 
-  const removeItem = async (productId) => {
+  const removeItem = async (cartid) => {
     try {
-      const response = await fetch("http://localhost:5000/api/product/removefromcart", {
+      const response = await fetch(`${API}/api/product/removefromcart`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customer_id: user.id,   // logged-in user id
-          product_id: productId,  // product id
+          cartId:cartid,
+          customer_id:user.id
         }),
       });
 
@@ -128,7 +128,7 @@ function Cart() {
 
       if (response.ok) {
         // remove from UI after success
-        setCartItems(prev => prev.filter(item => item.product_id !== productId));
+        setCartItems(prev => prev.filter(item => item.id !== cartid));
         console.log(data.message);
       } else {
         console.error(data.error);
@@ -214,7 +214,11 @@ function Cart() {
 
                 <div className="tc-item-info">
                   <div className="tc-item-name">{item.name}</div>
-                  <div className="tc-item-weight">{item.custompieces} Pieces</div>
+                  
+                    {item.custompieces?.trim() && (
+                    <div className="tc-item-weight">{item.custompieces} Pieces</div>
+                    )}
+
                   <div className="tc-fresh-badge">
                     <i className="bi bi-check-circle"></i> Farm Fresh · No Preservatives
                   </div>
@@ -237,11 +241,14 @@ function Cart() {
                       <span>{item.qty}</span>
                       <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
                     </div>
-                    <div className="tc-subtotal">Subtotal: ₹{item.origPrice * item.qty}</div>
+
+                    <div className="tc-subtotal">
+                      Subtotal: ₹{(item.price || item.origPrice) * item.qty}
+                    </div>
                   </div>
                 </div>
 
-                <button className="tc-delete" onClick={() => removeItem(item.product_id)}>
+                <button className="tc-delete" onClick={() => removeItem(item.id)}>
                   <i className="bi bi-x-lg"></i>
                 </button>
               </div>
@@ -276,18 +283,18 @@ function Cart() {
             <div className="tc-sum-row total">
               <span>Total Amount</span><span>₹{grandTotal}</span>
             </div>
-
+{/* 
             <div className="tc-saving-text">
               <i className="bi bi-emoji-smile"></i> You save ₹{savings} on this order!
-            </div>
+            </div> */}
 
             {/* Promo */}
-            <div className="tc-promo">
+            {/* <div className="tc-promo">
               <span><i className="bi bi-tag"></i></span>
               <div className="tc-promo-text">
                 Have a promo code? <span>Apply here</span>
               </div>
-            </div>
+            </div> */}
 
             <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
 

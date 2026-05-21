@@ -8,141 +8,123 @@ import {useAuth} from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
-import PersonalDetails from './customer/PersonalDetails';
+import PersonalDetails from './customer/PersonalDetails';   
+import OrderStatus from './customer/OrderStatus';
+import CustomerOrderHistory from './customer/CustomerOrderHistory';
 
-function CustomerPanel(){
+function CustomerPanel() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("details");
 
-    if (user) {
+    const { logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/user-login-page");
+    };
+
+    // Redirect / Login Message
+    if (!user) {
         return (
-            <>
-                <div className="customer-db-tab-welcome">
-                    <h2 className="customer-db-tab-welcome-title">
-                        Hi {user.name} 👋
-                    </h2>
-                    <p className="customer-db-tab-welcome-subtitle">
-                        Welcome to AyamKini
-                    </p>
+            <div className="customer-db-login-message">
+                <h2>Please Login</h2>
+
+                <button
+                    className="customer-db-login-btn"
+                    onClick={() => navigate("/user-login-page")}
+                >
+                    Go to Login
+                </button>
+            </div>
+        );
+    }
+
+    // Tab Data
+    const tabs = [
+        {
+            id: "details",
+            label: "Personal Details",
+            component: <PersonalDetails/>,
+        },
+        {
+            id: "status",
+            label: "Order Status",
+            component: <OrderStatus />,
+        },
+        {
+            id: "history",
+            label: "Order History",
+            component: <CustomerOrderHistory />,
+        },
+    ];
+
+    // Active Component
+    const activeContent = tabs.find(
+        (tab) => tab.id === activeTab
+    )?.component;
+
+    return (
+        <div className="customer-db">
+
+            {/* Welcome Section */}
+            <div className="customer-db-tab-welcome">
+
+                <p className="customer-db-tab-welcome-subtitle"style={{ color: "#000",fontWeight:700, fontSize:30}}>
+                    Welcome to AyamKini
+                </p>
+            </div>
+
+            {/* Tab Container */}
+            <div className="customer-db-tab-container">
+
+                {/* Tab Header */}
+                <div className="customer-db-tab-header">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            className={`customer-db-tab-btn ${
+                                activeTab === tab.id ? "active" : ""
+                            }`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                    <button
+                        className="customer-db-tab-btn customer-db-tab-logout-btn"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
                 </div>
 
-                 <div className="customer-db-tab-container">
-
-                    {/* Tabs */}
-                    <div className="customer-db-tab-header">
-                        <button
-                        className={
-                            activeTab === "details"
-                            ? "customer-db-tab-btn active"
-                            : "customer-db-tab-btn"
-                        }
-                        onClick={() => setActiveTab("details")}
-                        >
-                        Personal Details
-                        </button>
-
-                        <button
-                        className={
-                            activeTab === "status"
-                            ? "customer-db-tab-btn active"
-                            : "customer-db-tab-btn"
-                        }
-                        onClick={() => setActiveTab("status")}
-                        >
-                        Order Status
-                        </button>
-
-                        <button
-                        className={
-                            activeTab === "history"
-                            ? "customer-db-tab-btn active"
-                            : "customer-db-tab-btn"
-                        }
-                        onClick={() => setActiveTab("history")}
-                        >
-                        Order History
-                        </button>
-
-                        <button
-                        className={
-                            activeTab === "setting"
-                            ? "customer-db-tab-btn active"
-                            : "customer-db-tab-btn"
-                        }
-                        onClick={() => setActiveTab("setting")}
-                        >
-                        Settings
-                        </button>
-
-                        
+                {/* Tab Content */}
+                <div className="customer-db-tab-content">
+                    <div className="customer-db-tab-pane">
+                        {activeContent}
                     </div>
+                </div>
 
-                    {/* Content */}
-                    <div className="customer-db-tab-content">
-                        {activeTab === "details" && (
-                        <div className="customer-db-tab-pane">
-                            <PersonalDetails/>
-                        </div>
-                        )}
-
-                        {activeTab === "status" && (
-                        <div className="customer-db-tab-pane">
-                            <OrderStatus/>
-                        </div>
-                        )}
-
-                        {activeTab === "history" && (
-                        <div className="customer-db-tab-pane">
-                            <OrderHistory/>
-                        </div>
-                        )}
-
-                        {activeTab === "setting" && (
-                        <div className="customer-db-tab-pane">
-                            <Settings/>
-                        </div>
-                        )}
-
-                    </div>
-
-                    </div>
-            </>)
-    } else {
-        return <h1>Please login</h1>;
-    }
-}
-
-
-
-
-
-function OrderStatus(){
-    return(
-        <>
-            <h2>Order Status</h2>
-            <p>Show current orders here...</p>
-        </>
-    );
-}
-
-function OrderHistory(){
-    return(
-        <>
-            <h2>Order History</h2>
-            <p>Show past orders here...</p>
-        </>
-    );
-}
-
-function Settings(){
-    const { logout } = useAuth();
-    return(
-        <>
-            <button className="customer-db-tab-logout-btn" onClick={logout}>Logout</button>
-        </>
+            </div>
+        </div>
     );
 }
 
 
+/* -------------------------------
+   Settings
+-------------------------------- */
+
+function Settings() {
+    
+
+    return (
+        <div className="customer-db-settings">
+            {/* <h2>Settings</h2> */}
+
+            
+        </div>
+    );
+}
 export default CustomerPanel;

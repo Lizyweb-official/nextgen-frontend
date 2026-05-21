@@ -59,7 +59,7 @@ function Hero(){
           chicken delivered fast &amp; fresh.
         </p>
  
-        <a href="#shop" className="hero-banner__btn">
+        <a href="shop" className="hero-banner__btn">
           Shop Now
         </a>
       </div>
@@ -152,7 +152,7 @@ function VisionMission(){
   Our <span>Vision</span>
 </h2>
 
-<p style={{ color: "#fff" }}>
+<p className="meat-quote" style={{ color: "#fff", marginTop: "20px" }}>
   To become India’s most trusted and hygienic meat brand, delivering quality to every home.
 </p>
 
@@ -205,13 +205,13 @@ function VisionMission(){
     style={{ backgroundImage: `url(${mision})` }}
   >
     <div className="meat-overlay meat-overlay-light">
-      <div className="meat-content">
+      <div className="meat-content meat-content-light">
 
         <h2>
           Our <span>Mission</span>
         </h2>
 
-        <p className="meat-quote">
+        <p className="meat-quote meat-quote-light">
           “Farm-lendhu table varai – quality-ah control pannitu deliver pannrom.”
         </p>
 
@@ -344,7 +344,7 @@ function Ourvalues(){
       <div className="meat-values-container">
 
         <div className="meat-value-card">
-          <i className="bi bi-droplet-fill meat-value-icon"></i>
+          <i className="bi bi-droplet meat-value-icon"></i>
           <h3>Freshness First</h3>
           <p>We deliver farm-fresh meat daily with zero compromise.</p>
         </div>

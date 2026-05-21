@@ -80,7 +80,7 @@ function SingleProductPage() {
             console.log(data);
 
             const response = await fetch(
-                "http://localhost:5000/api/product/addproducttocart",
+                `${API}/api/product/addproducttocart`,
                 {
                     method: "POST",
                     headers: {
@@ -219,9 +219,7 @@ function SingleProductPage() {
                 </div>
             </div>
         )}
-
-
-
+ 
         {/* QUANTITY */}
             <div className="single-page-qty-row">
                 <label className="single-page-qty-label">Qty</label>
