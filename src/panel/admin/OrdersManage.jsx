@@ -44,6 +44,14 @@ function ProductManage(){
                         Order History
                     </button>
 
+                    <button
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "orderh" ? "admin-db-secondary-maintab-active" : ""}`}
+                        onClick={() => setActiveTab("orderavailcity")}
+                    >
+                        <i className="bi bi-plus-circle admin-db-secondary-maintab-btn-icon"></i>
+                        Manage Orders Available City 
+                    </button>
+
                 </div>
 
                 {/* Tabs Content */}
@@ -60,6 +68,12 @@ function ProductManage(){
                     )}
                     
                     {activeTab === "orderh" && (
+                        <div className="admin-db-secondary-maintab-panel">
+                            <OrderHistory/>
+                        </div>
+                    )}
+                    
+                    {activeTab === "orderavailcity" && (
                         <div className="admin-db-secondary-maintab-panel">
                             <OrderHistory/>
                         </div>

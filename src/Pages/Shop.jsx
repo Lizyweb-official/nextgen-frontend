@@ -309,7 +309,7 @@ function Shop() {
 
                 {/* PRODUCT IMAGE */}
 
-                <div className='product-imgbox'>
+                <div className=' product-imgbox'>
                   <img
                     src={p.image}
                     alt={p.name}
@@ -396,6 +396,17 @@ function Shop() {
 
                     <button
                       className="btn btn-dark w-100 add-cart-btn"
+                      onClick={(e) => {
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        addToCart(
+                          p.id,
+                          p.sale_price || p.base_price
+                        );
+
+                      }}
                     >
                       Add to Cart
                     </button>
