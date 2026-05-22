@@ -3008,9 +3008,7 @@
     }
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
 
@@ -4070,11 +4068,14 @@
 ===================================================== */
 
 .shop-page {
-  padding-top: 0px;
-  padding-bottom: 0px;
+  overflow-x: hidden;     
+  padding-bottom: 50px;
   padding-left: 0px;
   padding-right: 0px;
-}
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+} 
+
 
 /* =====================================================
    CATEGORY SECTION
@@ -4084,21 +4085,19 @@
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  padding-top: 40px;
+  padding-top: 10px;
   padding-bottom: 15px;
   margin-bottom: 40px;
-  margin-top: 0px;
-
-  /* Background */
-  background: #bd1e1e;
+  background: #ffffff;
   padding-left: 20px;
   /* padding-left: 25px;
   padding-right: 25px; */
   /* border-radius: 20px; */
   height: auto;
+  box-shadow:0px 0px 10px rgba(0, 0, 0, 0.255);
 }
 
-.category-wrapper::-webkit-scrollbar {
+.category-wrapper::-webkit-scrollbar {   
   height: 6px;
 }
 
@@ -4125,7 +4124,7 @@
   border-radius: 50%;
   border: 5px solid #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  transition: 0.3s;
+  transition: 0.3s;     
   background:#fff;
 }
 
@@ -4151,6 +4150,15 @@
 
 .product-row {
   row-gap: 25px;
+  padding:0px 70px;
+}
+
+@media(max-width:768px){
+  .product-row {
+    row-gap: 25px;
+    padding:0px 10px;
+  }
+  
 }
 
 /* =====================================================
@@ -4162,7 +4170,7 @@
   border-radius: 16px;
   overflow: hidden;
   transition: 0.35s;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.23);
   background: #fff;
 }
 
@@ -4182,9 +4190,15 @@
 
 .product-image {
   width: 100%;
-  height: 220px;
+  height: 250px !important;
   object-fit: cover;
   transition: all 1s ease;
+}
+
+@media(max-width:768px){
+.product-image {
+  height: 190px !important;
+}
 }
 
 .product-image:hover {
@@ -4354,34 +4368,21 @@
 ===================================================== */
 
 .shop-page-hero {
-  width: 100%;
-  height: 180px;
-
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.55)
-    ),
-    url("https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?q=80&w=1600&auto=format&fit=crop");
-
+  width: 100%;                          
+  height: 250px;  
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  
-
-  margin-bottom: 40px;
   overflow: hidden;
 }
 
 /* =====================================================
    OVERLAY
 ===================================================== */
-
+ 
 .shop-page-overlay {
   text-align: center;
   padding: 20px;
@@ -4456,7 +4457,6 @@
 
   .shop-page-hero {
     height: 220px;
-    border-radius: 0 0 25px 25px;
   }
 
   .shop-page-title {
@@ -4473,7 +4473,6 @@
 
   .shop-page-hero {
     height: 180px;
-    margin-bottom: 30px;
   }
 
   .shop-page-title {
@@ -4487,5 +4486,193 @@
   .shop-page-breadcrumb-link,
   .shop-page-breadcrumb-item.active {
     font-size: 13px;
+  }
+}
+/* order successfull portion*/
+
+.order-success-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* =============================
+   LOADING
+============================= */
+.order-success-loading {
+  text-align: center;
+  margin-top: 100px;
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.3px;
+}
+
+/* =============================
+   SUCCESS MESSAGE
+============================= */
+.order-success-message {
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 44px 40px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.order-success-message::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 50%, rgba(252, 220, 13, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 20%, rgba(200, 16, 46, 0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.order-success-message::after {
+  content: '✓';
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 96px;
+  color: #fcdc0d;
+  opacity: 0.12;
+  line-height: 1;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+}
+.order-success-message h1 {
+  font-family: 'Sora', sans-serif;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+.order-success-message p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* =============================
+   ERROR
+============================= */
+.order-success-error {
+  background: #fff0f1;
+  color: #7a0a1e;
+  border-left: 4px solid #c8102e;
+  padding: 14px 20px;
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+}
+
+/* =============================
+   EMPTY
+============================= */
+.order-success-empty {
+  text-align: center;
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #888;
+  padding: 60px 20px;
+}
+
+/* =============================
+   ORDER CARD
+============================= */
+.order-success-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px 32px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+.order-success-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #fcdc0d 0%, #f5c800 40%, #c8102e 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+/* =============================
+   CARD TITLE
+============================= */
+.order-success-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #111111;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f0f0ef;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: -0.3px;
+}
+.order-success-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  border-radius: 4px;
+  background: #c8102e;
+  flex-shrink: 0;
+}
+
+/* =============================
+   PAYMENT STATUS
+============================= */
+.order-payment-status {
+  background: #fcdc0d;
+  color: #1a1a1a;
+  padding: 4px 14px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* =============================
+   RESPONSIVE
+============================= */
+@media (max-width: 768px) {
+  .order-success-container {
+    padding: 16px 12px;
+  }
+  .order-success-message {
+    padding: 30px 24px;
+    border-radius: 16px;
+  }
+  .order-success-message h1 {
+    font-size: 22px;
+  }
+  .order-success-message::after {
+    font-size: 64px;
+    right: 20px;
+  }
+  .order-success-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+  .order-success-title {
+    font-size: 17px;
   }
 }
