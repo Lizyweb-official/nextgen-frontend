@@ -16,6 +16,7 @@ import UserAccountManagement from './admin/UserAccountManagement';
 import AllMedia from './admin/AllMedia';
 import ProductManage from './admin/ProductManage';
 import OrderManage from './admin/OrdersManage';
+import AdminSetting from './admin/orders/AdminSettings';
 
 function AdminPanel(){
     const {user} = useAuth();
@@ -40,11 +41,7 @@ function AdminPanel(){
       case "orders":
         return <OrderManage/>;
       case "settings":
-        return (
-          <div>
-            <button className="admin-db-main-tab-logout-btn">Logout</button>
-          </div>
-        );
+        return <AdminSetting/>
       default:
         return <div>Select a tab</div>;
     };
