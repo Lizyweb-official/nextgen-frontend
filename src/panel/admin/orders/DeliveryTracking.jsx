@@ -25,7 +25,6 @@ function DeliveryTracking() {
   const fetchOrders = async () => {
 
     setLoading(true);
-
     try {
 
       const response = await fetch(`${API}/api/order/getallorders`);
