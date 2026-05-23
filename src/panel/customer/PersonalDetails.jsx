@@ -80,7 +80,7 @@ const styles = {
         cursor: "pointer",
         fontFamily: "'Nunito', sans-serif",
         letterSpacing: "0.2px",
-        transition: "background 0.15s, transform 0.1s",
+        transition: "background 0.15s",
     },
     card: {
         background: "#fff",
@@ -88,6 +88,7 @@ const styles = {
         border: "1px solid #ece9e3",
         overflow: "hidden",
         boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+        padding: "28px",
     },
     sectionLabel: {
         fontSize: "11px",
@@ -95,21 +96,23 @@ const styles = {
         letterSpacing: "1.2px",
         textTransform: "uppercase",
         color: "#c8102e",
-        padding: "18px 28px 12px",
-        borderBottom: "1px solid #f5f3ef",
+        marginBottom: "20px",
+    },
+    divider: {
+        height: "1px",
+        background: "#f0ede8",
+        margin: "24px 0",
     },
     grid: {
         display: "grid",
         gridTemplateColumns: "1fr 1fr 1fr",
-        gap: "0",
+        gap: "24px",
+        marginBottom: "24px",
     },
-    field: {
-        padding: "18px 28px",
-        borderRight: "1px solid #f5f3ef",
-        borderBottom: "1px solid #f5f3ef",
-    },
-    fieldLast: {
-        borderRight: "none",
+    grid2: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "24px",
     },
     fieldLabel: {
         fontSize: "11px",
@@ -118,9 +121,6 @@ const styles = {
         textTransform: "uppercase",
         color: "#bbb",
         marginBottom: "6px",
-        display: "flex",
-        alignItems: "center",
-        gap: "5px",
     },
     fieldValue: {
         fontSize: "15px",
@@ -186,9 +186,6 @@ const styles = {
     modalBody: {
         padding: "24px 28px",
     },
-    formSection: {
-        marginBottom: "20px",
-    },
     formSectionTitle: {
         fontSize: "11px",
         fontWeight: "800",
@@ -232,7 +229,7 @@ const styles = {
         background: "#faf9f7",
         transition: "border-color 0.15s",
     },
-    divider: {
+    modalDivider: {
         height: "1px",
         background: "#f0ede8",
         margin: "4px 0 20px",
@@ -254,7 +251,7 @@ const styles = {
         cursor: "pointer",
         fontFamily: "'Nunito', sans-serif",
         letterSpacing: "0.2px",
-        transition: "background 0.15s, transform 0.1s",
+        transition: "background 0.15s",
     },
     cancelBtn: {
         background: "#fff",
@@ -284,9 +281,9 @@ const IconEdit = () => (
     </svg>
 );
 
-function Field({ label, value, last }) {
+function Field({ label, value }) {
     return (
-        <div style={{ ...styles.field, ...(last ? styles.fieldLast : {}) }}>
+        <div>
             <div style={styles.fieldLabel}>{label}</div>
             {value
                 ? <div style={styles.fieldValue}>{value}</div>
@@ -426,7 +423,6 @@ function PersonalDetails() {
 
     return (
         <>
-            {/* Google Font */}
             <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
             <div style={styles.page}>
@@ -454,26 +450,28 @@ function PersonalDetails() {
                     {/* ── CARD ── */}
                     <div style={styles.card}>
 
-                        {/* Personal Info section */}
+                        {/* Personal Info */}
                         <div style={styles.sectionLabel}>Personal Info</div>
                         <div style={styles.grid}>
-                            <Field label="Full Name" value={userData.name}           />
+                            <Field label="Full Name" value={userData.name} />
                             <Field label="Phone"     value={userData.contact_Number} />
-                            <Field label="Email"     value={userData.email_Address}  last />
+                            <Field label="Email"     value={userData.email_Address} />
                         </div>
 
-                        {/* Address section */}
-                        <div style={{ ...styles.sectionLabel, borderTop: "1px solid #f5f3ef" }}>
-                            Delivery Address
+                        <div style={styles.divider} />
+
+                        {/* Delivery Address */}
+                        <div style={styles.sectionLabel}>Delivery Address</div>
+                        <div style={{ marginBottom: "24px" }}>
+                            <Field label="Street" value={userData.street} />
                         </div>
                         <div style={styles.grid}>
-                            <Field label="Street"   value={userData.street}   />
-                            <Field label="City"     value={userData.city}     />
-                            <Field label="District" value={userData.district} last />
+                            <Field label="City"     value={userData.city} />
+                            <Field label="District" value={userData.district} />
+                            <Field label="State"    value={userData.state} />
                         </div>
-                        <div style={styles.grid}>
-                            <Field label="State"   value={userData.state}   />
-                            <Field label="Pincode" value={userData.pincode} last />
+                        <div style={styles.grid2}>
+                            <Field label="Pincode" value={userData.pincode} />
                         </div>
 
                     </div>
@@ -502,7 +500,7 @@ function PersonalDetails() {
                                 <InputField label="Email Address" name="email_Address" value={editData.email_Address} onChange={handleChange} placeholder="you@example.com" />
                             </div>
 
-                            <div style={styles.divider} />
+                            <div style={styles.modalDivider} />
 
                             <div style={styles.formSectionTitle}>Delivery Address</div>
                             <div style={{ marginBottom: "12px" }}>
