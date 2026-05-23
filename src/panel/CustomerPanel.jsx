@@ -8,6 +8,7 @@ import {useAuth} from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { useState , useEffect } from "react";
 
+import CustomerDashboard from '../CustomerDashboard';
 import PersonalDetails from './customer/PersonalDetails';   
 import OrderStatus from './customer/OrderStatus';
 import CustomerOrderHistory from './customer/CustomerOrderHistory';

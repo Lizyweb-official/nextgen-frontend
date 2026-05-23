@@ -284,17 +284,6 @@ const IconEdit = () => (
     </svg>
 );
 
-const fieldConfig = [
-    { key: "name",           label: "Full Name",   icon: "👤", span: 1 },
-    { key: "contact_Number", label: "Phone",       icon: "📱", span: 1 },
-    { key: "email_Address",  label: "Email",       icon: "✉️", span: 1 },
-    { key: "street",         label: "Street",      icon: "🏠", span: 1 },
-    { key: "city",           label: "City",        icon: "🏙️", span: 1 },
-    { key: "district",       label: "District",    icon: "📍", span: 1 },
-    { key: "state",          label: "State",       icon: "🗺️", span: 1 },
-    { key: "pincode",        label: "Pincode",     icon: "📮", span: 1 },
-];
-
 function Field({ label, value, last }) {
     return (
         <div style={{ ...styles.field, ...(last ? styles.fieldLast : {}) }}>
@@ -468,9 +457,9 @@ function PersonalDetails() {
                         {/* Personal Info section */}
                         <div style={styles.sectionLabel}>Personal Info</div>
                         <div style={styles.grid}>
-                            <Field label="Full Name"    value={userData.name}           />
-                            <Field label="Phone"        value={userData.contact_Number} />
-                            <Field label="Email"        value={userData.email_Address}  last />
+                            <Field label="Full Name" value={userData.name}           />
+                            <Field label="Phone"     value={userData.contact_Number} />
+                            <Field label="Email"     value={userData.email_Address}  last />
                         </div>
 
                         {/* Address section */}
@@ -482,10 +471,9 @@ function PersonalDetails() {
                             <Field label="City"     value={userData.city}     />
                             <Field label="District" value={userData.district} last />
                         </div>
-                        <div style={{ ...styles.grid, gridTemplateColumns: "1fr 1fr 1fr" }}>
+                        <div style={styles.grid}>
                             <Field label="State"   value={userData.state}   />
-                            <Field label="Pincode" value={userData.pincode} />
-                            <div style={{ ...styles.field, ...styles.fieldLast, background: "#faf9f7" }} />
+                            <Field label="Pincode" value={userData.pincode} last />
                         </div>
 
                     </div>
@@ -511,7 +499,7 @@ function PersonalDetails() {
                                 <InputField label="Phone Number" name="contact_Number" value={editData.contact_Number} onChange={handleChange} placeholder="+91 98765 43210" />
                             </div>
                             <div style={{ marginBottom: "20px" }}>
-                                <InputField label="Email Address" name="email_Address" value={editData.email_Address}  onChange={handleChange} placeholder="you@example.com" />
+                                <InputField label="Email Address" name="email_Address" value={editData.email_Address} onChange={handleChange} placeholder="you@example.com" />
                             </div>
 
                             <div style={styles.divider} />
