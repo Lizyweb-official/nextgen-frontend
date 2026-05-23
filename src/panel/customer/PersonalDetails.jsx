@@ -232,6 +232,18 @@ const styles = {
         background: "#faf9f7",
         transition: "border-color 0.15s",
     },
+    inputReadonly: {
+        border: "1.5px solid #e8e5df",
+        borderRadius: "10px",
+        padding: "10px 14px",
+        fontSize: "14px",
+        fontWeight: "600",
+        color: "#888",
+        fontFamily: "'Nunito', sans-serif",
+        outline: "none",
+        background: "#f0ede8",
+        cursor: "not-allowed",
+    },
     divider: {
         height: "1px",
         background: "#f0ede8",
@@ -284,17 +296,6 @@ const IconEdit = () => (
     </svg>
 );
 
-const fieldConfig = [
-    { key: "name",           label: "Full Name",   icon: "👤", span: 1 },
-    { key: "contact_Number", label: "Phone",       icon: "📱", span: 1 },
-    { key: "email_Address",  label: "Email",       icon: "✉️", span: 1 },
-    { key: "street",         label: "Street",      icon: "🏠", span: 1 },
-    { key: "city",           label: "City",        icon: "🏙️", span: 1 },
-    { key: "district",       label: "District",    icon: "📍", span: 1 },
-    { key: "state",          label: "State",       icon: "🗺️", span: 1 },
-    { key: "pincode",        label: "Pincode",     icon: "📮", span: 1 },
-];
-
 function Field({ label, value, last }) {
     return (
         <div style={{ ...styles.field, ...(last ? styles.fieldLast : {}) }}>
@@ -335,7 +336,7 @@ function PersonalDetails() {
 
     const [userData, setUserData] = useState({
         name: "", contact_Number: "", street: "",
-        city: "", district: "", state: "", pincode: "", email_Address: ""
+        city: "", state: "", pincode: "", email_Address: ""
     });
 
     const [showModal, setShowModal] = useState(false);
@@ -343,8 +344,51 @@ function PersonalDetails() {
 
     const [editData, setEditData] = useState({
         name: "", contact_Number: "", street: "",
-        city: "", district: "", state: "", pincode: "", email_Address: ""
+        city: "", state: "", pincode: "", email_Address: ""
     });
+
+    // Location data from API
+    const [locationData, setLocationData] = useState({
+        cities: [],
+        state: "",
+        country: "",
+    });
+
+    /* =========================================
+       FETCH LOCATION DATA (cities/state/country)
+    ========================================= */
+
+    useEffect(() => {
+        const fetchLocationData = async () => {
+            try {
+                const res = await fetch(`${API}/api/admin/getallordercity`);
+                const data = await res.json();
+
+                const cities = data
+                    .filter(d => d.type === "city")
+                    .map(d => {
+                        const [cityName, pincode] = d.name.split(",");
+                        return {
+                            id: d.id,
+                            name: cityName.trim(),
+                            pincode: pincode?.trim() || "",
+                        };
+                    });
+
+                const stateObj   = data.find(d => d.type === "state");
+                const countryObj = data.find(d => d.type === "country");
+
+                setLocationData({
+                    cities,
+                    state:   stateObj?.name   || "",
+                    country: countryObj?.name || "",
+                });
+            } catch (err) {
+                console.error("Failed to fetch location data:", err);
+            }
+        };
+        fetchLocationData();
+    }, []);
 
     /* =========================================
        FETCH USER DETAILS
@@ -362,14 +406,13 @@ function PersonalDetails() {
                 const data = await response.json();
                 if (data?.message) return;
                 setUserData({
-                    name: data.name || "",
+                    name:           data.name          || "",
                     contact_Number: data.contactNumber || "",
-                    street: data.street || "",
-                    city: data.city || "",
-                    district: data.district || "",
-                    state: data.state || "",
-                    pincode: data.pincode || "",
-                    email_Address: data.emailAddress || ""
+                    street:         data.street        || "",
+                    city:           data.city          || "",
+                    state:          data.state         || "",
+                    pincode:        data.pincode        || "",
+                    email_Address:  data.emailAddress  || "",
                 });
             } catch (err) { console.error(err); }
         };
@@ -394,26 +437,39 @@ function PersonalDetails() {
     };
 
     /* =========================================
+       HANDLE CITY CHANGE — auto-fill pincode
+    ========================================= */
+
+    const handleCityChange = (e) => {
+        const selected = locationData.cities.find(c => c.name === e.target.value);
+        setEditData(prev => ({
+            ...prev,
+            city:    selected?.name    || "",
+            pincode: selected?.pincode || "",
+            state:   locationData.state,
+        }));
+    };
+
+    /* =========================================
        SAVE USER DETAILS
     ========================================= */
 
     const handleSave = async () => {
         setSaving(true);
         try {
-            const checkRes = await fetch(`${API}/api/getalluserdetails`);
+            const checkRes  = await fetch(`${API}/api/getalluserdetails`);
             const checkData = await checkRes.json();
             const userExists = checkData.some((item) => item.customer_id === user.id);
 
             const payload = {
-                uid: user.id,
-                name: editData.name,
+                uid:          user.id,
+                name:         editData.name,
                 contactNumber: editData.contact_Number,
-                street: editData.street,
-                city: editData.city,
-                district: editData.district,
-                state: editData.state,
-                pincode: editData.pincode,
-                emailAddress: editData.email_Address
+                street:       editData.street,
+                city:         editData.city,
+                state:        locationData.state,
+                pincode:      editData.pincode,
+                emailAddress: editData.email_Address,
             };
 
             const response = await fetch(
@@ -421,12 +477,16 @@ function PersonalDetails() {
                 {
                     method: userExists ? "PUT" : "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
                 }
             );
             const data = await response.json();
             console.log(data.message);
-            setUserData(editData);
+
+            setUserData({
+                ...editData,
+                state: locationData.state,
+            });
             setShowModal(false);
         } catch (error) {
             console.error("Error:", error);
@@ -468,9 +528,9 @@ function PersonalDetails() {
                         {/* Personal Info section */}
                         <div style={styles.sectionLabel}>Personal Info</div>
                         <div style={styles.grid}>
-                            <Field label="Full Name"    value={userData.name}           />
-                            <Field label="Phone"        value={userData.contact_Number} />
-                            <Field label="Email"        value={userData.email_Address}  last />
+                            <Field label="Full Name" value={userData.name}           />
+                            <Field label="Phone"     value={userData.contact_Number} />
+                            <Field label="Email"     value={userData.email_Address}  last />
                         </div>
 
                         {/* Address section */}
@@ -478,13 +538,13 @@ function PersonalDetails() {
                             Delivery Address
                         </div>
                         <div style={styles.grid}>
-                            <Field label="Street"   value={userData.street}   />
-                            <Field label="City"     value={userData.city}     />
-                            <Field label="District" value={userData.district} last />
+                            <Field label="Street"  value={userData.street}  />
+                            <Field label="City"    value={userData.city}    />
+                            <Field label="Pincode" value={userData.pincode} last />
                         </div>
                         <div style={{ ...styles.grid, gridTemplateColumns: "1fr 1fr 1fr" }}>
-                            <Field label="State"   value={userData.state}   />
-                            <Field label="Pincode" value={userData.pincode} />
+                            <Field label="State"   value={userData.state || locationData.state}     />
+                            <Field label="Country" value={locationData.country} />
                             <div style={{ ...styles.field, ...styles.fieldLast, background: "#faf9f7" }} />
                         </div>
 
@@ -505,28 +565,105 @@ function PersonalDetails() {
 
                         <div style={styles.modalBody}>
 
+                            {/* ── Personal Info ── */}
                             <div style={styles.formSectionTitle}>Personal Info</div>
                             <div style={styles.formRow}>
-                                <InputField label="Full Name"    name="name"           value={editData.name}           onChange={handleChange} placeholder="e.g. Arjun Kumar" />
-                                <InputField label="Phone Number" name="contact_Number" value={editData.contact_Number} onChange={handleChange} placeholder="+91 98765 43210" />
+                                <InputField
+                                    label="Full Name"
+                                    name="name"
+                                    value={editData.name}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Arjun Kumar"
+                                />
+                                <InputField
+                                    label="Phone Number"
+                                    name="contact_Number"
+                                    value={editData.contact_Number}
+                                    onChange={handleChange}
+                                    placeholder="+91 98765 43210"
+                                />
                             </div>
                             <div style={{ marginBottom: "20px" }}>
-                                <InputField label="Email Address" name="email_Address" value={editData.email_Address}  onChange={handleChange} placeholder="you@example.com" />
+                                <InputField
+                                    label="Email Address"
+                                    name="email_Address"
+                                    value={editData.email_Address}
+                                    onChange={handleChange}
+                                    placeholder="you@example.com"
+                                />
                             </div>
 
                             <div style={styles.divider} />
 
+                            {/* ── Delivery Address ── */}
                             <div style={styles.formSectionTitle}>Delivery Address</div>
+
+                            {/* Street */}
                             <div style={{ marginBottom: "12px" }}>
-                                <InputField label="Street Address" name="street" value={editData.street} onChange={handleChange} placeholder="House No., Street Name" />
+                                <InputField
+                                    label="Street Address"
+                                    name="street"
+                                    value={editData.street}
+                                    onChange={handleChange}
+                                    placeholder="House No., Street Name"
+                                />
                             </div>
-                            <div style={styles.formRow3}>
-                                <InputField label="City"     name="city"     value={editData.city}     onChange={handleChange} placeholder="Chennai" />
-                                <InputField label="District" name="district" value={editData.district} onChange={handleChange} placeholder="District" />
-                                <InputField label="State"    name="state"    value={editData.state}    onChange={handleChange} placeholder="Tamil Nadu" />
+
+                            {/* City dropdown + Pincode (auto-filled) */}
+                            <div style={styles.formRow}>
+                                <div style={styles.inputWrap}>
+                                    <label style={styles.inputLabel}>City</label>
+                                    <select
+                                        name="city"
+                                        value={editData.city}
+                                        onChange={handleCityChange}
+                                        style={{
+                                            ...styles.input,
+                                            appearance: "none",
+                                            WebkitAppearance: "none",
+                                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "right 12px center",
+                                            paddingRight: "32px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        <option value="">Select City</option>
+                                        {locationData.cities.map(c => (
+                                            <option key={c.id} value={c.name}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div style={styles.inputWrap}>
+                                    <label style={styles.inputLabel}>Pincode</label>
+                                    <input
+                                        style={styles.inputReadonly}
+                                        value={editData.pincode}
+                                        readOnly
+                                        placeholder="Auto-filled on city select"
+                                    />
+                                </div>
                             </div>
-                            <div style={{ marginTop: "12px", maxWidth: "180px" }}>
-                                <InputField label="Pincode" name="pincode" value={editData.pincode} onChange={handleChange} placeholder="600001" />
+
+                            {/* State + Country (read-only) */}
+                            <div style={{ ...styles.formRow, marginTop: "12px" }}>
+                                <div style={styles.inputWrap}>
+                                    <label style={styles.inputLabel}>State</label>
+                                    <input
+                                        style={styles.inputReadonly}
+                                        value={locationData.state}
+                                        readOnly
+                                    />
+                                </div>
+                                <div style={styles.inputWrap}>
+                                    <label style={styles.inputLabel}>Country</label>
+                                    <input
+                                        style={styles.inputReadonly}
+                                        value={locationData.country}
+                                        readOnly
+                                    />
+                                </div>
                             </div>
 
                         </div>

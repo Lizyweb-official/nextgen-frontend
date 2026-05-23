@@ -17,6 +17,7 @@ function Checkout() {
   const [cartItems, setCartItems] = useState([]);
   const [selectedPay, setSelectedPay] = useState("cod");
   const [slotData, setSlotData] = useState(null);
+  const [cities, setCities] = useState([]);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -26,7 +27,6 @@ function Checkout() {
     contact_Number: "",
     street: "",
     city: "",
-    district: "",
     state: "",
     pincode: "",
   });
@@ -61,53 +61,69 @@ function Checkout() {
 
   const fetchSiteSetting = async () => {
     try {
-
-      const response = await fetch(
-        `${API}/api/admin/site-settings/get/1`
-      );
-
+      const response = await fetch(`${API}/api/admin/site-settings/get/1`);
       const data = await response.json();
-
       setSlotStatus(data.setting_value);
       setIsSlotOn(data.setting_value === "on");
-
     } catch (error) {
       console.error("Error fetching setting:", error);
     }
   };
 
   // -----------------------------------
+  // FETCH CITIES / STATE / COUNTRY
+  // -----------------------------------
+
+  useEffect(() => {
+    const fetchOrderCities = async () => {
+      try {
+        const response = await fetch(`${API}/api/admin/getallordercity`);
+        const data = await response.json();
+
+        const cityList = data.filter((d) => d.type === "city");
+        const stateEntry = data.find((d) => d.type === "state");
+        const countryEntry = data.find((d) => d.type === "country");
+
+        setCities(cityList);
+
+        setUserData((prev) => ({
+          ...prev,
+          state: stateEntry?.name || "",
+          country: countryEntry?.name || "",
+        }));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchOrderCities();
+  }, []);
+
+  // -----------------------------------
   // GET USER DETAILS
   // -----------------------------------
 
   useEffect(() => {
-
     const getUserDetails = async () => {
-
       try {
-
         const response = await fetch(`${API}/api/getuserdetailsbyuid`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            uid: user.id,
-          }),
+          body: JSON.stringify({ uid: user.id }),
         });
 
         const data = await response.json();
 
-        setUserData({
+        setUserData((prev) => ({
+          ...prev,
           name: data.name || "",
           contact_Number: data.contactNumber || "",
           street: data.street || "",
           city: data.city || "",
-          district: data.district || "",
-          state: data.state || "",
           pincode: data.pincode || "",
-        });
-
+        }));
       } catch (err) {
         console.log(err);
       }
@@ -116,7 +132,6 @@ function Checkout() {
     if (user?.id) {
       getUserDetails();
     }
-
   }, [user]);
 
   // -----------------------------------
@@ -124,24 +139,17 @@ function Checkout() {
   // -----------------------------------
 
   useEffect(() => {
-
     const getCurrentSlot = async () => {
-
       try {
-
         const response = await fetch(`${API}/api/order/getcurrentslot`);
-
         const data = await response.json();
-
         setSlotData(data);
-
       } catch (err) {
         console.log(err);
       }
     };
 
     getCurrentSlot();
-
   }, []);
 
   // -----------------------------------
@@ -149,39 +157,25 @@ function Checkout() {
   // -----------------------------------
 
   useEffect(() => {
-
     const getCartProducts = async () => {
-
       try {
-
-        const cartResponse = await fetch(
-          `${API}/api/product/getcart/${user.id}`
-        );
-
+        const cartResponse = await fetch(`${API}/api/product/getcart/${user.id}`);
         const cartData = await cartResponse.json();
 
         const products = await Promise.all(
-
           cartData.map(async (item) => {
-
-            const productResponse = await fetch(
-              `${API}/api/product/getproduct/${item.product_id}`
-            );
-
+            const productResponse = await fetch(`${API}/api/product/getproduct/${item.product_id}`);
             const productData = await productResponse.json();
-
             return {
               ...item,
               product_name: productData.name,
               custom_fields: productData.custom_fields,
               custom_pieces: item.custom_pieces,
             };
-
           })
         );
 
         setCartItems(products);
-
       } catch (err) {
         console.log(err);
       }
@@ -190,7 +184,6 @@ function Checkout() {
     if (user?.id) {
       getCartProducts();
     }
-
   }, [user]);
 
   // -----------------------------------
@@ -203,7 +196,6 @@ function Checkout() {
   );
 
   const DELIVERY = 0;
-
   const GRAND_TOTAL = ITEM_TOTAL + DELIVERY;
 
   // -----------------------------------
@@ -211,31 +203,23 @@ function Checkout() {
   // -----------------------------------
 
   const handlePlaceOrder = async () => {
-
-    // SLOT CHECK
     if (!isSlotOn) {
       showWebMessage("No Slot Available");
       return;
     }
 
     try {
-
       const payload = {
-
         customer_id: user.id,
-
         name: userData.name,
         contact_number: userData.contact_Number,
         street: userData.street,
         city: userData.city,
-        district: userData.district,
         state: userData.state,
+        country: userData.country,
         pincode: userData.pincode,
-
         total_amount: GRAND_TOTAL,
-
         payment_method: selectedPay,
-
         items: cartItems.map((item) => ({
           product_id: item.product_id,
           quantity: item.quantity,
@@ -244,21 +228,15 @@ function Checkout() {
         }))
       };
 
-      const response = await fetch(
-        `${API}/api/order/addOrder`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        }
-      );
+      const response = await fetch(`${API}/api/order/addOrder`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-
         showWebMessage("Order placed successfully");
 
         await fetch(`${API}/api/order/clearcartbyid/${user.id}`, {
@@ -266,16 +244,11 @@ function Checkout() {
         });
 
         navigate("/Checkout-t");
-
       } else {
-
         showWebMessage(data.message || "Failed to place order");
       }
-
     } catch (err) {
-
       console.log(err);
-
       showWebMessage("Something went wrong");
     }
   };
@@ -289,6 +262,20 @@ function Checkout() {
       ...userData,
       [e.target.name]: e.target.value
     });
+  };
+
+  // -----------------------------------
+  // CITY CHANGE (auto-fill pincode)
+  // -----------------------------------
+
+  const handleCityChange = (e) => {
+    const value = e.target.value; // e.g. "Coimbatore,641654"
+    const [cityName, pincode] = value.split(",");
+    setUserData((prev) => ({
+      ...prev,
+      city: cityName?.trim() || value,
+      pincode: pincode?.trim() || prev.pincode,
+    }));
   };
 
   return (
@@ -331,58 +318,42 @@ function Checkout() {
         <div className="co-left">
 
           {/* SLOT TEXT */}
-          {
-            slotData && (
-              <div className="co-section">
+          {slotData && (
+            <div className="co-section">
 
-                <div className="co-section-head">
-                  <div className="sec-num">⏰</div>
-                  <h3>Delivery Slot</h3>
-                </div>
-
-                {
-                  isSlotOn ? (
-                    <>
-                      <p
-                        style={{
-                          lineHeight: "28px",
-                          fontWeight: "600"
-                        }}
-                      >
-                        {slotData.delivery_text}
-                      </p>
-
-                      <p
-                        style={{
-                          marginTop: "10px",
-                          fontWeight: "700",
-                          color: "green"
-                        }}
-                      >
-                        Orders are Open
-                      </p>
-                    </>
-                  ) : (
-                    <div
-                      style={{
-                        marginTop: "10px",
-                        padding: "14px",
-                        borderRadius: "10px",
-                        background: "#fff3f3",
-                        color: "#d32f2f",
-                        fontWeight: "700",
-                        textAlign: "center",
-                        border: "1px solid #ffcdd2"
-                      }}
-                    >
-                      No Slot Available
-                    </div>
-                  )
-                }
-
+              <div className="co-section-head">
+                <div className="sec-num">⏰</div>
+                <h3>Delivery Slot</h3>
               </div>
-            )
-          }
+
+              {isSlotOn ? (
+                <>
+                  <p style={{ lineHeight: "28px", fontWeight: "600" }}>
+                    {slotData.delivery_text}
+                  </p>
+                  <p style={{ marginTop: "10px", fontWeight: "700", color: "green" }}>
+                    Orders are Open
+                  </p>
+                </>
+              ) : (
+                <div
+                  style={{
+                    marginTop: "10px",
+                    padding: "14px",
+                    borderRadius: "10px",
+                    background: "#fff3f3",
+                    color: "#d32f2f",
+                    fontWeight: "700",
+                    textAlign: "center",
+                    border: "1px solid #ffcdd2"
+                  }}
+                >
+                  No Slot Available
+                </div>
+              )}
+
+            </div>
+          )}
 
           {/* ADDRESS */}
           <div className="co-section">
@@ -396,7 +367,6 @@ function Checkout() {
 
               <div className="co-field">
                 <label>Full Name</label>
-
                 <input
                   name="name"
                   value={userData.name}
@@ -406,7 +376,6 @@ function Checkout() {
 
               <div className="co-field">
                 <label>Mobile Number</label>
-
                 <input
                   name="contact_Number"
                   value={userData.contact_Number}
@@ -416,7 +385,6 @@ function Checkout() {
 
               <div className="co-field full">
                 <label>Street</label>
-
                 <input
                   name="street"
                   value={userData.street}
@@ -424,43 +392,67 @@ function Checkout() {
                 />
               </div>
 
+              {/* CITY — dropdown */}
               <div className="co-field">
-                <label>City</label>
-
-                <input
+                <label>City / Area</label>
+                <select
                   name="city"
-                  value={userData.city}
-                  onChange={handleInputChange}
-                />
+                  onChange={handleCityChange}
+                  value={
+                    cities.find((c) =>
+                      c.name.startsWith(userData.city)
+                    )?.name || ""
+                  }
+                >
+                  <option value="">Select city...</option>
+                  {cities.map((c) => {
+                    const [cityName, pincode] = c.name.split(",");
+                    return (
+                      <option key={c.id} value={c.name}>
+                        {cityName.trim()}{pincode ? ` - ${pincode.trim()}` : ""}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
 
-              <div className="co-field">
-                <label>District</label>
-
-                <input
-                  name="district"
-                  value={userData.district}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="co-field">
-                <label>State</label>
-
-                <input
-                  name="state"
-                  value={userData.state}
-                  onChange={handleInputChange}
-                />
-              </div>
-
+              {/* PINCODE — auto-filled from city */}
               <div className="co-field">
                 <label>Pincode</label>
-
                 <input
                   name="pincode"
                   value={userData.pincode}
                   onChange={handleInputChange}
+                />
+              </div>
+
+              {/* STATE — locked */}
+              <div className="co-field">
+                <label>State</label>
+                <input
+                  name="state"
+                  value={userData.state}
+                  readOnly
+                  style={{
+                    background: "#f8f8f8",
+                    color: "#aaa",
+                    cursor: "not-allowed"
+                  }}
+                />
+              </div>
+
+              {/* COUNTRY — locked */}
+              <div className="co-field">
+                <label>Country</label>
+                <input
+                  name="country"
+                  value={userData.country}
+                  readOnly
+                  style={{
+                    background: "#f8f8f8",
+                    color: "#aaa",
+                    cursor: "not-allowed"
+                  }}
                 />
               </div>
 
@@ -476,54 +468,35 @@ function Checkout() {
             </div>
 
             <div className="co-pay-options">
+              {payMethods.map((pm) => (
+                <div
+                  key={pm.id}
+                  className={`co-pay-opt ${selectedPay === pm.id ? "selected" : ""}`}
+                  onClick={() => setSelectedPay(pm.id)}
+                >
+                  <input
+                    type="radio"
+                    name="pay"
+                    readOnly
+                    checked={selectedPay === pm.id}
+                  />
 
-              {
-                payMethods.map((pm) => (
-
-                  <div
-                    key={pm.id}
-                    className={`co-pay-opt ${
-                      selectedPay === pm.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedPay(pm.id)}
-                  >
-
-                    <input
-                      type="radio"
-                      name="pay"
-                      readOnly
-                      checked={selectedPay === pm.id}
-                    />
-
-                    <div className="co-pay-icon">
-                      <i className={`bi ${pm.icon}`}></i>
-                    </div>
-
-                    <div className="co-pay-info">
-
-                      <div className="pay-name">
-                        {pm.name}
-                      </div>
-
-                      <div className="pay-sub">
-                        {pm.sub}
-                      </div>
-
-                    </div>
-
-                    {
-                      pm.badge && (
-                        <div className="co-pay-badge">
-                          {pm.badge}
-                        </div>
-                      )
-                    }
-
+                  <div className="co-pay-icon">
+                    <i className={`bi ${pm.icon}`}></i>
                   </div>
-                ))
-              }
 
+                  <div className="co-pay-info">
+                    <div className="pay-name">{pm.name}</div>
+                    <div className="pay-sub">{pm.sub}</div>
+                  </div>
+
+                  {pm.badge && (
+                    <div className="co-pay-badge">{pm.badge}</div>
+                  )}
+                </div>
+              ))}
             </div>
+
           </div>
         </div>
 
@@ -532,55 +505,30 @@ function Checkout() {
 
           <div className="co-summary-card">
 
-            <div className="co-sum-title">
-              Order Summary
-            </div>
+            <div className="co-sum-title">Order Summary</div>
 
-            {
-              cartItems.map((item) => (
+            {cartItems.map((item) => (
+              <div className="co-item-row" key={item.id}>
 
-                <div
-                  className="co-item-row"
-                  key={item.id}
-                >
-
-                  <div className="co-item-detail">
-
-                    <div className="iname">
-                      {item.product_name}
-                    </div>
-
-                    <div className="imeta">
-
-                      {
-                        item.custom_fields?.map((field, index) => (
-                          <div key={index}>
-                            {field.field_name} : {field.field_value}
-                          </div>
-                        ))
-                      }
-
-                      <div>
-                        Qty : {item.quantity}
+                <div className="co-item-detail">
+                  <div className="iname">{item.product_name}</div>
+                  <div className="imeta">
+                    {item.custom_fields?.map((field, index) => (
+                      <div key={index}>
+                        {field.field_name} : {field.field_value}
                       </div>
-
-                      {item.custom_pieces?.trim() && (
-                        <div>
-                          Pieces : {item.custom_pieces}
-                        </div>
-                      )}
-
-                    </div>
-
+                    ))}
+                    <div>Qty : {item.quantity}</div>
+                    {item.custom_pieces?.trim() && (
+                      <div>Pieces : {item.custom_pieces}</div>
+                    )}
                   </div>
-
-                  <div className="co-item-price">
-                    ₹{item.q_price}
-                  </div>
-
                 </div>
-              ))
-            }
+
+                <div className="co-item-price">₹{item.q_price}</div>
+
+              </div>
+            ))}
 
             <hr className="co-divider" />
 
@@ -591,9 +539,7 @@ function Checkout() {
 
             <div className="co-sum-row">
               <span>Delivery</span>
-              <span className="co-green">
-                FREE
-              </span>
+              <span className="co-green">FREE</span>
             </div>
 
             <div className="co-sum-row total">

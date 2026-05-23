@@ -6,7 +6,7 @@ import '../../../css/style.css';
 
 import React, { useEffect, useState } from "react";
 
-const API = "http://localhost:5000/api/admin";
+const API = import.meta.env.VITE_API_URL;
 
 function OrderAvailableCity() {
 
@@ -24,7 +24,7 @@ function OrderAvailableCity() {
 
         try {
 
-            const response = await fetch(`${API}/getallordercity`);
+            const response = await fetch(`${API}/api/admin/getallordercity`);
 
             const result = await response.json();
 
@@ -74,7 +74,7 @@ function OrderAvailableCity() {
         try {
 
             const response = await fetch(
-                `${API}/updatenamebytype`,
+                `${API}/api/admin/updatenamebytype`,
                 {
                     method: "PUT",
                     headers: {
@@ -129,7 +129,7 @@ function OrderAvailableCity() {
         try {
 
             const response = await fetch(
-                `${API}/addordercity`,
+                `${API}/api/admin/addordercity`,
                 {
                     method: "POST",
                     headers: {
@@ -182,7 +182,7 @@ function OrderAvailableCity() {
         try {
 
             const response = await fetch(
-                `${API}/deleteordercitybyid/${id}`,
+                `${API}/api/admin/deleteordercitybyid/${id}`,
                 {
                     method: "DELETE",
                 }
