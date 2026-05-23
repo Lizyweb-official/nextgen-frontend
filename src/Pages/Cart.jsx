@@ -24,6 +24,7 @@ function Cart() {
   const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
 
+
     const fetchCartItems = async (customerId) => {
     try {
       // 1. Get cart data
@@ -314,12 +315,9 @@ function Cart() {
         </div>
   </>
 )}
-
       </div>
     </div>
   );
 }
 
 export default Cart;
-
-

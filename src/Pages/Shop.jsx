@@ -10,6 +10,8 @@ import { Link ,useParams} from "react-router-dom";
 
 import { showWebMessage } from "../context/webMessageHandler";
 
+import ShopBg from "../media/Website-Images/images-3/Shopbg.jpeg";
+
 const API = import.meta.env.VITE_API_URL;
 
 function Shop() {
@@ -169,7 +171,7 @@ function Shop() {
 
   // ================= ADD TO CART =================
 
-  // ✅ ADD TO CART
+  //ADD TO CART
   const addToCart = async (productId,productPrice) => {
     await fetch(`${API}/api/product/addproducttocart`, {
       method: "POST",
@@ -203,7 +205,57 @@ function Shop() {
 
   return (
 
-    <div className="container shop-page">
+    <div className="container-fluid shop-page">
+
+    {/* ================= SHOP HERO ================= */}
+
+    <div className="shop-page-hero py-5" style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.55)
+      ),
+      url(${ShopBg})
+    `,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}>
+
+      <div className="shop-page-overlay">
+
+        <h1 className="shop-page-title">
+          Shop
+        </h1>
+
+        <nav className="shop-page-breadcrumb">
+
+          <ol className="shop-page-breadcrumb-list">
+
+            <li className="shop-page-breadcrumb-item">
+              <Link
+                to="/"
+                className="shop-page-breadcrumb-link"
+              >
+                Home
+              </Link>
+            </li>
+
+            <li className="shop-page-breadcrumb-separator">
+              /
+            </li>
+
+            <li className="shop-page-breadcrumb-item active">
+              Shop
+            </li>
+
+          </ol>
+
+        </nav>
+
+      </div>
+
+    </div>
 
       {/* ================= CATEGORIES ================= */}
 
@@ -257,7 +309,7 @@ function Shop() {
 
                 {/* PRODUCT IMAGE */}
 
-                <div className='product-imgbox'>
+                <div className=' product-imgbox'>
                   <img
                     src={p.image}
                     alt={p.name}
@@ -274,9 +326,9 @@ function Shop() {
 
                   {/* DESCRIPTION */}
 
-                  <p className="product-description">
+                  {/* <p className="product-description">
                     {p.short_description}
-                  </p>
+                  </p> */}
 
                   {/* CUSTOM FIELDS */}
 
@@ -336,14 +388,6 @@ function Shop() {
 
                     <button
                       className="btn btn-dark w-100 add-cart-btn"
-                      onClick={(e) => {
-
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        window.location.href = `/single-product-page/${p.id}`;
-
-                      }}
                     >
                       View Option
                     </button>

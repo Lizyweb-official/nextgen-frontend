@@ -9,6 +9,7 @@ import React, { useState , useEffect } from "react";
 import Orders from './orders/IncomingOrders';
 import OrderHistory from './orders/OrderHistory';
 import DeliveryTracking from './orders/DeliveryTracking';
+import OrderAvailableCity from './orders/OrderAvailableCity';
 
 function ProductManage(){
     const [activeTab, setActiveTab] = useState("IncomingOrders");
@@ -44,6 +45,14 @@ function ProductManage(){
                         Order History
                     </button>
 
+                    <button
+                        className={`admin-db-secondary-maintab-btn ${activeTab === "orderavailcity" ? "admin-db-secondary-maintab-active" : ""}`}
+                        onClick={() => setActiveTab("orderavailcity")}
+                    >
+                        <i className="bi bi-plus-circle admin-db-secondary-maintab-btn-icon"></i>
+                        Manage Orders Available City 
+                    </button>
+
                 </div>
 
                 {/* Tabs Content */}
@@ -62,6 +71,12 @@ function ProductManage(){
                     {activeTab === "orderh" && (
                         <div className="admin-db-secondary-maintab-panel">
                             <OrderHistory/>
+                        </div>
+                    )}
+                    
+                    {activeTab === "orderavailcity" && (
+                        <div className="admin-db-secondary-maintab-panel">
+                            <OrderAvailableCity/>
                         </div>
                     )}
                    
