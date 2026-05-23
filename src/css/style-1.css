@@ -3940,3 +3940,228 @@
 .admin-setting-page-toggle input:disabled ~ .admin-setting-page-toggle-track {
   opacity: 0.4; cursor: not-allowed;
 }
+
+
+
+/* admindb order available city */
+.admin-db-orders-city-root {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    font-family: 'DM Sans', sans-serif;
+    background: #f7f6f3;
+    min-height: 100vh;
+  }
+ 
+  .admin-db-orders-city-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 32px;
+    letter-spacing: -0.5px;
+    position: relative;
+    padding-bottom: 14px;
+  }
+ 
+  .admin-db-orders-city-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #2c6e49, #52b788);
+    border-radius: 2px;
+  }
+ 
+  .admin-db-orders-city-card {
+    background: #ffffff;
+    border: 1px solid #e8e5df;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+ 
+  .admin-db-orders-city-card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+ 
+  .admin-db-orders-city-card-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #7a8a7e;
+    margin-bottom: 14px;
+  }
+ 
+  .admin-db-orders-city-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e0ddd6;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #fafaf8;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+ 
+  .admin-db-orders-city-input:focus {
+    border-color: #2c6e49;
+    box-shadow: 0 0 0 3px rgba(44, 110, 73, 0.1);
+    background: #fff;
+  }
+ 
+  .admin-db-orders-city-input::placeholder {
+    color: #b5b0a8;
+  }
+ 
+  .admin-db-orders-city-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 11px 22px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+ 
+  .admin-db-orders-city-btn:hover {
+    background: #2c6e49;
+    transform: translateY(-1px);
+  }
+ 
+  .admin-db-orders-city-btn:active {
+    transform: translateY(0);
+  }
+ 
+  .admin-db-orders-city-btn-add {
+    background: #2c6e49;
+  }
+ 
+  .admin-db-orders-city-btn-add:hover {
+    background: #1f5236;
+  }
+ 
+  .admin-db-orders-city-list-card {
+    background: #ffffff;
+    border: 1px solid #e8e5df;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+ 
+  .admin-db-orders-city-list-empty {
+    color: #b5b0a8;
+    font-size: 14px;
+    text-align: center;
+    padding: 24px 0;
+  }
+ 
+  .admin-db-orders-city-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0ede8;
+    transition: background 0.15s;
+    animation: admin-db-orders-city-fadein 0.3s ease;
+  }
+ 
+  .admin-db-orders-city-list-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+ 
+  .admin-db-orders-city-list-item:first-child {
+    padding-top: 0;
+  }
+ 
+  .admin-db-orders-city-item-name {
+    font-size: 14px;
+    color: #1a1a1a;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+ 
+  .admin-db-orders-city-item-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #52b788;
+    flex-shrink: 0;
+  }
+ 
+  .admin-db-orders-city-btn-delete {
+    background: transparent;
+    color: #c0392b;
+    border: 1.5px solid #f5c6c2;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.1s;
+  }
+ 
+  .admin-db-orders-city-btn-delete:hover {
+    background: #c0392b;
+    color: #fff;
+    border-color: #c0392b;
+    transform: translateY(-1px);
+  }
+ 
+  .admin-db-orders-city-btn-delete:active {
+    transform: translateY(0);
+  }
+ 
+  .admin-db-orders-city-loading {
+    color: #b5b0a8;
+    font-size: 14px;
+    text-align: center;
+    padding: 60px 0;
+  }
+ 
+  .admin-db-orders-city-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+ 
+  @keyframes admin-db-orders-city-fadein {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  .admin-db-orders-city-badge {
+    display: inline-block;
+    background: #eef6f1;
+    color: #2c6e49;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-left: 8px;
+    letter-spacing: 0.5px;
+  }

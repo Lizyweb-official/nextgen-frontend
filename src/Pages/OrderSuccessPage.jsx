@@ -106,9 +106,9 @@ function OrderSuccessPage() {
 
             <div className="col-md-12 mb-3">
               <strong>Address:</strong>{" "}
-              {order.street}, {order.city},{" "}
-              {order.district}, {order.state} -{" "}
-              {order.pincode}
+              {order.street}, {order.city}{" "}-{" "}
+              {order.pincode},{" "}
+              {order.state}.
             </div>
 
             <div className="col-md-12">
