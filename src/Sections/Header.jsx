@@ -193,7 +193,7 @@ function Header() {
 
       {/* TOP BAR */}
 
-      <div className="top-bar-main-container bg-dark text-white py-1 text-center">
+      <div className="top-bar-main-container bg-dark text-white  text-center">
 
         <marquee behavior="scroll" direction="left">
 
@@ -361,7 +361,7 @@ function Header() {
 
                       <Link
                         key={product.id}
-                        to={`/Single-product/${product.id}`}
+                        to={`/single-product-page/${product.id}`}
                         className="search-dropdown-item"
                       >
 
