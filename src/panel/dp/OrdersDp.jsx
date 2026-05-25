@@ -14,29 +14,24 @@ function OrdersDp() {
   const [readyOrders, setReadyOrders] = useState([]);
   const [activeOrders, setActiveOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const { user } = useAuth();
 
   const fetchOrders = async () => {
     try {
       setLoading(true);
 
-      // 1. ALL ORDERS
-      const ordersRes = await fetch(
-        `${API}/api/order/getallorders`
-      );
+      const ordersRes = await fetch(`${API}/api/order/getallorders`);
       const ordersData = await ordersRes.json();
 
-      // ensure array safety
       const allOrders = Array.isArray(ordersData)
         ? ordersData
         : ordersData.data || [];
 
-      // READY TO DISPATCH (status 2)
       const ready = allOrders.filter(
         (order) => order.status_id === 2
       );
 
-      // 2. DELIVERY PARTNER ORDERS
       const dpRes = await fetch(
         `${API}/api/order/getorderbydp/${user.id}`
       );
@@ -47,12 +42,10 @@ function OrdersDp() {
         ? dpJson
         : dpJson.data || dpJson.result || [];
 
-      // extract order_ids
       const dpOrderIds = dpData.map(
         (item) => item.order_id
       );
 
-      // ACTIVE ORDERS (status 3 + belongs to dp)
       const active = allOrders.filter(
         (order) =>
           order.status_id === 3 &&
@@ -72,7 +65,6 @@ function OrdersDp() {
     fetchOrders();
   }, []);
 
-  // ADD DELIVERY PARTNER ORDER (INSERT)
   const addDeliveryPartnerOrder = async (orderId) => {
     try {
       const res = await fetch(
@@ -95,7 +87,6 @@ function OrdersDp() {
     }
   };
 
-  // TAKE ORDER
   const takeOrder = async (orderId) => {
     try {
       await addDeliveryPartnerOrder(orderId);
@@ -123,7 +114,6 @@ function OrdersDp() {
     }
   };
 
-  // DELIVER ORDER
   const deliverOrder = async (orderId) => {
     try {
       const res = await fetch(
@@ -149,7 +139,6 @@ function OrdersDp() {
     }
   };
 
-  // cancelled ORDER
   const cancelledorder = async (orderId) => {
     try {
       const res = await fetch(
@@ -178,139 +167,204 @@ function OrdersDp() {
   return (
     <div className="dp_db_order_tab_wrapper">
 
-        {/* ── ACTIVE ORDERS ── */}
-        <div className="dp_db_order_tab_section">
-            <div className="dp_db_order_tab_header">
-            <div className="dp_db_order_tab_title_group">
-                <span className="dp_db_order_tab_dot dp_db_order_tab_dot_active" />
-                <h2 className="dp_db_order_tab_title">Active orders</h2>
-                <span className="dp_db_order_tab_badge dp_db_order_tab_badge_active">
-                {activeOrders.length} orders
-                </span>
-            </div>
-            <button className="dp_db_order_tab_refresh_btn" onClick={fetchOrders}>
-                {loading ? "Refreshing..." : "↻ Refresh"}
-            </button>
-            </div>
+      {/* ACTIVE ORDERS */}
+      <div className="dp_db_order_tab_section">
 
-            <table className="dp_db_order_tab_table">
-            <thead>
-                <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Delivery time</th>
-                <th>Contact</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {activeOrders.length > 0 ? (
-                activeOrders.map((order) => (
-                    <tr key={order.id}>
-                    <td className="dp_db_order_tab_order_id">#{order.id}</td>
-                    <td className="dp_db_order_tab_name">{order.name}</td>
-                    <td>
-                        <div className="dp_db_order_tab_time_cell">
-                        🕐 {order.delivery_time}
-                        </div>
-                    </td>
-                    <td className="dp_db_order_tab_contact">{order.contact_number}</td>
-                    <td>
-                        <div className="dp_db_order_tab_actions">
-                        <button
-                            className="dp_db_order_tab_btn dp_db_order_tab_btn_delivered"
-                            onClick={() => deliverOrder(order.id)}
-                        >
-                             Update to Delivered
-                        </button>
-                        <button
-                            className="dp_db_order_tab_btn dp_db_order_tab_btn_delivered"
-                            onClick={() => cancelledorder(order.id)}
-                        >
-                             Cancelled
-                        </button>
-                        <Link to={`/Orderdetailpage/${order.id}`}>
-                            <button className="dp_db_order_tab_btn dp_db_order_tab_btn_view">
-                            View details
-                            </button>
-                        </Link>
-                        </div>
-                    </td>
-                    </tr>
-                ))
-                ) : (
-                <tr className="dp_db_order_tab_empty">
-                    <td colSpan="5">No active orders found</td>
-                </tr>
-                )}
-            </tbody>
-            </table>
+        <div className="dp_db_order_tab_header">
+          <div className="dp_db_order_tab_title_group">
+
+            <span className="dp_db_order_tab_dot dp_db_order_tab_dot_active"></span>
+
+            <h2 className="dp_db_order_tab_title">
+              Active Orders
+            </h2>
+
+            <span className="dp_db_order_tab_badge dp_db_order_tab_badge_active">
+              {activeOrders.length} Orders
+            </span>
+
+          </div>
+
+          <button
+            className="dp_db_order_tab_refresh_btn"
+            onClick={fetchOrders}
+          >
+            {loading ? "Refreshing..." : "↻ Refresh"}
+          </button>
         </div>
 
-        {/* ── READY TO DISPATCH ── */}
-        <div className="dp_db_order_tab_section">
-            <div className="dp_db_order_tab_header">
-            <div className="dp_db_order_tab_title_group">
-                <span className="dp_db_order_tab_dot dp_db_order_tab_dot_ready" />
-                <h2 className="dp_db_order_tab_title">Orders ready to dispatch</h2>
-                <span className="dp_db_order_tab_badge dp_db_order_tab_badge_ready">
-                {readyOrders.length} orders
-                </span>
-            </div>
-            <button className="dp_db_order_tab_refresh_btn" onClick={fetchOrders}>
-                {loading ? "Refreshing..." : "↻ Refresh"}
-            </button>
-            </div>
+        <table className="dp_db_order_tab_table">
 
-            <table className="dp_db_order_tab_table">
-            <thead>
-                <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Delivery time</th>
-                <th>Contact</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {readyOrders.length > 0 ? (
-                readyOrders.map((order) => (
-                    <tr key={order.id}>
-                    <td className="dp_db_order_tab_order_id">#{order.id}</td>
-                    <td className="dp_db_order_tab_name">{order.name}</td>
-                    <td>
-                        <div className="dp_db_order_tab_time_cell">
-                        🕐 {order.delivery_time}
-                        </div>
-                    </td>
-                    <td className="dp_db_order_tab_contact">{order.contact_number}</td>
-                    <td>
-                        <div className="dp_db_order_tab_actions">
-                        <button
-                            className="dp_db_order_tab_btn dp_db_order_tab_btn_take"
-                            onClick={() => takeOrder(order.id)}
-                        >
-                            📦 Take order
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Delivery Time</th>
+              <th>Contact</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {activeOrders.length > 0 ? (
+              activeOrders.map((order) => (
+                <tr key={order.id}>
+
+                  <td className="dp_db_order_tab_order_id">
+                    #{order.id}
+                  </td>
+
+                  <td className="dp_db_order_tab_name">
+                    {order.name}
+                  </td>
+
+                  <td>
+                    <div className="dp_db_order_tab_time_cell">
+                      🕐 {order.delivery_time}
+                    </div>
+                  </td>
+
+                  <td className="dp_db_order_tab_contact">
+                    {order.contact_number}
+                  </td>
+
+                  <td>
+                    <div className="dp_db_order_tab_actions">
+
+                      <button
+                        className="dp_db_order_tab_btn dp_db_order_tab_btn_delivered"
+                        onClick={() => deliverOrder(order.id)}
+                      >
+                        Update to Delivered
+                      </button>
+
+                      <button
+                        className="dp_db_order_tab_btn dp_db_order_tab_btn_cancel"
+                        onClick={() => cancelledorder(order.id)}
+                      >
+                        Cancelled
+                      </button>
+
+                      <Link to={`/Orderdetailpage/${order.id}`}>
+                        <button className="dp_db_order_tab_btn dp_db_order_tab_btn_view">
+                          View Details
                         </button>
-                        <Link to={`/Orderdetailpage/${order.id}`}>
-                            <button className="dp_db_order_tab_btn dp_db_order_tab_btn_view">
-                            View details
-                            </button>
-                        </Link>
-                        </div>
-                    </td>
-                    </tr>
-                ))
-                ) : (
-                <tr className="dp_db_order_tab_empty">
-                    <td colSpan="5">No ready orders found</td>
+                      </Link>
+
+                    </div>
+                  </td>
+
                 </tr>
-                )}
-            </tbody>
-            </table>
-        </div>
+              ))
+            ) : (
+              <tr className="dp_db_order_tab_empty">
+                <td colSpan="5">
+                  No active orders found
+                </td>
+              </tr>
+            )}
+          </tbody>
+
+        </table>
+      </div>
+
+      {/* READY TO DISPATCH */}
+      <div className="dp_db_order_tab_section">
+
+        <div className="dp_db_order_tab_header">
+
+          <div className="dp_db_order_tab_title_group">
+
+            <span className="dp_db_order_tab_dot dp_db_order_tab_dot_ready"></span>
+
+            <h2 className="dp_db_order_tab_title">
+              Orders Ready To Dispatch
+            </h2>
+
+            <span className="dp_db_order_tab_badge dp_db_order_tab_badge_ready">
+              {readyOrders.length} Orders
+            </span>
+
+          </div>
+
+          <button
+            className="dp_db_order_tab_refresh_btn"
+            onClick={fetchOrders}
+          >
+            {loading ? "Refreshing..." : "↻ Refresh"}
+          </button>
 
         </div>
+
+        <table className="dp_db_order_tab_table">
+
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Delivery Time</th>
+              <th>Contact</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {readyOrders.length > 0 ? (
+              readyOrders.map((order) => (
+                <tr key={order.id}>
+
+                  <td className="dp_db_order_tab_order_id">
+                    #{order.id}
+                  </td>
+
+                  <td className="dp_db_order_tab_name">
+                    {order.name}
+                  </td>
+
+                  <td>
+                    <div className="dp_db_order_tab_time_cell">
+                      🕐 {order.delivery_time}
+                    </div>
+                  </td>
+
+                  <td className="dp_db_order_tab_contact">
+                    {order.contact_number}
+                  </td>
+
+                  <td>
+                    <div className="dp_db_order_tab_actions">
+
+                      <button
+                        className="dp_db_order_tab_btn dp_db_order_tab_btn_take"
+                        onClick={() => takeOrder(order.id)}
+                      >
+                        📦 Take Order
+                      </button>
+
+                      <Link to={`/Orderdetailpage/${order.id}`}>
+                        <button className="dp_db_order_tab_btn dp_db_order_tab_btn_view">
+                          View Details
+                        </button>
+                      </Link>
+
+                    </div>
+                  </td>
+
+                </tr>
+              ))
+            ) : (
+              <tr className="dp_db_order_tab_empty">
+                <td colSpan="5">
+                  No ready orders found
+                </td>
+              </tr>
+            )}
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
   );
 }
 
