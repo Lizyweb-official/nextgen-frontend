@@ -344,17 +344,13 @@ function PersonalDetails() {
         city: "", state: "", pincode: "", email_Address: ""
     });
 
-    // Location data from API
     const [locationData, setLocationData] = useState({
         cities: [],
         state: "",
         country: "",
     });
 
-    /* =========================================
-       FETCH LOCATION DATA (cities/state/country)
-    ========================================= */
-
+  
     useEffect(() => {
         const fetchLocationData = async () => {
             try {
