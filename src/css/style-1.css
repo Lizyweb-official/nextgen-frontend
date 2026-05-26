@@ -1989,7 +1989,7 @@
 .single-page-qty-label {
   font-size: 17px;
   font-weight: 700;
-  color: var(--sub);
+  color: #000;
   letter-spacing: 0.3px;
 }
 
@@ -2014,7 +2014,6 @@
 /* Hover Effect */
 .single-page-qty-box:hover {
   transform: translateY(-2px);
-  border-color: var(--brand);
   box-shadow:
     0 10px 28px rgba(0, 0, 0, 0.12),
     0 0 0 4px rgba(255, 99, 71, 0.08);
@@ -2025,11 +2024,7 @@
   width: 52px;
   height: 52px;
   border: none;
-  background: linear-gradient(
-    135deg,
-    var(--brand),
-    #ff8a65
-  );
+  background: var(--sub);
   color: #fff;
   font-size: 22px;
   font-weight: 700;
@@ -2136,35 +2131,90 @@
 }
 
 /* Select */
-.single-pro-page-pieces-select {
+/* ── Label ── */
+.single-pro-page-select-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+/* ── Container ── */
+.single-pro-page-select-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   width: 100%;
+  max-width: 280px;
+}
+
+/* ── Select ── */
+.single-pro-page-pieces-select {
   appearance: none;
   -webkit-appearance: none;
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 11px 40px 11px 14px;
-  font-size: 0.9rem;
-  color: #111827;
+  width: 100%;
+  padding: 13px 48px 13px 18px;
+
+  font-size: 14px;
   font-weight: 500;
+  color: #1a1a1a;
+
+  background: #ffffff;
+  border: 1.5px solid #d4d4d4;
+  border-radius: 12px;
+
   cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
   outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .single-pro-page-pieces-select:hover {
-  border-color: #d1d5db;
-  background: #fff;
+  border-color: #aaaaaa;
 }
 
 .single-pro-page-pieces-select:focus {
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
-  background: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3.5px rgba(127, 119, 221, 0.18);
 }
 
+/* ── Arrow Box ── */
+.single-pro-page-select-arrow {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  border-left: 1px solid #e5e5e5;
+  border-radius: 0 12px 12px 0;
+  background: #f5f5f5;
+
+  font-size: 18px;
+  color: #888;
+  transition: background 0.18s, color 0.18s;
+}
+
+.single-pro-page-pieces-select:focus + .single-pro-page-select-arrow {
+  background: #EEEDFE;
+  border-color: #AFA9EC;
+  color: var(--brand);
+}
+
+/* ── Hint text (optional) ── */
+.single-pro-page-select-hint {
+  display: block;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 4px;
+}
 /* Custom arrow */
 .single-pro-page-select-arrow {
   position: absolute;
@@ -4165,3 +4215,7 @@
     margin-left: 8px;
     letter-spacing: 0.5px;
   }
+
+
+
+  

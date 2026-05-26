@@ -35,6 +35,7 @@ function DpOrderHistory() {
 
             if (!Array.isArray(dpData) || dpData.length === 0) {
                 setOrders([]);
+
                 setLoading(false);
                 return;
             }
@@ -94,71 +95,102 @@ function DpOrderHistory() {
     return (
         <>
 
-            <div className="container-fluid mt-4">
+            <div className="container-fluid mt-4 dp-order-history-container">
 
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="mb-0">Order History</h3>
+                <div className="d-flex justify-content-between align-items-center mb-3 dp-order-history-header">
+                    
+                    <h3 className="mb-0 dp-order-history-title">
+                        Order History
+                    </h3>
 
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-primary dp-order-history-refresh-btn"
                         onClick={fetchOrders}
                     >
                         Refresh
                     </button>
+
                 </div>
 
-                <div className="card shadow-sm">
-                    <div className="card-body">
+                <div className="card shadow-sm dp-order-history-card">
+                    
+                    <div className="card-body dp-order-history-card-body">
 
                         {loading ? (
-                            <div className="text-center py-5">
+
+                            <div className="text-center py-5 dp-order-history-loading">
                                 <h5>Loading...</h5>
                             </div>
+
                         ) : currentOrders.length === 0 ? (
-                            <div className="text-center py-5">
+
+                            <div className="text-center py-5 dp-order-history-empty">
                                 <h5>No Orders Found</h5>
                             </div>
-                        ) : (
-                            <>
-                                <div className="table-responsive">
-                                    <table className="table table-bordered table-hover align-middle">
 
-                                        <thead className="table-dark">
+                        ) : (
+
+                            <>
+                                <div className="table-responsive dp-order-history-table-wrapper">
+                                    
+                                    <table className="table table-bordered table-hover align-middle dp-order-history-table">
+
+                                        <thead className="table-dark dp-order-history-thead">
+                                            
                                             <tr>
-                                                <th>Order ID</th>
-                                                <th>Order Placed Time</th>
-                                                <th>Order Status</th>
-                                                <th>Action</th>
+                                                <th className="dp-order-history-th">
+                                                    Order ID
+                                                </th>
+
+                                                <th className="dp-order-history-th">
+                                                    Order Placed Time
+                                                </th>
+
+                                                <th className="dp-order-history-th">
+                                                    Order Status
+                                                </th>
+
+                                                <th className="dp-order-history-th">
+                                                    Action
+                                                </th>
                                             </tr>
+
                                         </thead>
 
-                                        <tbody>
+                                        <tbody className="dp-order-history-tbody">
 
                                             {currentOrders.map((order) => (
 
-                                                <tr key={order.id}>
+                                                <tr
+                                                    key={order.id}
+                                                    className="dp-order-history-row"
+                                                >
 
-                                                    <td>
+                                                    <td className="dp-order-history-order-id">
                                                         #{order.id}
                                                     </td>
 
-                                                    <td>
+                                                    <td className="dp-order-history-date">
                                                         {new Date(order.created_at).toLocaleString()}
                                                     </td>
 
-                                                    <td>
-                                                        <span className="">
+                                                    <td className="dp-order-history-status">
+                                                        
+                                                        <span className="dp-order-history-status-text">
                                                             {order.status_name}
                                                         </span>
+
                                                     </td>
 
-                                                    <td>
+                                                    <td className="dp-order-history-action">
+                                                        
                                                         <Link
                                                             to={`/Orderdetailpage/${order.id}`}
-                                                            className="btn btn-sm btn-primary"
+                                                            className="btn btn-sm btn-primary dp-order-history-view-btn"
                                                         >
                                                             View Details
                                                         </Link>
+
                                                     </td>
 
                                                 </tr>
@@ -168,13 +200,14 @@ function DpOrderHistory() {
                                         </tbody>
 
                                     </table>
+
                                 </div>
 
                                 {/* Pagination */}
-                                <div className="d-flex justify-content-center align-items-center mt-3 gap-2">
+                                <div className="d-flex justify-content-center align-items-center mt-3 gap-2 dp-order-history-pagination">
 
                                     <button
-                                        className="btn btn-secondary"
+                                        className="btn btn-secondary dp-order-history-prev-btn"
                                         disabled={currentPage === 1}
                                         onClick={() =>
                                             setCurrentPage(currentPage - 1)
@@ -183,12 +216,12 @@ function DpOrderHistory() {
                                         Previous
                                     </button>
 
-                                    <span>
+                                    <span className="dp-order-history-page-text">
                                         Page {currentPage} of {totalPages}
                                     </span>
 
                                     <button
-                                        className="btn btn-secondary"
+                                        className="btn btn-secondary dp-order-history-next-btn"
                                         disabled={currentPage === totalPages}
                                         onClick={() =>
                                             setCurrentPage(currentPage + 1)
@@ -198,6 +231,7 @@ function DpOrderHistory() {
                                     </button>
 
                                 </div>
+
                             </>
                         )}
 

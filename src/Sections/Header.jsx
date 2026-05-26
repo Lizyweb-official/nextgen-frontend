@@ -36,6 +36,46 @@ function Header() {
 
   const { user } = useAuth();
 
+  const [slotData, setSlotData] = useState(null);
+  const [isSlotOn, setIsSlotOn] = useState(false);
+
+  useEffect(() => {
+    fetchSiteSetting();
+    getCurrentSlot();
+  }, []);
+
+  const fetchSiteSetting = async () => {
+      try {
+
+          const response = await fetch(
+              `${API}/api/admin/site-settings/get/1`
+          );
+
+          const data = await response.json();
+
+          setIsSlotOn(data.setting_value === "on");
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getCurrentSlot = async () => {
+        try {
+
+            const response = await fetch(
+                `${API}/api/order/getcurrentslot`
+            );
+
+            const data = await response.json();
+
+            setSlotData(data);
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
   /* FETCH CART */
 
   const fetchCartCount = () => {
@@ -153,7 +193,7 @@ function Header() {
 
       {/* TOP BAR */}
 
-      <div className="bg-dark text-white py-1 text-center">
+      <div className="top-bar-main-container bg-dark text-white  text-center">
 
         <marquee behavior="scroll" direction="left">
 
@@ -186,6 +226,26 @@ function Header() {
           </span>
 
         </marquee>
+
+
+
+        <div className="topbar-slot-container">
+             {slotData && (
+                <>
+                    {isSlotOn ? (
+                        <div className="topbar-slot-open">
+                            <span className="slot-live-dot"></span>
+                            {slotData.delivery_text}
+                        </div>
+                    ) : (
+                        <div className="topbar-slot-closed">
+                            No Slot Available
+                        </div>
+                    )}
+                </>
+            )}
+
+        </div>
 
       </div>
 
@@ -301,7 +361,7 @@ function Header() {
 
                       <Link
                         key={product.id}
-                        to={`/Single-product/${product.id}`}
+                        to={`/single-product-page/${product.id}`}
                         className="search-dropdown-item"
                       >
 
