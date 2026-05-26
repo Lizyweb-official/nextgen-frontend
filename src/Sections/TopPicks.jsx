@@ -15,7 +15,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-
 import P1 from "../media/Website-Images/images-3/Boneless.png";
 import P2 from "../media/Website-Images/images-3/Breast.jpg";
 import P3 from "../media/Website-Images/images-3/Thigh.png";

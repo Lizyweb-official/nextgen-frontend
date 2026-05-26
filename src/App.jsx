@@ -28,6 +28,8 @@ import ProductEditPage from './panel/admin/product/ProductEditPage';
 import SingleProductPage from './Pages/SingleProductPage';
 import OrderDetailsPage from './panel/admin/orders/OrderDetailsPage';
 
+import FloatCart from './Sections/FloatCart';
+
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -72,6 +74,7 @@ function Layout() {
       </Routes>
       
       {!hideHeaderFooter && <Footer />}
+      <FloatCart/>
     </>
   );
 }

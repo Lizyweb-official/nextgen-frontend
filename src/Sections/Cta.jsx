@@ -8,7 +8,6 @@ import '../css/style.css';
 
 import CTA from "../media/Website-Images/images-3/ctaimage.png";
 
-
 import React from "react";
 
 function Cta() {
@@ -45,7 +44,6 @@ function Cta() {
     </>
 
   );
-}
-
+} 
 
 export default Cta;
