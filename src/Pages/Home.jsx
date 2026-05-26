@@ -46,9 +46,7 @@ import a7 from "../media/Website-Images/images-3/e7.jpg";
 function Home(){
 
   return(
-
   <>
-
   <Hero/>
   <MeatFeatures/>
   <HomeCategories/>
@@ -87,8 +85,6 @@ function Hero() {
     </section>
   );
 }
-
-
 
 
 function MeatFeatures() {
@@ -136,9 +132,6 @@ function MeatFeatures() {
     </section>
   );
 }
-
-
-  
 
 
 function BestProduct() {

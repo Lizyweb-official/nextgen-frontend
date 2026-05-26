@@ -598,6 +598,36 @@ function Header() {
               Contact
             </Link>
 
+             {user ? (
+
+              user.usertype == "customer" ? (
+
+                <Link to="/CustomerPanel" className="btn btn-dark">
+                  <FaUser /> {user.name}
+                </Link>
+
+              ) : user.usertype == "dp" ? (
+
+                <Link to="/Delivery-login" className="btn btn-dark">
+                  <FaTruck /> Delivery Partner : {user.name}
+                </Link>
+
+              ) : (
+
+                <Link to="/CustomerPanel" className="btn btn-dark">
+                  <FaUserShield /> Admin : {user.name}
+                </Link>
+
+              )
+
+            ) : (
+
+              <Link to="/user-login-page" className="btn btn-dark">
+                <FaUser /> Login
+              </Link>
+
+            )}
+
           </div>
 
         </div>

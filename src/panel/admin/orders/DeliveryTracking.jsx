@@ -116,28 +116,31 @@ function DeliveryTracking() {
   }
 
   return (
-    <div className="container mt-4">
+   
+    <div className="delivery-tracking-container container mt-4">
 
       {/* TOP BAR */}
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="delivery-tracking-topbar d-flex justify-content-between align-items-center mb-4">
 
         {/* SEARCH BOX ONLY FOR TOP TABLE */}
 
-        <div style={{ width: "300px" }}>
+        <div className="delivery-tracking-search-wrapper">
+
           <input
             type="text"
-            className="form-control"
+            className="delivery-tracking-search-input form-control"
             placeholder="Search by Delivery Partner ID"
             value={searchDpId}
             onChange={(e) => setSearchDpId(e.target.value)}
           />
+
         </div>
 
         {/* REFRESH BUTTON FOR BOTH TABLES */}
 
         <button
-          className="btn btn-primary"
+          className="delivery-tracking-refresh-btn btn btn-primary"
           onClick={fetchOrders}
         >
           Refresh
@@ -148,52 +151,77 @@ function DeliveryTracking() {
 
       {/* OUT FOR DELIVERY TABLE */}
 
-      <div className="card mb-5">
+      <div className="delivery-tracking-card card mb-5">
 
-        <div className="card-header">
-          <h3>Out For Delivery Orders</h3>
+        <div className="delivery-tracking-card-header card-header">
+
+          <h3 className="delivery-tracking-title">
+            Out For Delivery Orders
+          </h3>
+
         </div>
 
-        <div className="card-body table-responsive">
+        <div className="delivery-tracking-card-body card-body table-responsive">
 
-          <table className="table table-bordered">
+          <table className="delivery-tracking-table table table-bordered">
 
-            <thead>
+            <thead className="delivery-tracking-thead">
+
               <tr>
+
                 <th>Order ID</th>
                 <th>Delivery Partner ID</th>
                 <th>Slot Time</th>
                 <th>Delivery Time</th>
                 <th>Delivery Status</th>
                 <th>View Details</th>
+
               </tr>
+
             </thead>
 
-            <tbody>
+            <tbody className="delivery-tracking-tbody">
 
               {filteredOutForDeliveryOrders.length > 0 ? (
 
                 filteredOutForDeliveryOrders.map((order) => (
 
-                  <tr key={order.id}>
+                  <tr
+                    key={order.id}
+                    className="delivery-tracking-row"
+                  >
 
-                    <td>{order.id}</td>
+                    <td className="delivery-tracking-td">
+                      {order.id}
+                    </td>
 
-                    <td>{order.dp_id}</td>
+                    <td className="delivery-tracking-td">
+                      {order.dp_id}
+                    </td>
 
-                    <td>{order.start_time}-{order.end_time}</td>
+                    <td className="delivery-tracking-td">
+                      {order.start_time}-{order.end_time}
+                    </td>
 
-                    <td>{order.delivery_time}</td>
+                    <td className="delivery-tracking-td">
+                      {order.delivery_time}
+                    </td>
 
-                    <td>{getStatusText(order.status_id)}</td>
+                    <td className="delivery-tracking-td">
+                      <span className="delivery-tracking-status out-for-delivery">
+                        {getStatusText(order.status_id)}
+                      </span>
+                    </td>
 
-                    <td>
+                    <td className="delivery-tracking-td">
+
                       <Link
                         to={`/Orderdetailpage/${order.id}`}
-                        className="btn btn-primary btn-sm"
+                        className="delivery-tracking-view-btn btn btn-primary btn-sm"
                       >
                         View Details
                       </Link>
+
                     </td>
 
                   </tr>
@@ -203,9 +231,14 @@ function DeliveryTracking() {
               ) : (
 
                 <tr>
-                  <td colSpan="4" className="text-center">
+
+                  <td
+                    colSpan="6"
+                    className="delivery-tracking-empty text-center"
+                  >
                     No Out For Delivery Orders
                   </td>
+
                 </tr>
 
               )}
@@ -221,52 +254,85 @@ function DeliveryTracking() {
 
       {/* DELIVERED / CANCELLED TABLE */}
 
-      <div className="card">
+      <div className="delivery-tracking-card card">
 
-        <div className="card-header">
-          <h3>Last Orders</h3>
+        <div className="delivery-tracking-card-header card-header">
+
+          <h3 className="delivery-tracking-title">
+            Last Orders
+          </h3>
+
         </div>
 
-        <div className="card-body table-responsive">
+        <div className="delivery-tracking-card-body card-body table-responsive">
 
-          <table className="table table-bordered">
+          <table className="delivery-tracking-table table table-bordered">
 
-            <thead>
+            <thead className="delivery-tracking-thead">
+
               <tr>
+
                 <th>Order ID</th>
                 <th>Delivery Partner ID</th>
                 <th>Slot Time</th>
                 <th>Delivery Time</th>
                 <th>Delivery Status</th>
                 <th>View Details</th>
+
               </tr>
+
             </thead>
 
-            <tbody>
+            <tbody className="delivery-tracking-tbody">
 
               {completedOrders.length > 0 ? (
 
                 completedOrders.map((order) => (
 
-                  <tr key={order.id}>
+                  <tr
+                    key={order.id}
+                    className="delivery-tracking-row"
+                  >
 
-                    <td>{order.id}</td>
+                    <td className="delivery-tracking-td">
+                      {order.id}
+                    </td>
 
-                    <td>{order.dp_id}</td>
+                    <td className="delivery-tracking-td">
+                      {order.dp_id}
+                    </td>
 
-                    <td>{order.start_time}-{order.end_time}</td>
+                    <td className="delivery-tracking-td">
+                      {order.start_time}-{order.end_time}
+                    </td>
 
-                    <td>{order.delivery_time}</td>
+                    <td className="delivery-tracking-td">
+                      {order.delivery_time}
+                    </td>
 
-                    <td>{getStatusText(order.status_id)}</td>
+                    <td className="delivery-tracking-td">
 
-                    <td>
+                      <span
+                        className={`delivery-tracking-status ${
+                          order.status_id === 4
+                            ? "delivered"
+                            : "cancelled"
+                        }`}
+                      >
+                        {getStatusText(order.status_id)}
+                      </span>
+
+                    </td>
+
+                    <td className="delivery-tracking-td">
+
                       <Link
                         to={`/Orderdetailpage/${order.id}`}
-                        className="btn btn-success btn-sm"
+                        className="delivery-tracking-view-btn success btn btn-success btn-sm"
                       >
                         View Details
                       </Link>
+
                     </td>
 
                   </tr>
@@ -276,9 +342,14 @@ function DeliveryTracking() {
               ) : (
 
                 <tr>
-                  <td colSpan="4" className="text-center">
+
+                  <td
+                    colSpan="6"
+                    className="delivery-tracking-empty text-center"
+                  >
                     No Delivered or Cancelled Orders
                   </td>
+
                 </tr>
 
               )}
@@ -292,6 +363,7 @@ function DeliveryTracking() {
       </div>
 
     </div>
+
   );
 }
 
