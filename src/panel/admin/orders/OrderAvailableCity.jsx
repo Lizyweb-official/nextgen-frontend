@@ -215,124 +215,173 @@ function OrderAvailableCity() {
     const postcodeCities = data.filter(
         (item) => item.type === "city"
     );
-
-    return (
-        <>        
-            <div className="admin-db-orders-city-root">
+    
+return (
+    <>
+        <div className="admin-db-orders-city-root">
+            
+            <div className="admin-db-orders-city-header">
                 <h2 className="admin-db-orders-city-heading">
-                Order Available City Settings
+                    Order Available City Settings
                 </h2>
-        
-                {loading ? (
-                <p className="admin-db-orders-city-loading">Loading…</p>
-                ) : (
+            </div>
+
+            {loading ? (
+                <div className="admin-db-orders-city-loading-wrapper">
+                    <p className="admin-db-orders-city-loading">
+                        Loading…
+                    </p>
+                </div>
+            ) : (
                 <>
                     {/* STATE */}
-                    <div className="admin-db-orders-city-card">
-                    <p className="admin-db-orders-city-card-title">State</p>
-                    <div className="admin-db-orders-city-input-group">
-                        <input
-                        className="admin-db-orders-city-input"
-                        type="text"
-                        value={stateName}
-                        onChange={(e) => setStateName(e.target.value)}
-                        placeholder="Enter state"
-                        />
+                    <div className="admin-db-orders-city-card admin-db-orders-city-state-card">
+                        
+                        <div className="admin-db-orders-city-card-header">
+                            <p className="admin-db-orders-city-card-title">
+                                State
+                            </p>
+                        </div>
+
+                        <div className="admin-db-orders-city-input-group">
+                            <input
+                                className="admin-db-orders-city-input admin-db-orders-city-state-input"
+                                type="text"
+                                value={stateName}
+                                onChange={(e) => setStateName(e.target.value)}
+                                placeholder="Enter state"
+                            />
+                        </div>
+
+                        <button
+                            className="admin-db-orders-city-btn admin-db-orders-city-btn-state"
+                            onClick={() => updateByType(stateName, "state")}
+                        >
+                            Update State
+                        </button>
                     </div>
-                    <button
-                        className="admin-db-orders-city-btn"
-                        onClick={() => updateByType(stateName, "state")}
-                    >
-                        Update State
-                    </button>
-                    </div>
-        
+
                     {/* COUNTRY */}
-                    <div className="admin-db-orders-city-card">
-                    <p className="admin-db-orders-city-card-title">Country</p>
-                    <div className="admin-db-orders-city-input-group">
-                        <input
-                        className="admin-db-orders-city-input"
-                        type="text"
-                        value={countryName}
-                        onChange={(e) => setCountryName(e.target.value)}
-                        placeholder="Enter country"
-                        />
+                    <div className="admin-db-orders-city-card admin-db-orders-city-country-card">
+                        
+                        <div className="admin-db-orders-city-card-header">
+                            <p className="admin-db-orders-city-card-title">
+                                Country
+                            </p>
+                        </div>
+
+                        <div className="admin-db-orders-city-input-group">
+                            <input
+                                className="admin-db-orders-city-input admin-db-orders-city-country-input"
+                                type="text"
+                                value={countryName}
+                                onChange={(e) => setCountryName(e.target.value)}
+                                placeholder="Enter country"
+                            />
+                        </div>
+
+                        <button
+                            className="admin-db-orders-city-btn admin-db-orders-city-btn-country"
+                            onClick={() => updateByType(countryName, "country")}
+                        >
+                            Update Country
+                        </button>
                     </div>
-                    <button
-                        className="admin-db-orders-city-btn"
-                        onClick={() => updateByType(countryName, "country")}
-                    >
-                        Update Country
-                    </button>
-                    </div>
-        
+
                     {/* ADD CITY + POSTCODE */}
-                    <div className="admin-db-orders-city-card">
-                    <p className="admin-db-orders-city-card-title">
-                        Add City With Postcode
-                    </p>
-                    <div className="admin-db-orders-city-input-group">
-                        <input
-                        className="admin-db-orders-city-input"
-                        type="text"
-                        value={cityName}
-                        onChange={(e) => setCityName(e.target.value)}
-                        placeholder="Enter city name"
-                        />
-                        <input
-                        className="admin-db-orders-city-input"
-                        type="text"
-                        value={postcode}
-                        onChange={(e) => setPostcode(e.target.value)}
-                        placeholder="Enter postcode"
-                        />
+                    <div className="admin-db-orders-city-card admin-db-orders-city-add-card">
+                        
+                        <div className="admin-db-orders-city-card-header">
+                            <p className="admin-db-orders-city-card-title">
+                                Add City With Postcode
+                            </p>
+                        </div>
+
+                        <div className="admin-db-orders-city-input-group admin-db-orders-city-double-input-group">
+                            
+                            <div className="admin-db-orders-city-field">
+                                <input
+                                    className="admin-db-orders-city-input admin-db-orders-city-city-input"
+                                    type="text"
+                                    value={cityName}
+                                    onChange={(e) => setCityName(e.target.value)}
+                                    placeholder="Enter city name"
+                                />
+                            </div>
+
+                            <div className="admin-db-orders-city-field">
+                                <input
+                                    className="admin-db-orders-city-input admin-db-orders-city-postcode-input"
+                                    type="text"
+                                    value={postcode}
+                                    onChange={(e) => setPostcode(e.target.value)}
+                                    placeholder="Enter postcode"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            className="admin-db-orders-city-btn admin-db-orders-city-btn-add"
+                            onClick={addPostcodeCity}
+                        >
+                            + Add City
+                        </button>
                     </div>
-                    <button
-                        className="admin-db-orders-city-btn admin-db-orders-city-btn-add"
-                        onClick={addPostcodeCity}
-                    >
-                        + Add City
-                    </button>
-                    </div>
-        
+
                     {/* LIST */}
                     <div className="admin-db-orders-city-list-card">
-                    <p className="admin-db-orders-city-card-title">
-                        Available Postcode Cities
-                        {postcodeCities.length > 0 && (
-                        <span className="admin-db-orders-city-badge">
-                            {postcodeCities.length}
-                        </span>
-                        )}
-                    </p>
-        
-                    {postcodeCities.length === 0 ? (
-                        <p className="admin-db-orders-city-list-empty">
-                        No postcode cities added yet
-                        </p>
-                    ) : (
-                        postcodeCities.map((item) => (
-                        <div key={item.id} className="admin-db-orders-city-list-item">
-                            <span className="admin-db-orders-city-item-name">
-                            <span className="admin-db-orders-city-item-dot" />
-                            {item.name}
-                            </span>
-                            <button
-                            className="admin-db-orders-city-btn-delete"
-                            onClick={() => deleteCity(item.id)}
-                            >
-                            Delete
-                            </button>
+                        
+                        <div className="admin-db-orders-city-list-header">
+                            <p className="admin-db-orders-city-card-title">
+                                Available Postcode Cities
+                            </p>
+
+                            {postcodeCities.length > 0 && (
+                                <span className="admin-db-orders-city-badge">
+                                    {postcodeCities.length}
+                                </span>
+                            )}
                         </div>
-                        ))
-                    )}
+
+                        {postcodeCities.length === 0 ? (
+                            <div className="admin-db-orders-city-empty-wrapper">
+                                <p className="admin-db-orders-city-list-empty">
+                                    No postcode cities added yet
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="admin-db-orders-city-list">
+                                {postcodeCities.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="admin-db-orders-city-list-item"
+                                    >
+                                        <div className="admin-db-orders-city-item-left">
+                                            
+                                            <span className="admin-db-orders-city-item-dot" />
+
+                                            <span className="admin-db-orders-city-item-name">
+                                                {item.name}
+                                            </span>
+                                        </div>
+
+                                        <div className="admin-db-orders-city-item-right">
+                                            <button
+                                                className="admin-db-orders-city-btn-delete"
+                                                onClick={() => deleteCity(item.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </>
-                )}
-            </div>
-            </>
-    );
+            )}
+        </div>
+    </>
+);
 }
-
 export default OrderAvailableCity;
