@@ -580,7 +580,7 @@
 /* MAIN CONTENT */
 .admin-db-main {
   flex: 1;
-  padding: 5px;
+  padding: 15px;
   background: #f5f5f5;
   overflow-y: auto;
 }
@@ -595,10 +595,17 @@
 
 /* MOBILE VIEW */
 @media (max-width: 768px) {
+  .admin-db-main {
+    flex: 1;
+    padding: 5px;
+    background: #f5f5f5;
+    overflow-y: auto;
+  }
+
   .admin-db-container {
     flex-direction: column;
   }
-
+  
   /* sidebar → top bar */
   .admin-db-sidebar {
     width: 100%;
@@ -607,12 +614,12 @@
     align-items: center;
     justify-content: space-around;
   }
-
+  
   /* hide logo */
   .admin-db-logo {
     display: none;
   }
-
+  
   .admin-db-menu {
     flex-direction: row;
     width: 100%;
@@ -3332,7 +3339,7 @@
 .admin-db-customer-manage-table-container {
   background: #f9fafb;
   border-radius: 20px;
-  padding: 24px;
+  padding: 14px;
 }
 
 .admin-db-customer-manage-table-title {

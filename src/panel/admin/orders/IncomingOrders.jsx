@@ -298,16 +298,19 @@ function IncomingOrders() {
         );
     }
 
-    return (
-        <div className="container mt-4">
+     return (
+
+        <div className="incoming-orders-page container mt-4">
 
             {/* top */}
-            <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div className="incoming-orders-top d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
-                <h2>Incoming Orders</h2>
+                <h2 className="incoming-orders-title">
+                    Incoming Orders
+                </h2>
 
                 <button
-                    className="btn btn-success"
+                    className="incoming-orders-refresh-btn btn btn-success"
                     onClick={getOrders}
                 >
                     Refresh Orders
@@ -316,56 +319,77 @@ function IncomingOrders() {
             </div>
 
             {/* counts */}
-            <div className="row mb-4">
+            <div className="incoming-orders-counts row mb-4">
 
                 <div className="col-md-6 mb-3">
-                    <div className="card shadow-sm border-0">
+
+                    <div className="incoming-orders-card card shadow-sm border-0">
+
                         <div className="card-body">
-                            <h5>Preparing Orders</h5>
-                            <h2>{preparingCount}</h2>
+
+                            <h5 className="incoming-orders-card-title">
+                                Preparing Orders
+                            </h5>
+
+                            <h2 className="incoming-orders-card-count">
+                                {preparingCount}
+                            </h2>
+
                         </div>
+
                     </div>
+
                 </div>
 
                 <div className="col-md-6 mb-3">
-                    <div className="card shadow-sm border-0">
+
+                    <div className="incoming-orders-card card shadow-sm border-0">
+
                         <div className="card-body">
-                            <h5>Ready To Dispatch</h5>
-                            <h2>{readyCount}</h2>
+
+                            <h5 className="incoming-orders-card-title">
+                                Ready To Dispatch
+                            </h5>
+
+                            <h2 className="incoming-orders-card-count">
+                                {readyCount}
+                            </h2>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
 
             {/* search */}
-            <div className="mb-3">
+            <div className="incoming-orders-search-wrapper mb-3 d-flex gap-2">
+
                 <input
                     type="text"
-                    className="form-control"
+                    className="incoming-orders-search-input form-control"
                     placeholder="Search by order id, customer name, status..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-            </div>
 
-            {/* customer search */}
-            <div className="mb-3">
                 <input
                     type="text"
-                    className="form-control"
+                    className="incoming-orders-customer-search-input form-control"
                     placeholder="Search by customer id"
                     value={custsearch}
                     onChange={(e) => setCustSearch(e.target.value)}
                 />
+
             </div>
 
             {/* bulk update section */}
-            <div className="card shadow-sm border-0 mb-4">
+            <div className="incoming-orders-bulk-card card shadow-sm border-0 mb-4">
 
                 <div className="card-body">
 
-                    <h5 className="mb-3">
+                    <h5 className="incoming-orders-bulk-title mb-3">
                         Bulk Update Orders By Slot
                     </h5>
 
@@ -375,7 +399,7 @@ function IncomingOrders() {
                         <div className="col-md-5">
 
                             <select
-                                className="form-select"
+                                className="incoming-orders-slot-select form-select"
                                 value={selectedSlot}
                                 onChange={(e) =>
                                     setSelectedSlot(e.target.value)
@@ -405,7 +429,7 @@ function IncomingOrders() {
                         <div className="col-md-3">
 
                             <select
-                                className="form-select"
+                                className="incoming-orders-status-select form-select"
                                 value={bulkStatus}
                                 onChange={(e) =>
                                     setBulkStatus(e.target.value)
@@ -436,14 +460,14 @@ function IncomingOrders() {
                         <div className="col-md-4 d-flex gap-2">
 
                             <button
-                                className="btn btn-primary w-100"
+                                className="incoming-orders-apply-btn btn btn-primary w-100"
                                 onClick={applyBulkStatus}
                             >
                                 Apply
                             </button>
 
                             <button
-                                className="btn btn-secondary w-100"
+                                className="incoming-orders-reset-btn btn btn-secondary w-100"
                                 onClick={resetFilters}
                             >
                                 Reset
@@ -458,11 +482,11 @@ function IncomingOrders() {
             </div>
 
             {/* table */}
-            <div className="table-responsive">
+            <div className="incoming-orders-table-wrapper table-responsive">
 
-                <table className="table table-bordered table-striped align-middle">
+                <table className="incoming-orders-table table table-bordered table-striped align-middle">
 
-                    <thead className="table-dark">
+                    <thead className="incoming-orders-table-head table-dark">
 
                         <tr>
                             <th>Order ID</th>
@@ -484,35 +508,44 @@ function IncomingOrders() {
 
                             filteredOrders.map((order) => (
 
-                                <tr key={order.id}>
+                                <tr
+                                    key={order.id}
+                                    className="incoming-orders-table-row"
+                                >
 
-                                    <td>#{order.id}</td>
+                                    <td className="incoming-orders-order-id">
+                                        #{order.id}
+                                    </td>
 
-                                    <td>#{order.customer_id}</td>
+                                    <td className="incoming-orders-customer-id">
+                                        #{order.customer_id}
+                                    </td>
 
-                                    <td>{order.name}</td>
+                                    <td className="incoming-orders-customer-name">
+                                        {order.name}
+                                    </td>
 
-                                    <td>
+                                    <td className="incoming-orders-order-time">
                                         {new Date(order.created_at).toLocaleString()}
                                     </td>
 
-                                    <td>
+                                    <td className="incoming-orders-total-amount">
                                         ₹{order.total_amount}
                                     </td>
 
-                                    <td>
+                                    <td className="incoming-orders-slot-time">
                                         {formatTime(order.start_time)} -{" "}
                                         {formatTime(order.end_time)}
                                     </td>
 
-                                    <td>
+                                    <td className="incoming-orders-delivery-time">
                                         {formatTime(order.delivery_time)}
                                     </td>
 
-                                    <td>
+                                    <td className="incoming-orders-status-column">
 
                                         <select
-                                            className="form-select"
+                                            className="incoming-orders-status-dropdown form-select"
                                             value={order.status_id}
                                             onChange={(e) =>
                                                 updateStatus(
@@ -538,19 +571,19 @@ function IncomingOrders() {
 
                                     </td>
 
-                                    <td>
+                                    <td className="incoming-orders-actions">
 
-                                        <div className="d-flex gap-2">
+                                        <div className="incoming-orders-action-buttons d-flex gap-2">
 
                                             <Link
                                                 to={`/Orderdetailpage/${order.id}`}
-                                                className="btn btn-primary btn-sm"
+                                                className="incoming-orders-view-btn btn btn-primary btn-sm"
                                             >
                                                 View Details
                                             </Link>
 
                                             <button
-                                                className="btn btn-danger btn-sm"
+                                                className="incoming-orders-delete-btn btn btn-danger btn-sm"
                                                 onClick={() =>
                                                     deleteOrder(order.id)
                                                 }
@@ -572,7 +605,7 @@ function IncomingOrders() {
 
                                 <td
                                     colSpan="9"
-                                    className="text-center"
+                                    className="incoming-orders-no-data text-center"
                                 >
                                     No Orders Found
                                 </td>
