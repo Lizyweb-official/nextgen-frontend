@@ -187,13 +187,13 @@ function TopPicks() {
 
         </div>
 
-        <button className="top-category-view-btn">
+        <Link to='/Shop' className="top-category-view-btn">
 
           View All
 
           <i className="bi bi-arrow-right"></i>
 
-        </button>
+        </Link>
 
       </div>
 
