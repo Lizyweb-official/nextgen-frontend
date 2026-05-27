@@ -7,7 +7,7 @@ import '../../css/style.css';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { showWebMessage } from "../context/webMessageHandler";
+import { showWebMessage } from "../../context/webMessageHandler";
 
 const API = import.meta.env.VITE_API_URL;
 

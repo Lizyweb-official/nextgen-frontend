@@ -7,7 +7,7 @@ import '../../css/style.css';
 import React, { useState , useEffect } from "react";
 const API = import.meta.env.VITE_API_URL;
 
-import { showWebMessage } from "../context/webMessageHandler";
+import { showWebMessage } from "../../context/webMessageHandler";
 
 function UserAccountManagement(){
 
