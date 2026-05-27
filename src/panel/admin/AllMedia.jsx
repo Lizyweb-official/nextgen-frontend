@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 
 const API = import.meta.env.VITE_API_URL;
 
+import { showWebMessage } from "../../context/webMessageHandler";
+
 function AllMedia(){
 
     const [file, setFile] = useState(null);
@@ -16,7 +18,7 @@ function AllMedia(){
     try {
         // check file selected
         if (!file) {
-        alert("Please select an image first");
+        showWebMessage("Please select an image first");
         return;
         }
 
@@ -42,12 +44,12 @@ function AllMedia(){
         }
 
         console.log("Upload success:", data);
-        alert("Image uploaded successfully");
+        showWebMessage("Image uploaded successfully");
 
     } catch (err) {
         console.error("Upload error:", err.message);
 
-        alert(err.message || "Something went wrong");
+        showWebMessage(err.message || "Something went wrong");
     }
 };
 
@@ -118,7 +120,7 @@ function MediaGallery(){
         });
 
         const data = await res.json();
-        alert(data.message);
+        showWebMessage(data.message);
 
         // refresh images
         fetchImages();
