@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Link ,useParams} from "react-router-dom";
 
 import { showWebMessage } from "../context/webMessageHandler";
+import { useNavigate } from 'react-router-dom';
 
 import ShopBg from "../media/Website-Images/images-3/Shopbg.jpeg";
 
@@ -19,6 +20,7 @@ function Shop() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeCat, setActiveCat] = useState(null);
+  const navigate = useNavigate();
 
   const { catId } = useParams();
 
@@ -173,6 +175,12 @@ function Shop() {
 
   //ADD TO CART
   const addToCart = async (productId,productPrice) => {
+
+      if (!user?.id) {
+        navigate('/user-login-page');
+        return;
+      }
+
     await fetch(`${API}/api/product/addproducttocart`, {
       method: "POST",
       headers: {

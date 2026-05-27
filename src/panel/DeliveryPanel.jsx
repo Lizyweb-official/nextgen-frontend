@@ -18,7 +18,7 @@ function DeliveryPanel() {
 
     const handleLogout = () => {
         logout();
-        navigate("/user-login-page");
+        navigate("/");
     };
 
     // Redirect / Login Message

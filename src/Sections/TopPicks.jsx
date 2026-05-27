@@ -16,28 +16,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-
-import P1 from "../media/Website-Images/images-3/Boneless.png";
-import P2 from "../media/Website-Images/images-3/Breast.jpg";
-import P3 from "../media/Website-Images/images-3/Thigh.png";
-import P4 from "../media/Website-Images/images-3/Leg piece.jpg";
-import P5 from "../media/Website-Images/images-3/Chicken Wings.jpg";
-import P6 from "../media/Website-Images/images-3/Chicken Tenderloin.png";
-import P7 from "../media/Website-Images/images-3/Chicken Mince.jpg";
-import P8 from "../media/Website-Images/images-3/Chicken Liver.png";
-import P9 from "../media/Website-Images/images-3/Chicken Gizzard.png";
-import P10 from "../media/Website-Images/images-3/Chicken Neck.png";
-import P11 from "../media/Website-Images/images-3/Chicken Back.jpg";
-import P12 from "../media/Website-Images/images-3/Chicken Feet.png";
-
 
 const API = import.meta.env.VITE_API_URL;
 
 function TopPicks() {
 
   const { user } = useAuth();
+  const  navigate  = useNavigate();
 
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -156,6 +144,12 @@ function TopPicks() {
 
     //ADD TO CART
     const addToCart = async (productId,productPrice) => {
+
+      if (!user?.id) {
+        navigate('/user-login-page');
+        return;
+      }
+
       await fetch(`${API}/api/product/addproducttocart`, {
         method: "POST",
         headers: {
