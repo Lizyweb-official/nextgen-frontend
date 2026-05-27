@@ -15,6 +15,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import { useAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'
+
 import P1 from "../media/Website-Images/images-3/Boneless.png";
 import P2 from "../media/Website-Images/images-3/Breast.jpg";
 import P3 from "../media/Website-Images/images-3/Thigh.png";
@@ -28,95 +32,146 @@ import P10 from "../media/Website-Images/images-3/Chicken Neck.png";
 import P11 from "../media/Website-Images/images-3/Chicken Back.jpg";
 import P12 from "../media/Website-Images/images-3/Chicken Feet.png";
 
+
+const API = import.meta.env.VITE_API_URL;
+
 function TopPicks() {
 
-  const categories = [
+  const { user } = useAuth();
 
-    {
-      id: 1,
-      name: "Boneless Chicken",
-      image: P1,
-      items: "12 Items",
-    },
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    {
-      id: 2,
-      name: "Chicken Breast",
-      image: P2,
-      items: "8 Items",
-    },
+  useEffect(() => {
+    fetchTopPicks();
+  }, []);
 
-    {
-      id: 3,
-      name: "Chicken Thigh",
-      image: P3,
-      items: "10 Items",
-    },
+  const fetchTopPicks = async () => {
+    try {
+      // STEP 1 - Get top picks
+      const topRes = await fetch(`${API}/api/product/gettoppicks`);
+      const topData = await topRes.json();
 
-    {
-      id: 4,
-      name: "Leg Piece",
-      image: P4,
-      items: "15 Items",
-    },
+      const addedIds = new Set();
+      let finalProducts = [];
 
-    {
-      id: 5,
-      name: "Chicken Wings",
-      image: P5,
-      items: "20 Items",
-    },
+      // STEP 2 - Get full product details + image
+      for (const item of topData) {
+        try {
+          const productRes = await fetch(
+            `${API}/api/product/getproduct/${item.product_id}`
+          );
 
-    {
-      id: 6,
-      name: "Chicken Tenderloin",
-      image: P6,
-      items: "7 Items",
-    },
+          const product = await productRes.json();
 
-    {
-      id: 7,
-      name: "Chicken Mince",
-      image: P7,
-      items: "9 Items",
-    },
+          let imageUrl = "";
 
-    {
-      id: 8,
-      name: "Chicken Liver",
-      image: P8,
-      items: "5 Items",
-    },
+          // Get image url
+          if (product.image_id) {
+            const imageRes = await fetch(
+              `${API}/api/getimagebyid/${product.image_id}`
+            );
 
-    {
-      id: 9,
-      name: "Chicken Gizzard",
-      image: P9,
-      items: "6 Items",
-    },
+            const imageData = await imageRes.json();
+            imageUrl = imageData.url;
+          }
 
-    {
-      id: 10,
-      name: "Chicken Neck",
-      image: P10,
-      items: "11 Items",
-    },
+          finalProducts.push({
+            id: product.id,
+            name: product.name,
+            image: imageUrl,
+            price: Number(product.base_price),
+            sale_p: product.sale_price
+              ? Number(product.sale_price)
+              : null,
+            custom_pieces_k: product.custom_pieces_k || "",
+            items: `${item.total_qty} Sold`,
+            categories: product.categories,
+          });
 
-    {
-      id: 11,
-      name: "Chicken Back",
-      image: P11,
-      items: "4 Items",
-    },
+          addedIds.add(product.id);
+        } catch (err) {
+          console.log("Product fetch error", err);
+        }
+      }
 
-    {
-      id: 12,
-      name: "Chicken Feet",
-      image: P12,
-      items: "13 Items",
-    },
+      // STEP 3 - Fill remaining products if less than 10
+      if (finalProducts.length < 10) {
+        const allRes = await fetch(`${API}/api/product/getallproducts`);
+        const allProducts = await allRes.json();
 
-  ];
+        for (const product of allProducts) {
+          // stop when reached 10
+          if (finalProducts.length >= 10) break;
+
+          // skip duplicates
+          if (addedIds.has(product.id)) continue;
+
+          let imageUrl = "";
+
+          // Get image
+          if (product.image_id) {
+            try {
+              const imageRes = await fetch(
+                `${API}/api/getimagebyid/${product.image_id}`
+              );
+
+              const imageData = await imageRes.json();
+              imageUrl = imageData.url;
+            } catch (err) {
+              console.log("Image fetch error", err);
+            }
+          }
+
+          finalProducts.push({
+            id: product.id,
+            name: product.name,
+            image: imageUrl,
+            price: Number(product.base_price),
+            sale_p: product.sale_price
+              ? Number(product.sale_price)
+              : null,
+            custom_pieces_k: product.custom_pieces_k || "",
+            items: "New Product",
+            categories: product.categories,
+          });
+
+          addedIds.add(product.id);
+        }
+      }
+
+      setCategories(finalProducts);
+    } catch (err) {
+      console.log("Top picks fetch error", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+
+
+    //ADD TO CART
+    const addToCart = async (productId,productPrice) => {
+      await fetch(`${API}/api/product/addproducttocart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: user.id, // 🔥 replace with logged user id
+          product_id: productId,
+          quantity: 1,
+          price : productPrice
+        }),
+      });
+  
+      showWebMessage("product Added Added to cart");
+    };
+
 
   return (
 
@@ -172,30 +227,35 @@ function TopPicks() {
 
         loop={true}
 
-        spaceBetween={25}
+        spaceBetween={15}
 
-        slidesPerView={4}
+        slidesPerView={1}
 
-        breakpoints={{
+       breakpoints={{
 
           320: {
-            slidesPerView: 1.2,
+            slidesPerView: 1,
+            spaceBetween: 15,
           },
 
           576: {
-            slidesPerView: 2,
+            slidesPerView: 1,
+            spaceBetween: 15,
           },
 
           768: {
-            slidesPerView: 2.5,
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
 
           992: {
             slidesPerView: 3,
+            spaceBetween: 25,
           },
 
           1200: {
             slidesPerView: 4,
+            spaceBetween: 25,
           },
 
         }}
@@ -206,6 +266,8 @@ function TopPicks() {
           <SwiperSlide key={item.id}>
 
             <div className="top-category-card">
+
+              <Link to={`single-product-page/${item.id}`}>
 
               {/* IMAGE */}
 
@@ -224,28 +286,67 @@ function TopPicks() {
 
                 <div className="top-category-content">
 
-                  <span className="top-category-count">
-                    {item.items}
-                  </span>
-
                   <h3>
                     {item.name}
                   </h3>
 
-                  <button className="top-category-btn">
+                  <div className="top-category-price-box">
+                  {item.sale_p ? (
+                    <div className="top-category-price">
+                      <span className="top-category-old-price">₹{item.price}</span>
+                      <span className="top-category-sale-price">₹{item.sale_p}</span>
+                    </div>
+                  ) : (
+                    <div className="top-category-price">
+                      <span className="top-category-sale-price">₹{item.price}</span>
+                    </div>
+                  )}
+                </div>
 
-                    Shop Now
+                  
+
+
+                  {item.custom_pieces_k && item.custom_pieces_k.length > 0 ? (
+
+                    <div  className="top-category-btn">
+
+                    View Option
 
                     <i className="bi bi-arrow-right"></i>
 
-                  </button>
+                  </div>
+
+                  ) : (
+
+                    <button
+                      className="top-category-btn"
+                      onClick={(e) => {
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        addToCart(
+                          item.id,
+                          item.sale_p || item.price
+                        );
+                        
+                      }}
+                    >
+                      Add to Cart
+
+                      <i className="bi bi-arrow-right"></i>
+
+                    </button>
+
+                  )}
+
 
                 </div>
 
               </div>
+              </Link>
 
             </div>
-
           </SwiperSlide>
 
         ))}
