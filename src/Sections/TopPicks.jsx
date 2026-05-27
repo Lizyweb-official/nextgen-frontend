@@ -297,9 +297,6 @@ function TopPicks() {
                   )}
                 </div>
 
-                  
-
-
                   {item.custom_pieces_k && item.custom_pieces_k.length > 0 ? (
 
                     <div  className="top-category-btn">
