@@ -6,7 +6,7 @@ import '../../css/style.css';
 
 import React, { useState , useEffect} from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 import { showWebMessage } from "../../context/webMessageHandler";
 
@@ -400,6 +400,10 @@ function UserLoginPanel(){
                 )}
 
             </div>
+
+            <Link to="/" className="floating-home-btn">
+                <i class="bi bi-house-door-fill"></i>
+            </Link>
       
         </>
     );
