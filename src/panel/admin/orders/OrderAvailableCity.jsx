@@ -8,6 +8,9 @@ import React, { useEffect, useState } from "react";
 
 const API = import.meta.env.VITE_API_URL;
 
+import { showWebMessage } from "../../../context/webMessageHandler";
+
+
 function OrderAvailableCity() {
 
     const [data, setData] = useState([]);
@@ -67,7 +70,7 @@ function OrderAvailableCity() {
     const updateByType = async (name, type) => {
 
         if (!name) {
-            alert(`${type} is required`);
+            showWebMessage(`${type} is required`);
             return;
         }
 
@@ -91,13 +94,13 @@ function OrderAvailableCity() {
 
             if (result.success) {
 
-                alert(`${type} updated successfully`);
+                showWebMessage(`${type} updated successfully`);
 
                 fetchData();
 
             } else {
 
-                alert(result.message || "Update failed");
+                showWebMessage(result.message || "Update failed");
 
             }
 
@@ -105,7 +108,7 @@ function OrderAvailableCity() {
 
             console.log(error);
 
-            alert("Something went wrong");
+            showWebMessage("Something went wrong");
 
         }
     };
@@ -114,12 +117,12 @@ function OrderAvailableCity() {
     const addPostcodeCity = async () => {
 
         if (!cityName) {
-            alert("City name is required");
+            showWebMessage("City name is required");
             return;
         }
 
         if (!postcode) {
-            alert("Postcode is required");
+            showWebMessage("Postcode is required");
             return;
         }
 
@@ -146,7 +149,7 @@ function OrderAvailableCity() {
 
             if (result.success) {
 
-                alert("Added successfully");
+                showWebMessage("Added successfully");
 
                 setCityName("");
                 setPostcode("");
@@ -155,7 +158,7 @@ function OrderAvailableCity() {
 
             } else {
 
-                alert(result.message || "Failed to add");
+                showWebMessage(result.message || "Failed to add");
 
             }
 
@@ -163,7 +166,7 @@ function OrderAvailableCity() {
 
             console.log(error);
 
-            alert("Something went wrong");
+            showWebMessage("Something went wrong");
 
         }
     };
@@ -192,13 +195,13 @@ function OrderAvailableCity() {
 
             if (result.success) {
 
-                alert("Deleted successfully");
+                showWebMessage("Deleted successfully");
 
                 fetchData();
 
             } else {
 
-                alert(result.message || "Delete failed");
+                showWebMessage(result.message || "Delete failed");
 
             }
 
@@ -206,7 +209,7 @@ function OrderAvailableCity() {
 
             console.log(error);
 
-            alert("Something went wrong");
+            showWebMessage("Something went wrong");
 
         }
     };

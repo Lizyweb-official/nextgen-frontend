@@ -80,7 +80,7 @@ function AdminLoginPanel(){
 
     } catch (error) {
         console.error("Error:", error);
-        alert("Server error");
+        showWebMessage("Server error");
     }
 };
 

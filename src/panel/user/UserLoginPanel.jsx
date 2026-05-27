@@ -113,7 +113,7 @@ function UserLoginPanel(){
 
             } catch (error) {
                 console.error("Error:", error);
-                alert("Something went wrong");
+                showWebMessage("Something went wrong");
             }
         };
 

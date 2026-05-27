@@ -7,6 +7,8 @@ import '../../../css/style.css';
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { showWebMessage } from "../../../context/webMessageHandler";
+
 const API = import.meta.env.VITE_API_URL;
 
 function IncomingOrders() {
@@ -144,7 +146,7 @@ function IncomingOrders() {
 
             const data = await response.json();
 
-            alert(data.message);
+            showWebMessage(data.message);
 
             setOrders((prev) =>
                 prev.map((order) =>
@@ -172,12 +174,12 @@ function IncomingOrders() {
     const applyBulkStatus = async () => {
 
         if (!selectedSlot) {
-            alert("Please select a slot");
+            showWebMessage("Please select a slot");
             return;
         }
 
         if (!bulkStatus) {
-            alert("Please select a status");
+            showWebMessage("Please select a status");
             return;
         }
 
@@ -186,7 +188,7 @@ function IncomingOrders() {
         );
 
         if (selectedOrders.length === 0) {
-            alert("No orders found");
+            showWebMessage("No orders found");
             return;
         }
 
@@ -210,7 +212,7 @@ function IncomingOrders() {
                 )
             );
 
-            alert("Bulk status updated successfully");
+            showWebMessage("Bulk status updated successfully");
 
             // refresh orders
             await getOrders();
@@ -270,7 +272,7 @@ function IncomingOrders() {
 
             const data = await response.json();
 
-            alert(data.message);
+            showWebMessage(data.message);
 
             setOrders((prev) =>
                 prev.filter((order) => order.id !== id)

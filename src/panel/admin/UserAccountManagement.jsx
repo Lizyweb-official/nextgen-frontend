@@ -7,6 +7,8 @@ import '../../css/style.css';
 import React, { useState , useEffect } from "react";
 const API = import.meta.env.VITE_API_URL;
 
+import { showWebMessage } from "../context/webMessageHandler";
+
 function UserAccountManagement(){
 
     const [activeTab, setActiveTab] = useState("custacc");
@@ -335,7 +337,7 @@ function DeliveryPartnerAccountManage(){
 
         const data = await res.json();
 
-        alert(data.message);
+        showWebMessage(data.message);
 
         // reset form
         setFormData({ uname: "", pass: "", phone: "" });
@@ -344,7 +346,7 @@ function DeliveryPartnerAccountManage(){
 
         } catch (err) {
         console.error(err);
-        alert("Error creating delivery partner");
+        showWebMessage("Error creating delivery partner");
         }
     };
      

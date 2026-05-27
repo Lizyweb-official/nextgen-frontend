@@ -7,6 +7,7 @@ import '../../css/style.css';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { showWebMessage } from "../context/webMessageHandler";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -107,7 +108,7 @@ function OrdersDp() {
 
       const data = await res.json();
 
-      alert(data.message);
+      showWebMessage(data.message);
       fetchOrders();
     } catch (err) {
       console.log(err);
@@ -132,7 +133,7 @@ function OrdersDp() {
 
       const data = await res.json();
 
-      alert(data.message);
+      showWebMessage(data.message);
       fetchOrders();
     } catch (err) {
       console.log(err);
@@ -157,7 +158,7 @@ function OrdersDp() {
 
       const data = await res.json();
 
-      alert(data.message);
+      showWebMessage(data.message);
       fetchOrders();
     } catch (err) {
       console.log(err);

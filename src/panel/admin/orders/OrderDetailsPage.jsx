@@ -6,7 +6,10 @@ import '../../../css/style.css';
  
 import React, { useEffect, useState } from "react";
 import { useParams,Link } from "react-router-dom";
-import { useAuth } from '../../../context/AuthContext' 
+import { useAuth } from '../../../context/AuthContext';
+
+import { showWebMessage } from "../context/webMessageHandler";
+
  
 const API = import.meta.env.VITE_API_URL;
  
@@ -103,7 +106,7 @@ function OrderDetailsPage() {
         try {
             setRestoring(true);
             const data = await updateStatus(Number(id), 1);
-            alert(data.message);
+            showWebMessage(data.message);
 
             // Update local order state so UI reflects change instantly
             setOrder((prev) => ({
@@ -114,7 +117,7 @@ function OrderDetailsPage() {
 
         } catch (error) {
             console.error("RESTORE ERROR:", error);
-            alert("Failed to restore order. Please try again.");
+            showWebMessage("Failed to restore order. Please try again.");
         } finally {
             setRestoring(false);
         }
