@@ -21,7 +21,7 @@ function CustomerPanel() {
 
     const handleLogout = () => {
         logout();
-        navigate("/user-login-page");
+        navigate("/");
     };
 
     // Redirect / Login Message

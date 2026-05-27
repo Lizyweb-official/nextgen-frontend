@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+import { useNavigate } from 'react-router-dom';
+
 import { showWebMessage } from "../context/webMessageHandler";
 
 const API = import.meta.env.VITE_API_URL;
@@ -16,6 +18,7 @@ function SingleProductPage() {
 
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
@@ -56,6 +59,14 @@ function SingleProductPage() {
   }
 
     const handleAddToCart = async (productId) => {
+
+        
+      if (!user?.id) {
+        navigate('/user-login-page');
+        return;
+      }
+
+
 
         // ✅ Check custom pieces selection
         if (
