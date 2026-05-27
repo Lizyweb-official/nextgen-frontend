@@ -663,7 +663,6 @@
   inset: 0;
   border-radius: 18px;
   padding: 1px;
-  background: linear-gradient(135deg, transparent, var(--sub), transparent);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
