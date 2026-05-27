@@ -664,9 +664,6 @@
   border-radius: 18px;
   padding: 1px;
   background: linear-gradient(135deg, transparent, var(--sub), transparent);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
@@ -2269,7 +2266,6 @@
   line-height: 1.35;
   margin-bottom: 6px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
