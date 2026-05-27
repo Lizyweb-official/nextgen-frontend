@@ -364,7 +364,7 @@ function IncomingOrders() {
             </div>
 
             {/* search */}
-            <div className="incoming-orders-search-wrapper mb-3">
+            <div className="incoming-orders-search-wrapper mb-3 d-flex gap-2">
 
                 <input
                     type="text"
@@ -373,11 +373,6 @@ function IncomingOrders() {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-
-            </div>
-
-            {/* customer search */}
-            <div className="incoming-orders-customer-search-wrapper mb-3">
 
                 <input
                     type="text"
