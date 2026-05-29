@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { AuthProvider } from "./context/AuthContext";
 
 import Header from './Sections/Header';
@@ -30,6 +30,9 @@ import OrderDetailsPage from './panel/admin/orders/OrderDetailsPage';
 
 import FloatCart from './Sections/FloatCart';
 
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsAndConditions from './Pages/TermsAndConditions';
+
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -51,6 +54,7 @@ function Layout() {
     <>
       {!hideHeaderFooter && <Header />}
 
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />
@@ -71,6 +75,9 @@ function Layout() {
         <Route path="/product-editor/:id" element={<ProductEditPage />} />
         <Route path="/single-product-page/:id" element={<SingleProductPage />} />
         <Route path="/orderdetailpage/:id" element={<OrderDetailsPage />} />
+        
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       </Routes>
       
       {!hideHeaderFooter && <Footer />}
@@ -79,6 +86,18 @@ function Layout() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // remove smooth if you want instant
+    });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (

@@ -24,15 +24,14 @@ function UserLoginPanel(){
         password: "",
     });
 
+    const [mainOtp, setMainOtp] = useState("");
+
     const [loginData, setLoginData] = useState({
         phone: "",
-        password: "",
     });
 
     const [registerData, setRegisterData] = useState({
         phone: "",
-        username: "",
-        password: "",
     });
 
     const handleRegisterSubmit = async (e) => {
@@ -50,15 +49,6 @@ function UserLoginPanel(){
 
                 if (userExists) {
                     showWebMessage("You are already registered, try logging in");
-                    return;
-                }
-                
-                const userExistsUsername = users.find(
-                    (user) => user.username === registerData.username
-                );
-
-                if (userExistsUsername) {
-                    showWebMessage("Username already registered, try Another Username");
                     return;
                 }
 
@@ -100,7 +90,7 @@ function UserLoginPanel(){
 
                     login({
                     id: data.userId ,
-                    name: registerData.username,
+                    phone: registerData.phone,
                     usertype:"customer"
                 });
                 
@@ -136,7 +126,7 @@ function UserLoginPanel(){
             }
 
             // Check password
-            if (user.password === loginData.password) {
+            // if (Otp === loginData.password) {
                 showWebMessage("Login successful ! ");
 
                  const sendPhone = async () => {
@@ -154,7 +144,7 @@ function UserLoginPanel(){
                     const data = await response.json();
                     login({
                         id: data.userId ,
-                        name: data.userName,
+                        phone: data.phone,
                         usertype:"customer"
                     });
                     navigate("/CustomerPanel");
@@ -163,9 +153,9 @@ function UserLoginPanel(){
                 sendPhone();
 
 
-            } else {
-                showWebMessage("Incorrect password !!");
-            }
+            // } else {
+                // showWebMessage("Incorrect otp !!");
+            // }
 
 
         } catch (error) {
@@ -230,16 +220,6 @@ function UserLoginPanel(){
             showWebMessage("Server error");
         }
     };
-
-
-
-
-
-
-
-
-
-
     
 
     const handleRegisterChange = (e) => {
@@ -273,7 +253,7 @@ function UserLoginPanel(){
                                 className="user-loginf-input"
                                 required
                             />
-                            <input
+                            {/* <input
                                 type="password"
                                 name="password"
                                 placeholder="Password"
@@ -281,7 +261,7 @@ function UserLoginPanel(){
                                 onChange={handleLoginChange}
                                 className="user-loginf-input"
                                 required
-                            />
+                            /> */}
                             <button className="user-loginf-button">Login</button>
                         </form>
 
@@ -321,16 +301,8 @@ function UserLoginPanel(){
                                 className="user-loginf-input"
                                 required
                             />
-                            <input
-                                type="text"
-                                name="username"
-                                placeholder="Username"
-                                value={registerData.username}
-                                onChange={handleRegisterChange}
-                                className="user-loginf-input"
-                                required
-                            />
-                            <input
+                            
+                            {/* <input
                                 type="password"
                                 name="password"
                                 placeholder="Password"
@@ -338,7 +310,7 @@ function UserLoginPanel(){
                                 onChange={handleRegisterChange}
                                 className="user-loginf-input"
                                 required
-                            />
+                            /> */}
                             <button className="user-loginf-button">Register</button>
                         </form>
 

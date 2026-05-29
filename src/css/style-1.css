@@ -4256,3 +4256,120 @@
   background: #333;
   transform: scale(1.1);
 }
+
+
+.ayamkini-privacy-wrapper{
+  padding: 50px 20px;
+  background: #f9f9f9;
+}
+
+.ayamkini-privacy-container{
+ max-width: 1000px;
+ margin: auto;
+ background: #fff;
+ padding: 40px;
+ border-radius: 12px;
+ box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.ayamkini-privacy-title{
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #111;
+}
+
+.ayamkini-privacy-section{
+  margin-bottom: 35px;
+}
+
+.ayamkini-privacy-heading{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.ayamkini-privacy-text{
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+@media(max-width:768px){
+
+.ayamkini-privacy-container{
+  padding: 25px;
+}
+
+.ayamkini-privacy-title{
+  font-size: 30px;
+}
+
+.ayamkini-privacy-heading{
+  font-size: 21px;
+}
+
+.ayamkini-privacy-text{
+  font-size: 15px;
+}
+}
+
+
+.ayamkini-terms-wrapper{
+   padding: 50px 20px; 
+   background: #f9f9f9; 
+  } 
+  
+.ayamkini-terms-container{
+  max-width: 1000px; 
+  margin: auto; 
+  background: #fff; 
+  padding: 40px; 
+  border-radius: 12px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+} 
+
+.ayamkini-terms-title{ 
+  font-size: 38px; 
+  font-weight: 700; 
+  margin-bottom: 25px; 
+  color: #111; 
+} 
+
+.ayamkini-terms-section{ 
+  margin-bottom: 35px; 
+} 
+
+.ayamkini-terms-heading{ 
+  font-size: 24px; 
+  font-weight: 600; 
+  margin-bottom: 15px; 
+  color: #222; 
+} 
+
+.ayamkini-terms-text{ 
+  font-size: 16px; 
+  line-height: 1.8; 
+  color: #555; 
+  margin-bottom: 15px; 
+} 
+
+@media(max-width:768px){ 
+  .ayamkini-terms-container{ 
+    padding: 25px; 
+  } 
+  
+  .ayamkini-terms-title{ 
+    font-size: 30px; 
+  } 
+  
+  .ayamkini-terms-heading{ 
+    font-size: 21px; 
+  } 
+
+  .ayamkini-terms-text{ 
+    font-size: 15px; 
+  } 
+}
