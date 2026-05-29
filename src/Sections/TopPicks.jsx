@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 
+import { showWebMessage } from "../context/webMessageHandler";
+
 const API = import.meta.env.VITE_API_URL;
 
 function TopPicks() {
@@ -163,7 +165,7 @@ function TopPicks() {
         }),
       });
   
-      showWebMessage("product Added Added to cart");
+      showWebMessage("product Added to cart");
     };
 
 
@@ -246,7 +248,6 @@ function TopPicks() {
             slidesPerView: 3,
             spaceBetween: 25,
           },
-
           1200: {
             slidesPerView: 4,
             spaceBetween: 25,

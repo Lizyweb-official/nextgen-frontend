@@ -287,7 +287,7 @@ function Header() {
               user.usertype == "customer" ? (
 
                 <Link to="/CustomerPanel" className="btn btn-dark">
-                  <FaUser /> {user.name}
+                  <FaUser /> {user.phone}
                 </Link>
 
               ) : user.usertype == "dp" ? (
@@ -299,7 +299,7 @@ function Header() {
               ) : (
 
                 <Link to="/CustomerPanel" className="btn btn-dark">
-                  <FaUserShield /> Admin : {user.name}
+                  <FaUserShield /> Admin : {user.usertype}
                 </Link>
 
               )

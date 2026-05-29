@@ -181,9 +181,9 @@ function Cart() {
       {/* Header */}
       <div className="tc-header">
         <div className="tc-logo">Ayam<span>Now</span></div>
-        <button className="tc-back">
+        <Link to="/Shop" className="tc-back">
           <i className="bi bi-arrow-left"></i> Continue Shopping
-        </button>
+        </Link>
       </div>
 
       <div className="tc-body">

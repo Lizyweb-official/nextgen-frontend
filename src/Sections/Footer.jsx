@@ -44,10 +44,8 @@ function Footer(){
                 <div className="footer-col">
                     <h3 className="footer-col-title">Site Links</h3>
                     <ul className="footer-links">
-                    <li><Link to="/" className="footer-link"><span className="footer-link-arrow">›</span>Privacy Policy</Link></li>
-                    <li><Link to="/" className="footer-link"><span className="footer-link-arrow">›</span>Terms & Conditions</Link></li>
-                    <li><Link to="/" className="footer-link"><span className="footer-link-arrow">›</span>Refund Policy</Link></li>
-                    <li><Link to="/" className="footer-link"><span className="footer-link-arrow">›</span>Shipping Policy</Link></li>
+                    <li><Link to="/privacy-policy" className="footer-link"><span className="footer-link-arrow">›</span>Privacy Policy</Link></li>
+                    <li><Link to="/terms-and-conditions" className="footer-link"><span className="footer-link-arrow">›</span>Terms & Conditions</Link></li>
                     </ul>
                 </div>
 
