@@ -24,18 +24,57 @@ function UserLoginPanel(){
         password: "",
     });
 
-    const [mainOtp, setMainOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpVerified, setOtpVerified] = useState(false);
+    const [countdown, setCountdown] = useState(0);
+
+    const [registerOtpSent, setRegisterOtpSent] = useState(false);
+    const [registerOtpVerified, setRegisterOtpVerified] = useState(false);
+    const [registerCountdown, setRegisterCountdown] = useState(0);
+
+    
+
+    useEffect(() => {
+        let timer;
+
+        if (countdown > 0) {
+            timer = setTimeout(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        }
+
+        return () => clearTimeout(timer);
+    }, [countdown]);
+
+    useEffect(() => {
+        let timer;
+
+        if (registerCountdown > 0) {
+            timer = setTimeout(() => {
+                setRegisterCountdown((prev) => prev - 1);
+            }, 1000);
+        }
+
+        return () => clearTimeout(timer);
+    }, [registerCountdown]);
 
     const [loginData, setLoginData] = useState({
         phone: "",
+        otp: "",
     });
 
     const [registerData, setRegisterData] = useState({
         phone: "",
+        otp: "",
     });
 
     const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+
+        if (!registerOtpVerified) {
+            showWebMessage("Please verify OTP first");
+            return;
+        }
 
             try {
                 // 1️⃣ Get all users from backend
@@ -110,6 +149,13 @@ function UserLoginPanel(){
 
         const handleLoginSubmit = async (e) => {
         e.preventDefault();
+
+
+        if (!otpVerified) {
+            showWebMessage("Please verify OTP first");
+            return;
+        }
+
 
         try {
             const res = await fetch(`${API}/api/customerlogins`);
@@ -220,6 +266,9 @@ function UserLoginPanel(){
             showWebMessage("Server error");
         }
     };
+
+
+
     
 
     const handleRegisterChange = (e) => {
@@ -233,7 +282,163 @@ function UserLoginPanel(){
     const handleDpLoginChange = (e) => {
         setDpLoginData({ ...DpLoginData, [e.target.name]: e.target.value });
     };
-   
+
+    const sendOtp = async () => {
+
+        if (otpSent) return;
+
+        if (!loginData.phone) {
+            showWebMessage("Enter phone number first");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(`${API}/verify/sendOtp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    phone: loginData.phone,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setOtpSent(true);
+                setCountdown(30);
+                showWebMessage("OTP sent successfully");
+            }
+
+        } catch (error) {
+            console.error(error);
+            showWebMessage("Failed to send OTP");
+        }
+    };
+
+    const verifyOtp = async () => {
+
+        if (!loginData.otp) {
+            showWebMessage("Enter OTP");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(`${API}/verify/verifyOtp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    phone: loginData.phone,
+                    otp: loginData.otp,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+
+                setOtpVerified(true);
+                showWebMessage("OTP Verified");
+
+            } else {
+
+                showWebMessage("Invalid OTP");
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            showWebMessage("Verification failed");
+
+        }
+    };
+
+    const sendRegisterOtp = async () => {
+
+        if (!registerData.phone) {
+            showWebMessage("Enter phone number first");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(`${API}/verify/sendOtp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    phone: registerData.phone,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+
+                setRegisterOtpSent(true);
+                setRegisterOtpVerified(false);
+                setRegisterCountdown(30);
+
+                showWebMessage("OTP sent successfully");
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            showWebMessage("Failed to send OTP");
+
+        }
+    };
+
+    const verifyRegisterOtp = async () => {
+
+        if (!registerData.otp) {
+            showWebMessage("Enter OTP");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(`${API}/verify/verifyOtp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    phone: registerData.phone,
+                    otp: registerData.otp,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+
+                setRegisterOtpVerified(true);
+                showWebMessage("OTP Verified");
+
+            } else {
+
+                showWebMessage("Invalid OTP");
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            showWebMessage("Verification failed");
+
+        }
+    };
+
+
 
     return(
         <>
@@ -244,24 +449,100 @@ function UserLoginPanel(){
                     <div className="user-loginf-card">
                         <h2 className="user-loginf-title">User Login</h2>
                         <form onSubmit={handleLoginSubmit}>
-                            <input
-                                type="text"
-                                name="phone"
-                                placeholder="Phone Number"
-                                value={loginData.phone}
-                                onChange={handleLoginChange}
-                                className="user-loginf-input"
-                                required
-                            />
-                            {/* <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                value={loginData.password}
-                                onChange={handleLoginChange}
-                                className="user-loginf-input"
-                                required
-                            /> */}
+
+                            <div className="login-page-login-func-wrapper">
+
+                                {/* Line 1 — Phone */}
+                                <div className="login-page-login-func-label">Phone number</div>
+                                <div className="login-page-login-func-row">
+                                    <input
+                                    type="text"
+                                    name="phone"
+                                    placeholder="Phone Number"
+                                    value={loginData.phone}
+                                    onChange={handleLoginChange}
+                                    className="login-page-login-func-input"
+                                    required
+                                    />
+                                    <button
+                                    type="button"
+                                    className="login-page-login-func-btn login-page-login-func-btn-primary"
+                                    onClick={sendOtp}
+                                    disabled={otpVerified}
+                                    >
+                                    {otpSent ? "Resend" : "Get OTP"}
+                                    </button>
+                                </div>
+
+                                {/* Resend countdown */}
+                                {otpSent && !otpVerified && (
+                                    <div className="login-page-login-func-resend">
+                                    {countdown > 0 ? (
+                                        <span>Resend OTP in {countdown}s</span>
+                                    ) : (
+                                        <button
+                                        type="button"
+                                        className="login-page-login-func-resend-btn"
+                                        onClick={sendOtp}
+                                        >
+                                        Resend OTP
+                                        </button>
+                                    )}
+                                    </div>
+                                )}
+
+                                {/* Line 2 — OTP */}
+                                <div className="login-page-login-func-label" style={{ visibility: otpSent ? "visible" : "hidden" }}>
+                                    Enter OTP
+                                </div>
+                                <div
+                                    className="login-page-login-func-row"
+                                    style={{ opacity: otpSent ? 1 : 0.4, pointerEvents: otpSent ? "auto" : "none", transition: "opacity 0.2s" }}
+                                >
+                                    <input
+                                    type="text"
+                                    name="otp"
+                                    placeholder="6-digit OTP"
+                                    value={loginData.otp}
+                                    onChange={handleLoginChange}
+                                    className="login-page-login-func-input"
+                                    maxLength={6}
+                                    disabled={otpVerified}
+                                    required
+                                    />
+
+                                    {otpVerified ? (
+                                    <button
+                                        type="button"
+                                        className="login-page-login-func-btn login-page-login-func-btn-verified"
+                                        disabled
+                                    >
+                                        Verified ✓
+                                    </button>
+                                    ) : (
+                                    <button
+                                        type="button"
+                                        className="login-page-login-func-btn login-page-login-func-btn-primary"
+                                        onClick={verifyOtp}
+                                        disabled={!otpSent}
+                                    >
+                                        Verify
+                                    </button>
+                                    )}
+                                </div>
+
+                                </div>
+                           
+                                {/* <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={loginData.password}
+                                    onChange={handleLoginChange}
+                                    className="user-loginf-input"
+                                    required
+                                /> */}
+
                             <button className="user-loginf-button">Login</button>
                         </form>
 
@@ -287,20 +568,106 @@ function UserLoginPanel(){
                     </div>
                 )}
 
+
+
+
+
+
+
                 {/* REGISTER */}
                 {activeForm === "register" && (
                     <div className="user-loginf-card">
                         <h2 className="user-loginf-title">User Register</h2>
                         <form onSubmit={handleRegisterSubmit}>
-                            <input
+                            <div className="login-page-login-func-wrapper">
+
+                            {/* Line 1 — Phone */}
+                            <div className="login-page-login-func-label">Phone number</div>
+                            <div className="login-page-login-func-row">
+                                <input
                                 type="text"
                                 name="phone"
                                 placeholder="Phone Number"
                                 value={registerData.phone}
                                 onChange={handleRegisterChange}
-                                className="user-loginf-input"
+                                className="login-page-login-func-input"
                                 required
-                            />
+                                />
+                                <button
+                                type="button"
+                                className="login-page-login-func-btn login-page-login-func-btn-primary"
+                                onClick={sendRegisterOtp}
+                                disabled={registerOtpVerified}
+                                >
+                                {registerOtpSent ? "Resend" : "Get OTP"}
+                                </button>
+                            </div>
+
+                            {/* Resend countdown */}
+                            {registerOtpSent && !registerOtpVerified && (
+                                <div className="login-page-login-func-resend">
+                                {registerCountdown > 0 ? (
+                                    <span>Resend OTP in {registerCountdown}s</span>
+                                ) : (
+                                    <button
+                                    type="button"
+                                    className="login-page-login-func-resend-btn"
+                                    onClick={sendRegisterOtp}
+                                    >
+                                    Resend OTP
+                                    </button>
+                                )}
+                                </div>
+                            )}
+
+                            {/* Line 2 — OTP */}
+                            <div
+                                className="login-page-login-func-label"
+                                style={{ visibility: registerOtpSent ? "visible" : "hidden" }}
+                            >
+                                Enter OTP
+                            </div>
+                            <div
+                                className="login-page-login-func-row"
+                                style={{
+                                opacity: registerOtpSent ? 1 : 0.4,
+                                pointerEvents: registerOtpSent ? "auto" : "none",
+                                transition: "opacity 0.2s",
+                                }}
+                            >
+                                <input
+                                type="text"
+                                name="otp"
+                                placeholder="6-digit OTP"
+                                value={registerData.otp}
+                                onChange={handleRegisterChange}
+                                className="login-page-login-func-input"
+                                maxLength={6}
+                                disabled={registerOtpVerified}
+                                required
+                                />
+
+                                {registerOtpVerified ? (
+                                <button
+                                    type="button"
+                                    className="login-page-login-func-btn login-page-login-func-btn-verified"
+                                    disabled
+                                >
+                                    Verified ✓
+                                </button>
+                                ) : (
+                                <button
+                                    type="button"
+                                    className="login-page-login-func-btn login-page-login-func-btn-primary"
+                                    onClick={verifyRegisterOtp}
+                                    disabled={!registerOtpSent}
+                                >
+                                    Verify
+                                </button>
+                                )}
+                            </div>
+
+                            </div>
                             
                             {/* <input
                                 type="password"
@@ -311,6 +678,7 @@ function UserLoginPanel(){
                                 className="user-loginf-input"
                                 required
                             /> */}
+
                             <button className="user-loginf-button">Register</button>
                         </form>
 
@@ -344,6 +712,7 @@ function UserLoginPanel(){
                         <p className='deliveryp-loginf-card-subhead'>Are You a Delivery Partner?</p>
                         <h2 className="deliveryp-loginf-title">Login Here</h2>
                         <form onSubmit={handleDpLoginSubmit}>
+
                             <input
                                 type="text"
                                 name="username"
