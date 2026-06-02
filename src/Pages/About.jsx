@@ -9,10 +9,9 @@ import aboutpic from "../media/Website-Images/images-3/about-1.jpg";
 import aboutpix from "../media/Website-Images/images-3/about-2.jpg";
 import vision from "../media/Website-Images/images-3/vision-1.png";
 import mision from "../media/Website-Images/images-3/mision-2.png";
-import whychoose from "../media/Website-Images/images-3/why_1.jpg";
+import WhyChooseUs_1 from "../media/Website-Images/images-3/why--2.jpeg";
 
 import Cta from '../Sections/Cta';
-
 
 function About(){
     return(
@@ -21,7 +20,7 @@ function About(){
         <Ourvalues/>
         <Aboutus/>
         <VisionMission/>
-        <Whychoose/>
+        <WhyChooseUs/>
         <Cta/>
         
         </>
@@ -92,7 +91,7 @@ function Aboutus(){
           />
 
           <div className="meat-badge" >
-            <h2>10+</h2>
+            <h2 style={{color:"#fff"}}>10+</h2>
             <p style={{color:"#fff"}}>Years Fresh Quality</p>
           </div>
         </div>
@@ -264,75 +263,115 @@ function VisionMission(){
     </>
   )
 }
-function Whychoose(){
-  return(
-    <>
-    <section className="meat-why">
-      <div className="meat-why-container">
 
-        {/* LEFT CONTENT */}
-        <div className="meat-why-left">
 
-          <div className="meat-why-tag">★ TRUSTED BY 10,000+ CUSTOMERS</div>
 
-          <h2>
-            Why <span>Choose Us</span>
-          </h2>
+const features = [
+  {
+    icon: "bi-lightning-charge-fill",
+    tag: "Delivery",
+    title: "Same-day to your door",
+    desc: "Fresh products picked and dispatched within hours of your order.",
+  },
+  {
+    icon: "bi-patch-check-fill",
+    tag: "Quality",
+    title: "Hand-selected every time",
+    desc: "Every item passes a strict freshness check before it reaches you.",
+  },
+  {
+    icon: "bi-shield-lock-fill",
+    tag: "Payments",
+    title: "Safe & flexible checkout",
+    desc: "Pay your way — cards, UPI, wallets, and more, all fully secured.",
+  },
+  {
+    icon: "bi-people-fill",
+    tag: "Trust",
+    title: "10,000+ happy customers",
+    desc: "Real people, real reviews. Our reputation is built on satisfaction.",
+  },
+];
 
-          <p className="meat-why-sub">
-            We deliver farm-fresh, hygienic, and premium quality meat directly to your doorstep.
-          </p>
+const stats = [
+  { value: "10K+", label: "Customers" },
+  { value: "50K+", label: "Orders" },
+  { value: "99%",  label: "Satisfaction" },
+  { value: "2 hr", label: "Avg. Delivery" },
+];
 
-          <div className="meat-why-list">
+function WhyChooseUs() {
+  return (
+    <section className="wcu-section">
+      <div className="wcu-container">
 
-            <div className="meat-why-item">
-              <div className="meat-icon">✔</div>
-              <div>
-                <h4>Fresh & Hygienic Meat</h4>
-                <p>Processed daily with strict hygiene and zero frozen storage.</p>
+        {/* Two-column: image left, content right */}
+        <div className="wcu-layout">
+
+          {/* LEFT — Image */}
+          <div className="wcu-image-col">
+            <div className="wcu-image-wrap">
+              <img
+                src={WhyChooseUs_1}
+                alt="Fresh grocery delivery"
+                className="wcu-image"
+              />
+              {/* Floating stat badge */}
+              <div className="wcu-badge">
+                <span className="wcu-badge-value">99%</span>
+                <span className="wcu-badge-label">Customer Satisfaction</span>
               </div>
             </div>
+          </div>
 
-            <div className="meat-why-item">
-              <div className="meat-icon">✔</div>
-              <div>
-                <h4>Farm to Home Delivery</h4>
-                <p>Sourced directly from trusted farms for best quality.</p>
-              </div>
+          {/* RIGHT — Content */}
+          <div className="wcu-content-col">
+
+            <div className="wcu-top">
+              <span className="wcu-label">Why choose us</span>
+              <h2 className="wcu-heading">
+                More than a store —<br />
+                <em>a promise we keep.</em>
+              </h2>
             </div>
 
-            <div className="meat-why-item">
-              <div className="meat-icon">✔</div>
-              <div>
-                <h4>100% Quality Assurance</h4>
-                <p>Every cut is inspected to meet premium standards.</p>
-              </div>
+            <div className="wcu-stats">
+              {stats.map((s, i) => (
+                <div className="wcu-stat" key={i}>
+                  <span className="wcu-stat-value">{s.value}</span>
+                  <span className="wcu-stat-label">{s.label}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="meat-why-item">
-              <div className="meat-icon">✔</div>
-              <div>
-                <h4>Fast & Safe Delivery</h4>
-                <p>Quick delivery with temperature-controlled packaging.</p>
-              </div>
+            <div className="wcu-rule" />
+
+            <div className="wcu-features">
+              {features.map((f, i) => (
+                <div className="wcu-feature" key={i}>
+                  <div className="wcu-icon-wrap">
+                    <i className={`bi ${f.icon}`}></i>
+                  </div>
+                  <div className="wcu-feature-body">
+                    <div className="wcu-feature-top">
+                      <h3>{f.title}</h3>
+                      <span className="wcu-feature-tag">{f.tag}</span>
+                    </div>
+                    <p>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="meat-why-right">
-          <img src={whychoose} alt="meat quality" />
-          <div className="meat-badge-top"> Premium Quality</div>
-          <div className="meat-badge-bottom">Same Day Delivery</div>
-        </div>
-
       </div>
     </section>
- 
-    </>
-  )
+  );
 }
+
+
 
 
 function Ourvalues(){
@@ -373,7 +412,5 @@ function Ourvalues(){
     </>
   );
 }
-    
-
 
 export default About;

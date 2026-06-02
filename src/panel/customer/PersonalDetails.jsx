@@ -11,7 +11,6 @@ const API = import.meta.env.VITE_API_URL;
 
 const styles = {
     page: {
-        minHeight: "100vh",
         background: "#faf9f7",
         display: "flex",
         alignItems: "flex-start",

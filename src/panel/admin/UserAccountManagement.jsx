@@ -183,8 +183,8 @@ function CustomerAccountManage(){
                 <tr>
                 <th>ID</th>
                 <th>Phone</th>
-                <th>Username</th>
-                <th>Password</th>
+                {/* <th>Username</th> */}
+                {/* <th>Password</th> */}
                 {/* <th>UD ID</th> */}
                 {/* <th>Customer ID</th> */}
                 <th>Name</th>
@@ -195,7 +195,7 @@ function CustomerAccountManage(){
                 <th>State</th>
                 <th>Pincode</th>
                 <th>Email</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
                 </tr>
             </thead>
 
@@ -204,10 +204,10 @@ function CustomerAccountManage(){
                 <tr key={user.id}>
                     <td>{user.id}</td>
                     <td>{user.phone}</td>
-                    <td>{user.username}</td>
+                    {/* <td>{user.username}</td> */}
 
                     {/* Password column */}
-                    <td>
+                    {/* <td>
                         
 
                      {user.id !== 1 && (
@@ -225,7 +225,7 @@ function CustomerAccountManage(){
                         </>
                     )}
                                         
-                    </td>
+                    </td> */}
 
                     {/* <td>{user.ud_id ?? "-"}</td> */}
                     {/* <td>{user.customer_id ?? "-"}</td> */}
@@ -239,7 +239,7 @@ function CustomerAccountManage(){
                     <td>{user.pincode ?? "-"}</td>
                     <td>{user.email_address ?? "-"}</td>
 
-                    <td>  
+                    {/* <td>  
                         {user.id !== 1 && (
                             <button
                             className="admin-db-customer-manage-table-delete-btn"
@@ -248,7 +248,7 @@ function CustomerAccountManage(){
                             Delete
                             </button>
                         )}                    
-                    </td>
+                    </td> */}
 
                 </tr>
                 ))}
@@ -417,7 +417,7 @@ function DeliveryPartnerAccountManage(){
             
         <div className="admin-db-customer-manage-table-container">
         <h2 className="admin-db-customer-manage-table-title">
-            Customer Full Details
+            Delivery Partner Details
         </h2>
 
         <div className="admin-db-customer-manage-table-wrapper">
