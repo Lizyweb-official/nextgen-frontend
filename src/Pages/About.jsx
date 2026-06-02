@@ -11,9 +11,7 @@ import vision from "../media/Website-Images/images-3/vision-1.png";
 import mision from "../media/Website-Images/images-3/mision-2.png";
 import WhyChooseUs_1 from "../media/Website-Images/images-3/why--2.jpeg";
 
-
 import Cta from '../Sections/Cta';
-
 
 function About(){
     return(
