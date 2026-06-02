@@ -24,12 +24,12 @@ function UserLoginPanel(){
         password: "",
     });
 
-    const [otpSent, setOtpSent] = useState(false);
-    const [otpVerified, setOtpVerified] = useState(false);
+    const [otpSent, setOtpSent] = useState(true);  //for testing use value true
+    const [otpVerified, setOtpVerified] = useState(true); //for testing use value true
     const [countdown, setCountdown] = useState(0);
 
-    const [registerOtpSent, setRegisterOtpSent] = useState(false);
-    const [registerOtpVerified, setRegisterOtpVerified] = useState(false);
+    const [registerOtpSent, setRegisterOtpSent] = useState(true); //for testing use value true
+    const [registerOtpVerified, setRegisterOtpVerified] = useState(true); //for testing use value true
     const [registerCountdown, setRegisterCountdown] = useState(0);
 
     
