@@ -414,7 +414,5 @@ function Ourvalues(){
     </>
   );
 }
-    
-
 
 export default About;
