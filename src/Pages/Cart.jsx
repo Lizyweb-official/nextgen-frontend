@@ -237,7 +237,7 @@ function Cart() {
                   <div className="tc-qty-row">
                     <div className="tc-qty">
                       <button onClick={() => updateQty(item.product_id, "dec")}>−</button>
-                      <span>{item.qty}</span>
+                      <span>{item.qty}kg</span>
                       <button onClick={() => updateQty(item.product_id, "inc")}>+</button>
                     </div>
 

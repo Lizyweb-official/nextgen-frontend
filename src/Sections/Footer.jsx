@@ -6,7 +6,6 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import logo from '../media/Website-Images/images-1/foot-logo.jpg'
 import { Link } from "react-router-dom";
 
 function Footer(){
@@ -22,7 +21,7 @@ function Footer(){
                 {/* ABOUT */}
                 <div className="footer-col footer-info-first">
                     
-                    <Link to="/" className="footer-logo-wrap"><img src={logo} className="footer-logo"/></Link>
+                    <h6 className="footer-logo-wrap">Ayam<span>Kini</span></h6>
                     <p className="footer-brand-text">
                     AyamNow is your trusted destination for fresh, hygienic, and high-quality chicken.
                     We ensure every order is carefully cleaned, cut, and packed to maintain freshness.

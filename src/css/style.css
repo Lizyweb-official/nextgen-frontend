@@ -370,3 +370,12 @@ a:hover {
 @media(max-width:768px){
 
 }
+.footer-logo-wrap{
+  color:var(--brand);
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.footer-logo-wrap span{
+  color:#ffffff;
+}
