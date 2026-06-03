@@ -49,6 +49,10 @@ function Layout() {
     location.pathname.startsWith("/product-editor/") ||
     location.pathname.startsWith("/orderdetailpage") ||
     location.pathname === "/admin-db";
+    
+    const hidecartpage = 
+    location.pathname === "/admin-db" ||
+    location.pathname.startsWith("/orderdetailpage") ;
 
   return (
     <>
@@ -81,7 +85,8 @@ function Layout() {
       </Routes>
       
       {!hideHeaderFooter && <Footer />}
-      <FloatCart/>
+      {!hidecartpage && <FloatCart />}
+
     </>
   );
 }

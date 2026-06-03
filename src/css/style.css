@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700");
 
 :root {
-  --brand: #fcdc0d;
+  --brand: #FDD303;
   --sub: #c8102e;
   --body: #516171;
   --border: rgba(0,0,0,0.08);
@@ -160,16 +160,16 @@ a:hover {
 }
 
 @media (max-width:768px){
-  .header-icon-cartshop{
-  display: none;
-}
+    .header-icon-cartshop{
+    display: none;
+  }
 
-.header-search-box {
-  border: 1px solid black;
-}
-.header-search-box:focus {
-  border: 1px solid black;
-}
+  .header-search-box {
+    border: 1px solid black;
+  }
+  .header-search-box:focus {
+    border: 1px solid black;
+  }
 }
 
 .nav-link-item {

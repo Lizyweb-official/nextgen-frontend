@@ -6408,7 +6408,7 @@
   border-radius: var(--r-xl);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .incoming-orders-table-wrapper::-webkit-scrollbar { height: 5px; }
@@ -6454,16 +6454,11 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-1);
-  background: var(--surface);
   transition: background 0.15s ease;
 }
 
 .incoming-orders-table-row:nth-child(even) td {
-  background: #fdfdf8;
-}
-
-.incoming-orders-table-row:hover td {
-  background: var(--brand-tint) !important;
+  background: #ffffff;
 }
 
 .incoming-orders-table-row:last-child td {
@@ -6479,7 +6474,6 @@
   font-size: 0.76rem;
   font-weight: 500;
   color: var(--sub) !important;
-  background: var(--sub-tint);
   border: 1px solid rgba(200, 16, 46, .15);
   padding: 3px 9px;
   border-radius: 6px;
@@ -6510,7 +6504,6 @@
   font-size: 0.78rem;
   font-weight: 700;
   color: #7a6500 !important;
-  background: var(--brand-tint);
   border: 1px solid rgba(252, 220, 13, .40);
   padding: 3px 9px;
   border-radius: 6px;

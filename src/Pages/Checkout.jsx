@@ -39,13 +39,13 @@ function Checkout() {
       sub: "Pay instantly via UPI",
       badge: null
     },
-    {
-      id: "cod",
-      icon: "bi-cash",
-      name: "Cash on Delivery",
-      sub: "Pay when order arrives",
-      badge: null
-    }
+    // {
+    //   id: "cod",
+    //   icon: "bi-cash",
+    //   name: "Cash on Delivery",
+    //   sub: "Pay when order arrives",
+    //   badge: null
+    // }
   ];
 
   // -----------------------------------

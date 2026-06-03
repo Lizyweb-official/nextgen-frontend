@@ -374,6 +374,11 @@
   background: #f4f3f8;
 }
 
+.Admin-logout-btn{
+  background-color: var(--sub) !important;
+  color:white !important;
+}
+
 .admin-login-panel-form {
   background: #ffffff;
   border: 0.5px solid #e0dff0;
