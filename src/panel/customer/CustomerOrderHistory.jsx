@@ -75,144 +75,156 @@ function CustomerOrderHistory() {
 
     return (
         <>
-            <div className="container py-4">
+            <div className="order-history-container container py-4">
 
-                <div className="card shadow-sm border-0">
+    <div className="order-history-card card shadow-sm border-0">
 
-                    <div className="card-header bg-white">
-                        <h4 className="mb-0">
-                            Order History
-                        </h4>
-                    </div>
+        <div className="order-history-header card-header bg-white">
+            <h4 className="order-history-title mb-0">
+                Order History
+            </h4>
+        </div>
 
-                    <div className="card-body">
+        <div className="order-history-body card-body">
 
-                        {loading ? (
-                            <div className="text-center py-5">
-                                <h5>Loading orders...</h5>
-                            </div>
-                        ) : currentOrders.length === 0 ? (
-                            <div className="text-center py-5">
-                                <h5>No order history found</h5>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="table-responsive">
-
-                                    <table className="table table-bordered align-middle">
-
-                                        <thead className="table-light">
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>When Order Placed</th>
-                                                <th>Order Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            {currentOrders.map((order) => (
-
-                                                <tr key={order.id}>
-
-                                                    <td>
-                                                        #{order.id}
-                                                    </td>
-
-                                                    <td>
-                                                        {formatDate(order.created_at)}
-                                                    </td>
-
-                                                    <td>
-                                                        <span
-                                                            className=""
-                                                        >
-                                                            {Number(order.status_id) === 4
-                                                                ? 'Delivered'
-                                                                : Number(order.status_id) === 5
-                                                                ? 'Cancelled'
-                                                                : order.status_name}
-                                                        </span>
-                                                    </td>
-
-                                                    <td>
-                                                        <Link
-                                                            to={`/orderdetailpage/${order.id}`}
-                                                            className="btn btn-primary btn-sm"
-                                                        >
-                                                            View Details
-                                                        </Link>
-                                                    </td>
-
-                                                </tr>
-
-                                            ))}
-
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-
-                                {/* Pagination */}
-
-                                {totalPages > 1 && (
-
-                                    <div className="d-flex justify-content-center mt-4">
-
-                                        <nav>
-                                            <ul className="pagination">
-
-                                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                                    <button
-                                                        className="page-link"
-                                                        onClick={() => setCurrentPage(currentPage - 1)}
-                                                    >
-                                                        Previous
-                                                    </button>
-                                                </li>
-
-                                                {[...Array(totalPages)].map((_, index) => (
-                                                    <li
-                                                        key={index}
-                                                        className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                                                    >
-                                                        <button
-                                                            className="page-link"
-                                                            onClick={() => setCurrentPage(index + 1)}
-                                                        >
-                                                            {index + 1}
-                                                        </button>
-                                                    </li>
-                                                ))}
-
-                                                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                                    <button
-                                                        className="page-link"
-                                                        onClick={() => setCurrentPage(currentPage + 1)}
-                                                    >
-                                                        Next
-                                                    </button>
-                                                </li>
-
-                                            </ul>
-                                        </nav>
-
-                                    </div>
-
-                                )}
-
-                            </>
-                        )}
-
-                    </div>
-
+            {loading ? (
+                <div className="order-history-loading text-center py-5">
+                    <h5>Loading orders...</h5>
                 </div>
+            ) : currentOrders.length === 0 ? (
+                <div className="order-history-empty text-center py-5">
+                    <h5>No order history found</h5>
+                </div>
+            ) : (
+                <>
+                    <div className="order-history-table-wrapper table-responsive">
 
-            </div>
-        </>
-    );
+                        <table className="order-history-table table table-bordered align-middle">
+
+                            <thead className="order-history-thead table-light">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>When Order Placed</th>
+                                    <th>Order Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {currentOrders.map((order) => (
+
+                                    <tr
+                                        key={order.id}
+                                        className="order-history-row"
+                                    >
+
+                                        <td className="order-history-id">
+                                            #{order.id}
+                                        </td>
+
+                                        <td className="order-history-date">
+                                            {formatDate(order.created_at)}
+                                        </td>
+
+                                        <td className="order-history-status">
+                                            <span className="order-history-status-text">
+                                                {Number(order.status_id) === 4
+                                                    ? 'Delivered'
+                                                    : Number(order.status_id) === 5
+                                                    ? 'Cancelled'
+                                                    : order.status_name}
+                                            </span>
+                                        </td>
+
+                                        <td className="order-history-action">
+                                            <Link
+                                                to={`/orderdetailpage/${order.id}`}
+                                                className="order-history-view-btn btn btn-primary btn-sm"
+                                            >
+                                                View Details
+                                            </Link>
+                                        </td>
+
+                                    </tr>
+
+                                ))}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {totalPages > 1 && (
+
+                        <div className="order-history-pagination-wrapper d-flex justify-content-center mt-4">
+
+                            <nav className="order-history-pagination-nav">
+
+                                <ul className="order-history-pagination pagination">
+
+                                    <li
+                                        className={`order-history-page-item page-item ${
+                                            currentPage === 1 ? 'disabled' : ''
+                                        }`}
+                                    >
+                                        <button
+                                            className="order-history-page-link page-link"
+                                            onClick={() => setCurrentPage(currentPage - 1)}
+                                        >
+                                            Previous
+                                        </button>
+                                    </li>
+
+                                    {[...Array(totalPages)].map((_, index) => (
+                                        <li
+                                            key={index}
+                                            className={`order-history-page-item page-item ${
+                                                currentPage === index + 1 ? 'active' : ''
+                                            }`}
+                                        >
+                                            <button
+                                                className="order-history-page-link page-link"
+                                                onClick={() => setCurrentPage(index + 1)}
+                                            >
+                                                {index + 1}
+                                            </button>
+                                        </li>
+                                    ))}
+
+                                    <li
+                                        className={`order-history-page-item page-item ${
+                                            currentPage === totalPages ? 'disabled' : ''
+                                        }`}
+                                    >
+                                        <button
+                                            className="order-history-page-link page-link"
+                                            onClick={() => setCurrentPage(currentPage + 1)}
+                                        >
+                                            Next
+                                        </button>
+                                    </li>
+
+                                </ul>
+
+                            </nav>
+
+                        </div>
+
+                    )}
+
+                </>
+            )}
+
+        </div>
+
+    </div>
+
+</div>
+</>
+); 
+
 }
 
 export default CustomerOrderHistory;

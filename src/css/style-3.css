@@ -57,7 +57,7 @@
   );
   z-index: 1;
 }
-
+ 
 .hero-banner__content {
   position: relative;
   z-index: 2;
@@ -299,7 +299,7 @@
     padding: 0px 20px 50px 20px;
   }
   .meat-about-wrapper {
-    grid-template-columns: 1fr; /* ✅ stack layout */
+    grid-template-columns: 1fr; 
     gap: 30px;
   }
   /* IMAGE FIRST */
@@ -6924,477 +6924,733 @@
 
 
 /*Order History*/
+/* ==========================
+   ORDER HISTORY - PREMIUM UI
+========================== */
 
-/* =========================================================
-   ORDER HISTORY PAGE
-========================================================= */
-
-.order-history-page {
-  background: #f5f7fb;
-  min-height: 100vh;
-  padding-bottom: 40px;
+.order-history-container {
+  padding: 32px 0;
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* Card */
+
+.order-history-card {
+  border: none !important;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.35s ease;
+}
+
+.order-history-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.12),
+    0 4px 15px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Header */
 
 .order-history-header {
-  background: #ffffff;
-  padding: 22px 24px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  position: relative;
+  border: none !important;
+  padding: 22px 30px;
+  background: linear-gradient(
+    135deg,
+    var(--sub) 0%,
+    #d81f3e 50%,
+    var(--sub) 100%
+  ) !important;
 }
 
 .order-history-title {
-  font-size: 1.8rem;
+  color: #fff;
+  font-size: 1.7rem;
   font-weight: 700;
-  color: var(--sub);
+  margin: 0;
   letter-spacing: 0.4px;
 }
 
-.order-history-refresh-btn {
-  background: var(--brand) !important;
-  border: none !important;
-  color: #111827 !important;
-  font-weight: 700 !important;
-  padding: 10px 22px !important;
-  border-radius: 12px !important;
-  transition: 0.3s ease;
+/* Body */
+
+.order-history-body {
+  padding: 8px;
+  background: #fff;
 }
 
-.order-history-refresh-btn:hover {
-  background: #e8c400 !important;
-  transform: translateY(-2px);
-}
-
-/* =========================================================
-   FILTER CARD
-========================================================= */
-
-.order-history-filter-card {
-  border-radius: 22px !important;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-}
-
-.order-history-filter-body {
-  padding: 28px;
-}
-
-.order-history-label {
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--body);
-  margin-bottom: 8px;
-}
-
-/* =========================================================
-   SEARCH GROUP FIX
-========================================================= */
-
-.order-history-search-group {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-}
-
-/* =========================================================
-   INPUTS
-========================================================= */
-
-.order-history-search-select,
-.order-history-search-input,
-.order-history-status-select,
-.order-history-date-input {
-  height: 52px;
-  border-radius: 14px !important;
-  border: 1.5px solid #dbe1ea !important;
-  box-shadow: none !important;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #1f2937 !important;
-  transition: 0.3s ease;
-  background: #ffffff !important;
-}
-
-/* =========================================================
-   SEARCH SELECT
-========================================================= */
-
-.order-history-search-select {
-  min-width: 170px;
-  max-width: 170px;
-  background: #f9fafb !important;
-  color: var(--sub) !important;
-  font-weight: 700;
-  flex: unset !important;
-}
-
-/* =========================================================
-   SEARCH INPUT
-========================================================= */
-
-.order-history-search-input {
-  flex: 1;
-  min-width: 0;
-}
-
-.order-history-search-input::placeholder {
-  color: #9ca3af;
-}
-
-/* =========================================================
-   INPUT FOCUS
-========================================================= */
-
-.order-history-search-select:focus,
-.order-history-search-input:focus,
-.order-history-status-select:focus,
-.order-history-date-input:focus {
-  border-color: var(--brand) !important;
-  box-shadow: 0 0 0 4px rgba(252, 220, 13, 0.2) !important;
-}
-
-/* =========================================================
-   RESET BUTTON
-========================================================= */
-
-.order-history-reset-btn {
-  height: 52px;
-  border: none !important;
-  background: var(--sub) !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-  border-radius: 14px !important;
-  transition: 0.3s ease;
-}
-
-.order-history-reset-btn:hover {
-  transform: translateY(-2px);
-  background: #a60d25 !important;
-}
-
-/* =========================================================
-   TABLE CARD
-========================================================= */
-
-.order-history-table-card {
-  border-radius: 22px !important;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
-}
+/* Table Wrapper */
 
 .order-history-table-wrapper {
-  padding: 0 !important;
+  border-radius: 18px;
+  overflow: hidden;
 }
 
-/* =========================================================
-   TABLE
-========================================================= */
+/* Table */
 
 .order-history-table {
-  margin-bottom: 0 !important;
-  min-width: 850px;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.order-history-table-head {
-  background: var(--sub) !important;
-}
-
-.order-history-head-row th {
-  background: var(--sub) !important;
-  color: #ffffff !important;
-  border: none !important;
-  padding: 18px 16px !important;
-  font-size: 0.92rem;
+.order-history-table thead th {
+  background: #fafafa !important;
+  color: #222;
+  border: none;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
-  white-space: nowrap;
+  letter-spacing: 0.6px;
+  padding: 18px;
 }
 
-.order-history-table-row {
-  transition: 0.25s ease;
-}
-
-.order-history-table-row:hover {
-  background: rgba(252, 220, 13, 0.08);
-}
-
-.order-history-td {
-  padding: 18px 16px !important;
+.order-history-table tbody td {
+  padding: 18px;
+  border-top: 1px solid #f1f1f1;
   vertical-align: middle;
-  border-color: #edf1f5 !important;
-  font-size: 0.95rem;
-  color: #374151;
+}
+
+/* Row Hover */
+
+.order-history-row {
+  transition: all 0.3s ease;
+}
+
+.order-history-row:hover {
+  background: linear-gradient(
+    to right,
+    rgba(252, 220, 13, 0.08),
+    rgba(200, 16, 46, 0.03)
+  );
+  transform: scale(1.002);
+}
+
+/* Order ID */
+
+.order-history-id {
+  color: var(--sub);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* Date */
+
+.order-history-date {
+  color: #666;
   font-weight: 500;
 }
 
-.order-history-order-id {
-  font-weight: 700;
-  color: var(--sub);
-}
+/* Status Badge */
 
-.order-history-customer-id {
-  color: var(--body);
-  font-weight: 600;
-}
-
-/* =========================================================
-   STATUS BADGE
-========================================================= */
-
-.order-history-status-badge {
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 700;
+.order-history-status-text {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 110px;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background: rgba(252, 220, 13, 0.15);
+  color: var(--sub);
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid rgba(252, 220, 13, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
-.order-history-delivered {
-  background: rgba(34, 197, 94, 0.15);
-  color: #15803d;
-}
-
-.order-history-cancelled {
-  background: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
-}
-
-/* =========================================================
-   VIEW BUTTON
-========================================================= */
+/* Button */
 
 .order-history-view-btn {
-  background: var(--brand) !important;
+  background: linear-gradient(
+    135deg,
+    var(--sub),
+    #e32647
+  ) !important;
   border: none !important;
-  color: #111827 !important;
-  font-weight: 700 !important;
-  border-radius: 10px !important;
-  padding: 8px 16px !important;
-  transition: 0.3s ease;
+  color: #fff !important;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.25);
+  transition: all 0.3s ease;
 }
 
 .order-history-view-btn:hover {
-  background: #e4c400 !important;
-  transform: scale(1.04);
+  transform: translateY(-3px);
 }
 
-/* =========================================================
-   EMPTY STATE
-========================================================= */
+.order-history-view-btn:active {
+  transform: translateY(0);
+}
 
-.order-history-empty-text {
-  font-size: 1rem;
+/* Empty / Loading */
+
+.order-history-loading,
+.order-history-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.order-history-loading h5,
+.order-history-empty h5 {
+  font-size: 18px;
   font-weight: 600;
-  color: #6b7280;
 }
 
-/* =========================================================
-   PAGINATION
-========================================================= */
+/* Pagination */
 
-.order-history-pagination {
-  margin-top: 30px !important;
+.order-history-pagination-wrapper {
+  margin-top: 30px;
 }
 
-.order-history-page-btn,
-.order-history-page-active {
-  min-width: 46px;
-  height: 46px;
+.order-history-pagination .page-item {
+  margin: 0 4px;
+}
+
+.order-history-pagination .page-link {
+  border: none;
   border-radius: 12px !important;
-  font-weight: 700 !important;
-  transition: 0.3s ease;
+  min-width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  font-weight: 600;
+  background: #f7f7f7;
+  transition: all 0.3s ease;
 }
 
-.order-history-page-btn {
-  border: 1.5px solid var(--brand) !important;
-  color: var(--sub) !important;
-  background: #ffffff !important;
-}
-
-.order-history-page-btn:hover {
-  background: rgba(252, 220, 13, 0.15) !important;
+.order-history-pagination .page-link:hover {
+  background: var(--brand);
+  color: var(--sub);
   transform: translateY(-2px);
 }
 
-.order-history-page-active {
-  background: var(--sub) !important;
-  border: none !important;
-  color: #ffffff !important;
+.order-history-pagination .active .page-link {
+  background: linear-gradient(
+    135deg,
+    var(--sub),
+    #e32647
+  ) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 16px rgba(200, 16, 46, 0.25);
 }
 
-/* =========================================================
-   LOADING
-========================================================= */
-
-.order-history-loading {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--body);
+.order-history-pagination .disabled .page-link {
+  background: #f0f0f0;
+  color: #aaa;
 }
 
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-.order-history-table-wrapper::-webkit-scrollbar {
-  height: 8px;
-}
-
-.order-history-table-wrapper::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 20px;
-}
-
-.order-history-table-wrapper::-webkit-scrollbar-thumb {
-  background: var(--brand);
-  border-radius: 20px;
-}
-
-/* =========================================================
-   MOBILE RESPONSIVE
-========================================================= */
-
-@media (max-width: 992px) {
-
-  .order-history-filter-body {
-    padding: 22px;
-  }
-
-  .order-history-title {
-    font-size: 1.5rem;
-  }
-
-  .order-history-header {
-    padding: 18px;
-  }
-}
+/* Responsive */
 
 @media (max-width: 768px) {
 
-  .order-history-page {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-  }
-
-  .order-history-header {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 15px;
+  .order-history-body {
+    padding: 16px;
   }
 
   .order-history-title {
     font-size: 1.3rem;
   }
 
-  .order-history-filter-body {
-    padding: 18px;
-  }
-
-  .order-history-search-group {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  .order-history-search-select {
-    min-width: 100%;
-    max-width: 100%;
-    width: 100% !important;
-  }
-
-  .order-history-search-input {
-    width: 100% !important;
-  }
-
-  .order-history-search-select,
-  .order-history-search-input,
-  .order-history-status-select,
-  .order-history-date-input,
-  .order-history-reset-btn {
-    height: 48px;
-    font-size: 0.9rem;
-  }
-
-  .order-history-table {
-    min-width: 760px;
-  }
-
-  .order-history-head-row th {
-    font-size: 0.82rem;
-    padding: 14px 12px !important;
-  }
-
-  .order-history-td {
-    font-size: 0.85rem;
-    padding: 14px 12px !important;
-  }
-
-  .order-history-status-badge {
-    min-width: 95px;
-    font-size: 0.75rem;
+  .order-history-table thead th,
+  .order-history-table tbody td {
+    padding: 12px;
+    font-size: 13px;
   }
 
   .order-history-view-btn {
-    font-size: 0.78rem !important;
-    padding: 7px 12px !important;
+    padding: 8px 14px;
+    font-size: 12px;
   }
 
-  .order-history-pagination {
-    gap: 8px !important;
-  }
-
-  .order-history-page-btn,
-  .order-history-page-active {
-    min-width: 40px;
-    height: 40px;
-    font-size: 0.82rem !important;
+  .order-history-status-text {
+    font-size: 11px;
+    padding: 6px 12px;
   }
 }
 
-@media (max-width: 480px) {
 
-  .order-history-title {
-    font-size: 1.15rem;
-  }
 
-  .order-history-refresh-btn {
-    width: 100%;
-  }
 
-  .order-history-filter-body {
-    padding: 14px;
-  }
 
-  .order-history-table {
-    min-width: 700px;
-  }
 
-  .order-history-head-row th {
-    font-size: 0.76rem;
-  }
+/* order status */
 
-  .order-history-td {
-    font-size: 0.78rem;
-  }
+/* ==========================
+   PAGE
+========================== */
 
-  .order-history-status-badge {
-    padding: 6px 10px;
-  }
+.osx-orders-page{
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+  padding:30px 15px;
+  font-family:'DM Sans',sans-serif;
+}
 
-  .order-history-view-btn {
-    white-space: nowrap;
+.osx-orders-header{
+  margin-bottom:25px;
+}
+
+.osx-page-title{
+  font-size:32px;
+  font-weight:800;
+  color:black;
+  margin:0;
+  line-height:1.2;
+}
+
+.osx-page-subtitle{
+  margin-top:8px;
+  color:black;
+  font-size:15px;
+}
+
+/* ==========================
+   ORDER CARD
+========================== */
+
+.osx-order-card{
+  position:relative;
+  background:var(--white);
+  border-radius:24px;
+  padding:25px;
+  margin-bottom:20px;
+  border:1px solid rgba(252,220,13,.25);
+  box-shadow:
+  0 10px 30px rgba(0,0,0,.05),
+  0 3px 10px rgba(0,0,0,.03);
+  transition:.35s ease;
+  overflow:hidden;
+}
+
+.osx-order-card:hover{
+  transform:translateY(-4px);
+  box-shadow:
+  0 18px 40px rgba(0,0,0,.08),
+  0 8px 18px rgba(0,0,0,.05);
+}
+
+.osx-order-card-top{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:6px;
+  background:linear-gradient(
+    90deg,
+    var(--sub),
+    var(--sub)
+  );
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.osx-order-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.osx-order-id{
+  font-size:20px;
+  font-weight:800;
+  color:var(--dark);
+}
+
+.osx-order-date{
+  margin-top:5px;
+  color:#6b7280;
+  font-size:13px;
+}
+
+.osx-order-status-badge{
+  background:rgba(252,220,13,.15);
+  color:var(--sub);
+  border:1px solid rgba(200,16,46,.15);
+  padding:8px 18px;
+  border-radius:50px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* ==========================
+   PROGRESS BAR
+========================== */
+
+.osx-progress-container{
+  display:flex;
+  align-items:flex-start;
+  margin:25px 0;
+}
+
+.osx-progress-step-wrapper{
+  display:flex;
+  align-items:center;
+}
+
+.osx-grow{
+  flex:1;
+}
+
+.osx-progress-step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.osx-step-circle{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#e5e7eb;
+  border:3px solid #e5e7eb;
+  transition:.3s;
+}
+
+.osx-step-circle.osx-done{
+  background:var(--brand);
+  border-color:var(--brand);
+}
+
+.osx-step-circle.osx-active{
+  box-shadow:0 0 0 8px rgba(252,220,13,.25);
+}
+
+.osx-step-label{
+  margin-top:10px;
+  font-size:12px;
+  color:#9ca3af;
+  text-align:center;
+  font-weight:600;
+}
+
+.osx-step-label.osx-done{
+  color:var(--sub);
+}
+
+.osx-step-label.osx-active{
+  font-weight:800;
+}
+
+.osx-step-line{
+  flex:1;
+  height:5px;
+  background:#e5e7eb;
+  margin:0 10px;
+  margin-bottom:25px;
+  border-radius:50px;
+}
+
+.osx-step-line.osx-completed{
+  background:linear-gradient(
+    90deg,
+    var(--sub),
+    var(--sub)
+  );
+}
+
+/* ==========================
+   INFO GRID
+========================== */
+
+.osx-order-info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  background:var(--light);
+  border:1px solid rgba(252,220,13,.2);
+  border-radius:18px;
+  padding:18px;
+}
+
+.osx-info-title{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#9ca3af;
+  margin-bottom:6px;
+}
+
+.osx-info-value{
+  font-size:14px;
+  font-weight:600;
+  color:var(--dark);
+}
+
+.osx-info-total{
+  font-size:22px;
+  font-weight:800;
+  color:var(--sub);
+}
+
+/* ==========================
+   META
+========================== */
+
+.osx-order-meta{
+  margin-top:18px;
+  color:#6b7280;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.osx-payment-paid{
+  color:#16a34a;
+  font-weight:700;
+}
+
+.osx-payment-pending{
+  color:#f59e0b;
+  font-weight:700;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.osx-order-actions{
+  display:flex;
+  gap:12px;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
+
+.osx-btn-view,
+.osx-btn-cancel,
+.osx-btn-keep,
+.osx-btn-confirm{
+  flex:1;
+  min-width:160px;
+  padding:14px 18px;
+  border-radius:14px;
+  text-align:center;
+  text-decoration:none;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+/* View */
+
+.osx-btn-view{
+  background:var(--brand);
+  color:#111;
+  border:none;
+}
+
+.osx-btn-view:hover{
+  transform:translateY(-2px);
+  background:var(--sub);
+}
+
+/* Cancel */
+
+.osx-btn-cancel{
+  background:#fff1f2;
+  color:var(--sub);
+  border:1px solid rgba(200,16,46,.15);
+}
+
+.osx-btn-cancel:hover{
+  background:var(--sub);
+  color:#fff;
+}
+
+/* Keep */
+
+.osx-btn-keep{
+  background:#f3f4f6;
+  border:none;
+  color:#374151;
+}
+
+.osx-btn-keep:hover{
+  background:#e5e7eb;
+}
+
+/* Confirm */
+
+.osx-btn-confirm{
+  background:var(--sub);
+  border:none;
+  color:#fff;
+}
+
+.osx-btn-confirm:hover{
+  background:#a90e27;
+}
+
+.osx-btn-confirm:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+/* ==========================
+   LOADER
+========================== */
+
+.osx-loading-container{
+  text-align:center;
+  padding:60px 20px;
+}
+
+.osx-spinner{
+  width:55px;
+  height:55px;
+  border:5px solid #f3f4f6;
+  border-top-color:var(--sub);
+  border-radius:50%;
+  animation:osxSpin .8s linear infinite;
+  margin:auto;
+}
+
+.osx-loading-text{
+  margin-top:15px;
+  color:#6b7280;
+}
+
+@keyframes osxSpin{
+  to{
+    transform:rotate(360deg);
   }
 }
+
+/* ==========================
+   ERROR
+========================== */
+
+.osx-error-box{
+  padding:16px;
+  border-radius:14px;
+  background:#fff1f2;
+  color:var(--sub);
+  text-align:center;
+  font-weight:600;
+}
+
+/* ==========================
+   EMPTY
+========================== */
+
+.osx-empty-orders{
+  text-align:center;
+  background:var(--white);
+  border-radius:24px;
+  padding:60px 20px;
+  border:1px dashed rgba(252,220,13,.5);
+}
+
+.osx-empty-icon{
+  font-size:60px;
+}
+
+.osx-empty-title{
+  font-size:24px;
+  font-weight:800;
+  color:var(--dark);
+  margin-top:15px;
+}
+
+.osx-empty-subtitle{
+  color:#6b7280;
+  margin-top:8px;
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media(max-width:768px){
+
+  .osx-page-title{
+    font-size:26px;
+  }
+
+  .osx-order-card{
+    padding:20px;
+  }
+
+  .osx-order-info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .osx-order-header{
+    flex-direction:column;
+  }
+
+  .osx-order-status-badge{
+    align-self:flex-start;
+  }
+
+  .osx-progress-container{
+    overflow-x:auto;
+    padding-bottom:10px;
+  }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:480px){
+
+  .osx-orders-page{
+    padding:20px 12px;
+  }
+
+  .osx-page-title{
+    font-size:22px;
+  }
+
+  .osx-order-card{
+    padding:18px;
+    border-radius:18px;
+  }
+
+  .osx-order-id{
+    font-size:17px;
+  }
+
+  .osx-step-label{
+    font-size:10px;
+  }
+
+  .osx-step-circle{
+    width:34px;
+    height:34px;
+  }
+
+  .osx-order-actions{
+    flex-direction:column;
+  }
+
+  .osx-btn-view,
+  .osx-btn-cancel,
+  .osx-btn-keep,
+  .osx-btn-confirm{
+    width:100%;
+    min-width:100%;
+  }
+
+  .osx-info-total{
+    font-size:18px;
+  }
+}
+
 
 /* Order Available City */
 
