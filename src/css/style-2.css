@@ -11,7 +11,6 @@
 .tc-wrap {
   background: #f5f5f5;
   min-height: 150px;
-  font-family: 'Segoe UI', sans-serif;
 }
 
 /* ── Header ── */
@@ -555,7 +554,6 @@
 .co-wrap {
   background: #f5f5f5;
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
 }
 
 /* ── Header ── */
@@ -717,7 +715,6 @@
   padding: 10px 12px;
   font-size: 14px;
   color: #222;
-  font-family: 'Segoe UI', sans-serif;
   outline: none;
   width: 100%;
   background: #fff;
