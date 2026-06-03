@@ -518,7 +518,7 @@ function Checkout() {
                         {field.field_name} : {field.field_value}
                       </div>
                     ))}
-                    <div>Qty : {item.quantity}</div>
+                    <div>{item.quantity} Kg</div>
                     {item.custom_pieces?.trim() && (
                       <div>Pieces : {item.custom_pieces}</div>
                     )}
