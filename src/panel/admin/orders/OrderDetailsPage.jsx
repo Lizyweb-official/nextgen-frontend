@@ -309,7 +309,7 @@ function OrderDetailsPage() {
                                 <th style={{ width: "22%" }}>Custom fields</th>
                                 <th style={{ width: "12%" }}>Price</th>
                                 <th style={{ width: "12%" }}>Custom Pieces</th>
-                                <th style={{ width: "8%" }}>Qty</th>
+                                <th style={{ width: "8%" }}>kg</th>
                                 <th style={{ width: "16%" }}>Total</th>
                             </tr>
                         </thead>
