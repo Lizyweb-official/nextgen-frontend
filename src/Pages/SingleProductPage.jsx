@@ -233,7 +233,6 @@ function SingleProductPage() {
  
         {/* QUANTITY */}
             <div className="single-page-qty-row">
-                <label className="single-page-qty-label">Qty</label>
 
                 <div className="single-page-qty-box">
                     <button 
@@ -252,6 +251,7 @@ function SingleProductPage() {
                     +
                     </button>
                 </div>
+                <label className="single-page-qty-label">kg</label>
             </div>
 
                 <button 
