@@ -19,7 +19,7 @@ import OrderManage from './admin/OrdersManage';
 import AdminSetting from './admin/orders/AdminSettings';
 
 function AdminPanel(){
-    const {user} = useAuth();
+    const {user,logout} = useAuth();
     const [activeTab, setActiveTab] = useState("media");
 
     if (user === null) {
@@ -29,6 +29,10 @@ function AdminPanel(){
     if(user.usertype !== "admin"){
         return <AdminLoginPanel />;
     }
+
+    const handleLogout = () => {
+        logout();
+    };
 
     const renderContent = () => {
     switch (activeTab) {
@@ -99,6 +103,15 @@ function AdminPanel(){
             <i className="bi bi-gear menu-icon"></i>
             <span className="menu-text">Settings</span>
           </button>
+
+          <button
+            className="admin-db-menu-btn Admin-logout-btn"
+            onClick={handleLogout}
+            >
+            <i class="bi bi-box-arrow-right menu-icon"></i>
+            <span className="menu-text">Logout</span>
+          </button>
+
         </div>
       </div>
 
