@@ -52,6 +52,12 @@ function Layout() {
     
     const hidecartpage = 
     location.pathname === "/admin-db" ||
+    location.pathname === "/Cart" ||
+    location.pathname === "/user-login-page" ||
+    location.pathname === "/admin-login-page" ||
+    location.pathname === "/privacy-policy" ||
+    location.pathname === "/terms-and-conditions" ||
+    location.pathname.startsWith("/product-editor") ||
     location.pathname.startsWith("/orderdetailpage") ;
 
   return (
