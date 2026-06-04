@@ -119,7 +119,6 @@ function Header() {
       .then((res) => res.json())
       .then((data) => {
 
-        console.log(data);
 
         const sortedProducts = data.sort((a, b) => {
 

@@ -327,7 +327,7 @@ function UserLoginPanel(){
 
         try {
 
-            const response = await fetch(`${API}/verify/verifyOtp`, {
+            const response = await fetch(`${API}/verify/verifyOtpfWeb`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -406,7 +406,7 @@ function UserLoginPanel(){
 
         try {
 
-            const response = await fetch(`${API}/verify/verifyOtp`, {
+            const response = await fetch(`${API}/verify/verifyOtpfWeb`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

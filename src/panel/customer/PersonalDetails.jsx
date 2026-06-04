@@ -11,16 +11,17 @@ const API = import.meta.env.VITE_API_URL;
 
 const styles = {
     page: {
-        background: "#faf9f7",
+        background: "#ffffff",
         display: "flex",
         alignItems: "flex-start",
-        justifyContent: "center",
-        padding: "40px 16px",
-        fontFamily: "'Nunito', sans-serif",
+        justifyContent: "start",
+        width: "80%",
+        margin:"auto auto",
+        paddingTop:"50px",
+        paddingBottom:"50px",
     },
     container: {
         width: "100%",
-        maxWidth: "780px",
     },
     header: {
         display: "flex",
@@ -497,9 +498,8 @@ function PersonalDetails() {
     return (
         <>
             {/* Google Font */}
-            <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
-            <div style={styles.page}>
+            <div style={styles.page} className='customer-panel-personal-details-tab-content'>
                 <div style={styles.container}>
 
                     {/* ── HEADER ── */}
@@ -526,7 +526,7 @@ function PersonalDetails() {
 
                         {/* Personal Info section */}
                         <div style={styles.sectionLabel}>Personal Info</div>
-                        <div style={styles.grid}>
+                        <div style={styles.grid} className="customer-panel-personal-details-data-grid">
                             <Field label="Full Name" value={userData.name}           />
                             <Field label="Phone"     value={userData.contact_Number} />
                             <Field label="Email"     value={userData.email_Address}  last />
@@ -536,12 +536,12 @@ function PersonalDetails() {
                         <div style={{ ...styles.sectionLabel, borderTop: "1px solid #f5f3ef" }}>
                             Delivery Address
                         </div>
-                        <div style={styles.grid}>
+                        <div style={styles.grid} className="customer-panel-personal-details-data-grid">
                             <Field label="Street"  value={userData.street}  />
                             <Field label="City"    value={userData.city}    />
                             <Field label="Pincode" value={userData.pincode} last />
                         </div>
-                        <div style={{ ...styles.grid, gridTemplateColumns: "1fr 1fr 1fr" }}>
+                        <div style={{ ...styles.grid, gridTemplateColumns: "1fr 1fr 1fr" }} className="customer-panel-personal-details-data-grid">
                             <Field label="State"   value={userData.state || locationData.state}     />
                             <Field label="Country" value={locationData.country} />
                             <div style={{ ...styles.field, ...styles.fieldLast, background: "#faf9f7" }} />
