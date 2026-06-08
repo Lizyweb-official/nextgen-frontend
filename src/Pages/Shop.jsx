@@ -363,13 +363,13 @@ function Shop() {
 
                         <span className="old-price">
 
-                          ₹{p.base_price}
+                          RM {p.base_price}
 
                         </span>
 
                         <span className="sale-price">
 
-                          ₹{p.sale_price}
+                          RM {p.sale_price}
 
                         </span>
 
@@ -379,7 +379,7 @@ function Shop() {
 
                       <span className="normal-price">
 
-                        ₹{p.base_price}
+                        RM {p.base_price}
 
                       </span>
 

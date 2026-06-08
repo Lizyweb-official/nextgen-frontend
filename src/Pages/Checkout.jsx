@@ -203,8 +203,30 @@ function Checkout() {
   // -----------------------------------
 
   const handlePlaceOrder = async () => {
+
+
     if (!isSlotOn) {
       showWebMessage("No Slot Available");
+      return;
+    }
+
+    /* VALIDATION */
+    if (
+      !userData.name?.trim() ||
+      !userData.contact_Number?.trim() ||
+      !userData.street?.trim() ||
+      !userData.city?.trim() ||
+      !userData.state?.trim() ||
+      !userData.country?.trim() ||
+      !userData.pincode?.trim()
+    ) {
+      showWebMessage("Please fill all address details");
+      return;
+    }
+
+    /* PHONE VALIDATION */
+    if (!/^[0-9]{8,15}$/.test(userData.contact_Number)) {
+      showWebMessage("Enter a valid phone number");
       return;
     }
 
@@ -398,13 +420,9 @@ function Checkout() {
                 <select
                   name="city"
                   onChange={handleCityChange}
-                  value={
-                    cities.find((c) =>
-                      c.name.startsWith(userData.city)
-                    )?.name || ""
-                  }
+                  value={userData.city ? `${userData.city},${userData.pincode}` : "emp"}
                 >
-                  <option value="">Select city...</option>
+                  <option value="emp">Select city...</option>
                   {cities.map((c) => {
                     const [cityName, pincode] = c.name.split(",");
                     return (
@@ -525,7 +543,7 @@ function Checkout() {
                   </div>
                 </div>
 
-                <div className="co-item-price">₹{item.q_price}</div>
+                <div className="co-item-price">RM {item.q_price}</div>
 
               </div>
             ))}
@@ -534,7 +552,7 @@ function Checkout() {
 
             <div className="co-sum-row">
               <span>Item Total</span>
-              <span>₹{ITEM_TOTAL}</span>
+              <span>RM {ITEM_TOTAL}</span>
             </div>
 
             <div className="co-sum-row">
@@ -544,7 +562,7 @@ function Checkout() {
 
             <div className="co-sum-row total">
               <span>Total Amount</span>
-              <span>₹{GRAND_TOTAL}</span>
+              <span>RM {GRAND_TOTAL}</span>
             </div>
 
             <button

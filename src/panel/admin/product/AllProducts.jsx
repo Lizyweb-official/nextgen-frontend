@@ -155,11 +155,11 @@ function AllProducts() {
             <td>
               {product.sale_price && product.sale_price !== product.base_price ? (
                 <>
-                  <span className="admin-p-allproduct-price-orig">₹{product.base_price}</span>
-                  <span className="admin-p-allproduct-price-sale">₹{product.sale_price}</span>
+                  <span className="admin-p-allproduct-price-orig">RM {product.base_price}</span>
+                  <span className="admin-p-allproduct-price-sale">RM {product.sale_price}</span>
                 </>
               ) : (
-                <span className="admin-p-allproduct-price-reg">₹{product.base_price}</span>
+                <span className="admin-p-allproduct-price-reg">RM {product.base_price}</span>
               )}
             </td>
 

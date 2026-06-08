@@ -230,7 +230,7 @@ function AddProductPage() {
       <input
         className="admin-db-add-product-sec-input"
         name="base_price"
-        placeholder="₹ 0.00"
+        placeholder="RM  0.00"
         value={form.base_price}
         onChange={handleChange}
       />
@@ -241,7 +241,7 @@ function AddProductPage() {
       <input
         className="admin-db-add-product-sec-input"
         name="sale_price"
-        placeholder="₹ 0.00"
+        placeholder="RM  0.00"
         value={form.sale_price}
         onChange={handleChange}
       />

@@ -532,7 +532,7 @@ function IncomingOrders() {
                                     </td>
 
                                     <td className="incoming-orders-total-amount">
-                                        ₹{order.total_amount}
+                                        RM {order.total_amount}
                                     </td>
 
                                     <td className="incoming-orders-slot-time">

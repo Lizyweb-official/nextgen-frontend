@@ -175,7 +175,7 @@ function OrderDetailsPage() {
                 </div>
                 <div>
                     <div className="admin-db-inc-order-header-amount-label">Total Amount</div>
-                    <div className="admin-db-inc-order-header-amount">₹{order.total_amount}</div>
+                    <div className="admin-db-inc-order-header-amount">RM {order.total_amount}</div>
                 </div>
             </div>
  
@@ -270,7 +270,7 @@ function OrderDetailsPage() {
                         </div>
                         <div className="admin-db-inc-order-detail-item">
                             <span className="admin-db-inc-order-detail-label">Total amount</span>
-                            <span className="admin-db-inc-order-detail-amount">₹{order.total_amount}</span>
+                            <span className="admin-db-inc-order-detail-amount">RM {order.total_amount}</span>
                         </div>
                         <div className="admin-db-inc-order-detail-item admin-db-inc-order-detail-item-full">
                             <span className="admin-db-inc-order-detail-label">Delivery address</span>
@@ -337,10 +337,10 @@ function OrderDetailsPage() {
                                             </div>
                                         ))}
                                     </td>
-                                    <td>₹{product.order_price}</td>
+                                    <td>RM {product.order_price}</td>
                                     <td>{product.custom_pieces}</td>
                                     <td>{product.quantity}</td>
-                                    <td className="admin-db-inc-order-table-total">₹{product.total_price}</td>
+                                    <td className="admin-db-inc-order-table-total">RM {product.total_price}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -348,7 +348,7 @@ function OrderDetailsPage() {
                             <tr>
                                 <td colSpan={7} className="admin-db-inc-order-tfoot">Grand total</td>
                                 <td className="admin-db-inc-order-tfoot admin-db-inc-order-tfoot-total">
-                                    ₹{order.total_amount}
+                                    RM {order.total_amount}
                                 </td>
                             </tr>
                         </tfoot>

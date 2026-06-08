@@ -100,7 +100,7 @@ function OrderSuccessPage() {
             </div>
 
             <div className="col-md-6 mb-3">
-              <strong>Total Amount:</strong> ₹
+              <strong>Total Amount:</strong> RM 
               {order.total_amount}
             </div>
 
