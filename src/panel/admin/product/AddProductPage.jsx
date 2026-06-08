@@ -29,7 +29,8 @@ function AddProductPage() {
   const [showGallery, setShowGallery] = useState(false);
 
   // ✅ Load categories & images
-  useEffect(() => {
+ useEffect(() => {
+  const fetchData = () => {
     fetch(`${API}/api/product/getallcategories`)
       .then(res => res.json())
       .then(data => setCategories(data))
@@ -39,7 +40,17 @@ function AddProductPage() {
       .then(res => res.json())
       .then(data => setImages(data))
       .catch(err => console.error(err));
-  }, []);
+  };
+
+  // Initial load
+  fetchData();
+
+  // Refresh every 5 seconds
+  const interval = setInterval(fetchData, 5000);
+
+  // Cleanup
+  return () => clearInterval(interval);
+}, []);
 
   // ✅ Handle input
   const handleChange = (e) => {
