@@ -135,12 +135,23 @@ function ProductEditPage() {
 
     const finalCategories =
       form.categories.length > 0 ? form.categories : [27]; // default
+      console.log(finalCategories);
 
     await fetch(`${API}/api/product/updateproduct/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      body:JSON.stringify({
         ...form,
+        base_price:
+          form.base_price === ""
+            ? null
+            : Number(form.base_price),
+
+        sale_price:
+          form.sale_price === ""
+            ? null
+            : Number(form.sale_price),
+
         categories: finalCategories
       })
     });
