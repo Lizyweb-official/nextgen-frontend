@@ -144,7 +144,7 @@ function OrderCard({ order, onCancelled }) {
         <div className="osx-order-info-item">
           <div className="osx-info-title">Total</div>
           <div className="osx-info-total">
-            ₹{parseFloat(order.total_amount).toFixed(2)}
+            RM {parseFloat(order.total_amount).toFixed(2)}
           </div>
         </div>
       </div>

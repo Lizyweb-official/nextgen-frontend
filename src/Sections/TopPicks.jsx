@@ -288,12 +288,12 @@ function TopPicks() {
                   <div className="top-category-price-box">
                   {item.sale_p ? (
                     <div className="top-category-price">
-                      <span className="top-category-old-price">₹{item.price}</span>
-                      <span className="top-category-sale-price">₹{item.sale_p}</span>
+                      <span className="top-category-old-price">RM {item.price}</span>
+                      <span className="top-category-sale-price">RM {item.sale_p}</span>
                     </div>
                   ) : (
                     <div className="top-category-price">
-                      <span className="top-category-sale-price">₹{item.price}</span>
+                      <span className="top-category-sale-price">RM {item.price}</span>
                     </div>
                   )}
                 </div>

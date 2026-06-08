@@ -186,18 +186,18 @@ function SingleProductPage() {
                 {product.sale_price ? (
                 <>
                     <span className="single-product-page-original-price">
-                    ₹{product.base_price}
+                    RM {product.base_price}
                     </span>
                     <span className="single-product-page-sale-price">
-                    ₹{product.sale_price}
+                    RM {product.sale_price}
                     </span>
                     <span className="single-product-page-savings-badge">
-                    You save ₹{product.base_price - product.sale_price}
+                    You save RM {product.base_price - product.sale_price}
                     </span>
                 </>
                 ) : (
                 <span className="single-product-page-base-price">
-                    ₹{product.base_price}
+                    RM {product.base_price}
                 </span>
                 )}
             </div>

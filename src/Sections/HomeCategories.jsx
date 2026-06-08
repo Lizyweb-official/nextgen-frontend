@@ -6,7 +6,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-const API = "http://localhost:5000";
+const API = import.meta.env.VITE_API_URL;
 
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";

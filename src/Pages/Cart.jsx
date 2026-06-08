@@ -226,11 +226,11 @@ function Cart() {
                   <div className="tc-item-price">
                     {item.price ? (
                       <>
-                        ₹{item.price}
-                        <span className="orig ms-2">₹{item.origPrice}</span>
+                        RM{item.price}
+                        <span className="orig ms-2">RM{item.origPrice}</span>
                       </>
                     ) : (
-                      <>₹{item.origPrice}</>
+                      <>RM{item.origPrice}</>
                     )}
                 </div>
 
@@ -242,7 +242,7 @@ function Cart() {
                     </div>
 
                     <div className="tc-subtotal">
-                      Subtotal: ₹{(item.price || item.origPrice) * item.qty}
+                      Subtotal: RM {(item.price || item.origPrice) * item.qty}
                     </div>
                   </div>
                 </div>
@@ -264,27 +264,27 @@ function Cart() {
             <div className="tc-summary-title">Order Summary</div>
 
             <div className="tc-sum-row">
-              <span>Item Total</span><span>₹{origTotal}</span>
+              <span>Item Total</span><span>RM {origTotal}</span>
             </div>
 
             <div className="tc-sum-row">
               <span className="tc-green">Discount</span>
-              <span className="tc-green">−₹{savings}</span>
+              <span className="tc-green">−RM {savings}</span>
             </div>
 
             <div className="tc-sum-row">
               <span>Delivery Charges</span>
               <span className={isFreeDelivery ? "tc-green" : ""}>
-                {isFreeDelivery ? "FREE" : `₹${DELIVERY_CHARGE}`}
+                {isFreeDelivery ? "FREE" : `RM${DELIVERY_CHARGE}`}
               </span>
             </div>
 
             <div className="tc-sum-row total">
-              <span>Total Amount</span><span>₹{grandTotal}</span>
+              <span>Total Amount</span><span>RM{grandTotal}</span>
             </div>
 {/* 
             <div className="tc-saving-text">
-              <i className="bi bi-emoji-smile"></i> You save ₹{savings} on this order!
+              <i className="bi bi-emoji-smile"></i> You save RM{savings} on this order!
             </div> */}
 
             {/* Promo */}
