@@ -26,23 +26,58 @@ function OrderHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 10;
 
-  const fetchOrders = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${API}/api/order/getallorders`);
-      const data = await response.json();
-      const filtered = data.filter(
-        (order) => order.status_id === 4 || order.status_id === 5
-      );
-      filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      setOrders(filtered);
-      setFilteredOrders(filtered);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+ const fetchOrders = async () => {
+  try {
+    setLoading(true);
+
+    // Get orders
+    const response = await fetch(`${API}/api/order/getallorders`);
+    const data = await response.json();
+
+    // Filter orders
+    const filtered = data.filter(
+      (order) => order.status_id === 4 || order.status_id === 5
+    );
+
+    // Fetch dp_id for each order
+    const ordersWithDP = await Promise.all(
+      filtered.map(async (order) => {
+        try {
+          const dpRes = await fetch(
+            `${API}/api/order/getdpbyorderid/${order.id}`
+          );
+
+          const dpData = await dpRes.json();
+
+          return {
+            ...order,
+            delivery_partner_id: dpData.success ? dpData.dp_id : null
+          };
+        } catch (err) {
+          console.error(`DP fetch failed for order ${order.id}`, err);
+
+          return {
+            ...order,
+            delivery_partner_id: null
+          };
+        }
+      })
+    );
+
+    // Sort latest first
+    ordersWithDP.sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    setOrders(ordersWithDP);
+    setFilteredOrders(ordersWithDP);
+
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchOrders();
@@ -288,6 +323,10 @@ function OrderHistory() {
                   </th>
 
                   <th className="order-history-th">
+                    Delivery Partner ID
+                  </th>
+
+                  <th className="order-history-th">
                     Time Of Order Placed
                   </th>
 
@@ -320,6 +359,9 @@ function OrderHistory() {
 
                       <td className="order-history-td order-history-customer-id">
                         {order.customer_id}
+                      </td>
+                      <td className="order-history-td order-history-customer-id">
+                        {order.delivery_partner_id}
                       </td>
 
                       <td className="order-history-td order-history-date">
