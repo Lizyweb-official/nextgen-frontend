@@ -94,6 +94,15 @@ function OrderHistory() {
           return order.customer_id.toString().includes(search.trim());
         if (searchBy === "status")
           return order.status_name.toLowerCase().includes(search.trim().toLowerCase());
+
+        if (searchBy === "delivery_partner_id")
+          return (
+            order.delivery_partner_id &&
+            order.delivery_partner_id
+              .toString()
+              .includes(search.trim())
+          );
+
         return true;
       });
     }
@@ -194,6 +203,10 @@ function OrderHistory() {
                     Status
                   </option>
 
+                  <option value="delivery_partner_id">
+                    Delivery Partner ID
+                  </option>
+
                 </select>
 
                 <input
@@ -204,7 +217,9 @@ function OrderHistory() {
                       ? "Search by Order ID"
                       : searchBy === "customer_id"
                       ? "Search by Customer ID"
-                      : "Search by Status"
+                      : searchBy === "status"
+                      ? "Search by Status"
+                      : "Search by Delivery Partner ID"
                   }
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -440,8 +455,8 @@ function OrderHistory() {
               key={index}
               className={`btn ${
                 currentPage === index + 1
-                  ? "btn-primary order-history-page-active"
-                  : "btn-outline-primary order-history-page-btn"
+                  ? "btn order-history-page-active"
+                  : "btn order-history-page-btn"
               }`}
               onClick={() => paginate(index + 1)}
             >
