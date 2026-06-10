@@ -231,6 +231,8 @@ function Checkout() {
     }
 
     try {
+      await updateUserDetails();
+
       const payload = {
         customer_id: user.id,
         name: userData.name,
@@ -265,6 +267,8 @@ function Checkout() {
           method: "DELETE",
         });
 
+
+
         navigate("/Checkout-t");
       } else {
         showWebMessage(data.message || "Failed to place order");
@@ -274,6 +278,54 @@ function Checkout() {
       showWebMessage("Something went wrong");
     }
   };
+
+
+// UPDATE USER ADDRESS DETAILS FIRST
+const updateUserDetails = async () => {
+  try {
+    const response = await fetch(`${API}/api/updateuserdetails`, {
+      method: 'PUT', // change to POST if your backend expects POST
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        uid: user.id,
+        name: userData.name,
+        contactNumber: userData.contact_Number,
+        street: userData.street,
+        city: userData.city,
+        state: userData.state,
+        pincode: userData.pincode,
+        emailAddress: userData.email_Address
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to update user details');
+    }
+
+    return data;
+  } catch (error) {
+    console.log('Update Address Error:', error);
+    throw error;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // -----------------------------------
   // INPUT CHANGE
