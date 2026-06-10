@@ -601,19 +601,19 @@ function Header() {
 
               user.usertype == "customer" ? (
 
-                <Link to="/CustomerPanel" className="btn btn-dark">
+                <Link to="/CustomerPanel" className="btn btn-dark" onClick={() => setMenuOpen(false)}>
                   <FaUser /> {user.name}
                 </Link>
 
               ) : user.usertype == "dp" ? (
 
-                <Link to="/Delivery-login" className="btn btn-dark">
+                <Link to="/Delivery-login" className="btn btn-dark" onClick={() => setMenuOpen(false)}>
                   <FaTruck /> Delivery Partner : {user.name}
                 </Link>
 
               ) : (
 
-                <Link to="/CustomerPanel" className="btn btn-dark">
+                <Link to="/CustomerPanel" className="btn btn-dark" onClick={() => setMenuOpen(false)}>
                   <FaUserShield /> Admin : {user.name}
                 </Link>
 

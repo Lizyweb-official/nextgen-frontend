@@ -15,7 +15,7 @@ const API = import.meta.env.VITE_API_URL;
 function Checkout() {
 
   const [cartItems, setCartItems] = useState([]);
-  const [selectedPay, setSelectedPay] = useState("cod");
+  const [selectedPay, setSelectedPay] = useState("online");
   const [slotData, setSlotData] = useState(null);
   const [cities, setCities] = useState([]);
 

@@ -49,10 +49,10 @@ function ContactHero(){
           Our team is ready to help — anytime.
         </p>
 
-        <div className="ayam-contact-hero__buttons">
+        {/* <div className="ayam-contact-hero__buttons">
           <button className="ayam-contact-hero__btn-primary">Contact Support</button>
           <button className="ayam-contact-hero__btn-secondary">Track Order</button>
-        </div>
+        </div> */}
       </div>
     </section>
 
