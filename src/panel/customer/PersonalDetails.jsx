@@ -6,6 +6,7 @@ import '../../css/style.css';
 
 import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
+import { showWebMessage } from '../../context/webMessageHandler';
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -455,6 +456,17 @@ function PersonalDetails() {
     ========================================= */
 
     const handleSave = async () => {
+        if (!editData.contact_Number) {
+            showWebMessage("Enter phone number first");
+            return;
+        }
+        
+        /* PHONE VALIDATION */
+        if (!/^\d{10}$/.test(editData.contact_Number)) {
+            showWebMessage("Enter a valid phone number");
+            return;
+        }
+
         setSaving(true);
         try {
             const checkRes  = await fetch(`${API}/api/getalluserdetails`);

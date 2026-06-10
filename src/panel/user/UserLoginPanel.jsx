@@ -292,6 +292,12 @@ function UserLoginPanel(){
             return;
         }
 
+        /* PHONE VALIDATION */
+        if (!/^\d{10}$/.test(loginData.phone)) {
+            showWebMessage("Enter a valid phone number");
+            return;
+        }
+
         try {
 
             const response = await fetch(`${API}/verify/sendOtp`, {
