@@ -54,7 +54,6 @@ function OrderHistory() {
             delivery_partner_id: dpData.success ? dpData.dp_id : null
           };
         } catch (err) {
-          console.error(`DP fetch failed for order ${order.id}`, err);
 
           return {
             ...order,
@@ -150,7 +149,7 @@ function OrderHistory() {
         </h3>
 
         <button
-          className="btn btn-primary order-history-refresh-btn"
+          className="btn  order-history-refresh-btn"
           onClick={fetchOrders}
         >
           Refresh

@@ -13,6 +13,8 @@ import WhyChooseUs_1 from "../media/Website-Images/images-3/why--2.jpeg";
 
 import Cta from '../Sections/Cta';
 
+import { Link } from 'react-router-dom';
+
 function About(){
     return(
         <>
@@ -58,9 +60,9 @@ function Hero(){
           chicken delivered fast &amp; fresh.
         </p>
  
-        <a href="shop" className="hero-banner__btn">
+        <Link to="/Shop" className="hero-banner__btn">
           Shop Now
-        </a>
+        </Link>
       </div>
     </div>
 
