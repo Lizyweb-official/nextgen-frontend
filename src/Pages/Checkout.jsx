@@ -225,7 +225,13 @@ function Checkout() {
     }
 
     /* PHONE VALIDATION */
-    if (!/^[0-9]{8,15}$/.test(userData.contact_Number)) {
+    if (!userData.contact_Number) {
+      showWebMessage("Enter phone number first");
+      return;
+    }
+    
+    /* PHONE VALIDATION */
+    if (!/^\d{10}$/.test(userData.contact_Number)) {
       showWebMessage("Enter a valid phone number");
       return;
     }
