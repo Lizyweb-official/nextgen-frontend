@@ -556,6 +556,27 @@
   color:var(--sub);
 }
 
+.order-history-page-active{
+  background:var(--sub);
+  color:white;
+}
+.order-history-page-active:hover{
+  background:var(--sub);
+  color:white;
+}
+.order-history-page-btn{
+  border:1px solid black;
+  color:black;
+}
+.order-history-page-btn:disabled{
+  border:1px solid black;
+  color:black;
+}
+.order-history-page-btn:hover{
+  background:var(--sub);
+  color:white;
+}
+
 /* ── Wrapper ── */
 .co-wrap {
   background: #f5f5f5;
