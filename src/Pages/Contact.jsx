@@ -4,7 +4,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import Contacthero from "../media/Website-Images/images-3/Contacthero-1.jpg";
+import Contacthero from "../media/Website-Images/images-3/.jpg";
 import FAQ from "../media/Website-Images/images-3/faq-1.png";
 
 

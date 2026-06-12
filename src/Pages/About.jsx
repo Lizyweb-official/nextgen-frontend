@@ -7,8 +7,8 @@ import '../css/style.css';
 import pathbg from "../media/Website-Images/images-3/path-1.png";
 import aboutpic from "../media/Website-Images/images-3/about-1.jpg";
 import aboutpix from "../media/Website-Images/images-3/about-2.jpg";
-import vision from "../media/Website-Images/images-3/vision-1.png";
-import mision from "../media/Website-Images/images-3/mision-2.png";
+import vision from "../media/Website-Images/images-3/vision-1.jpg";
+import mision from "../media/Website-Images/images-3/mission-2.jpg";
 import WhyChooseUs_1 from "../media/Website-Images/images-3/why--2.jpeg";
 
 import Cta from '../Sections/Cta';
@@ -203,7 +203,15 @@ function VisionMission(){
   {/* RIGHT - MISSION */}
   <div
     className="meat-about-right"
-    style={{ backgroundImage: `url(${mision})` }}
+    style={{   backgroundImage: `
+    linear-gradient(
+      rgba(255, 255, 255, 0.47),
+      rgba(255, 255, 255, 0.34)
+    ),
+    url(${mision})
+  ` ,
+  
+  }}
   >
     <div className="meat-overlay meat-overlay-light">
       <div className="meat-content meat-content-light">
