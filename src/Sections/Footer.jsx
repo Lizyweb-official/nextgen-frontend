@@ -59,7 +59,7 @@ function Footer(){
                         <path d="M2 4l6 4 6-4M2 4h12v9H2V4z" stroke="#000000" strokeWidth="1.2" strokeLinejoin="round"/>
                         </svg>
                     </div>
-                    <p className="footer-contact-text">support@mystore.com</p>
+                    <a href="mailto:info@gwcsgroup.com" className="footer-contact-text">info@gwcsgroup.com</a>
                     </div>
 
                     <div className="footer-contact-item">
@@ -69,7 +69,7 @@ function Footer(){
                         <path d="M3 2h2.5l1 3-1.5 1.5a8 8 0 003.5 3.5L10 8.5l3 1V12a1 1 0 01-1 1C5.373 13 2 9.627 2 3a1 1 0 011-1z" stroke="#000000" strokeWidth="1.2"/>
                         </svg>
                     </div>
-                    <p className="footer-contact-text">+91 98765 43210</p>
+                    <a href="tel:+60 16 213 7648" className="footer-contact-text">+60 16 213 7648</a>
                     </div>
 
                     <div className="footer-contact-item">
@@ -79,7 +79,7 @@ function Footer(){
                         <path d="M8 1.5C5.515 1.5 3.5 3.515 3.5 6c0 3.75 4.5 8.5 4.5 8.5S12.5 9.75 12.5 6c0-2.485-2.015-4.5-4.5-4.5zm0 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" stroke="#000000" strokeWidth="1.2"/>
                         </svg>
                     </div>
-                    <p className="footer-contact-text">Tamil Nadu, India</p>
+                    <p className="footer-contact-text">NO63 JALAN SUNGAI CONGKAK 32/45 TAMAN BUKIT RIMAU 40460 SHAH ALAM,SELANGOR</p>
                     </div>
                 </div>
 

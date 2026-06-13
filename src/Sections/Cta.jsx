@@ -6,7 +6,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import CTA from "../media/Website-Images/images-3/ctaimage.png";
+import CTA from "../media/Website-Images/images-3/ctaimage.jpg";
 
 import React from "react";
 
@@ -17,6 +17,7 @@ function Cta() {
       className="cta-section d-flex align-items-center justify-content-center text-center"
       style={{
         background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${CTA}) center/cover no-repeat`,
+        backgroundAttachment:'fixed',
         padding: "80px 20px",
         color: "#fff",
       }}

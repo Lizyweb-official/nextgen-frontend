@@ -22,6 +22,8 @@ import { Link } from 'react-router-dom'
 
 import { showWebMessage } from "../context/webMessageHandler";
 
+import Halal from '../media/Website-Images/images-1/halal-badge.png';
+
 const API = import.meta.env.VITE_API_URL;
 
 function TopPicks() {
@@ -258,17 +260,23 @@ function TopPicks() {
 
         {categories.map((item) => (
 
-          <SwiperSlide key={item.id}>
+          <SwiperSlide className="product-card-slide" key={item.id}>
+
 
             <div className="top-category-card">
 
-              <Link to={`single-product-page/${item.id}`}>
+            <Link to={`single-product-page/${item.id}`}>
 
               {/* IMAGE */}
 
               <div className="top-category-image">
 
+                <div className="top-category-image-halal-badge">
+                  <img className="top-category-image-halal-badge" src={Halal} alt="Halal"/>
+                </div>
+
                 <img
+                  className="top-category-image-imgtag"
                   src={item.image}
                   alt={item.name}
                 />

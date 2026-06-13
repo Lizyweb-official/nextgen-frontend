@@ -16,9 +16,9 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Link,useNavigate } from "react-router-dom";
 
 
-import slider1 from "../media/Website-Images/images-3/b1.png";
-import slider2 from "../media/Website-Images/images-3/b2.png";
-import slider3 from "../media/Website-Images/images-3/b3.png";
+import slider1 from "../media/Website-Images/images-3/b1.jpg";
+import slider2 from "../media/Website-Images/images-3/b2.jpg";
+import slider3 from "../media/Website-Images/images-3/b3.jpg";
 
 import "swiper/css";
 

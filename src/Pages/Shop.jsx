@@ -12,6 +12,7 @@ import { showWebMessage } from "../context/webMessageHandler";
 import { useNavigate } from 'react-router-dom';
 
 import ShopBg from "../media/Website-Images/images-3/Shopbg.jpeg";
+import Halal from "../media/Website-Images/images-1/halal-badge.png"
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -317,7 +318,11 @@ function Shop() {
 
                 {/* PRODUCT IMAGE */}
 
-                <div className=' product-imgbox'>
+                <div className='product-imgbox'>
+                  <div className="product-image-halal-badge">
+                    <img className="product-image-halal-badge" src={Halal} alt="Halal"/>
+                  </div>
+
                   <img
                     src={p.image}
                     alt={p.name}
