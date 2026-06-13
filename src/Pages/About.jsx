@@ -125,7 +125,7 @@ function Aboutus(){
             <li>✔ Fast & Safe Home Delivery</li>
           </ul>
 
-          <button className="meat-btn">Explore Products</button>
+          <Link to="/Shop" className="meat-btn">Explore Products</Link>
         </div>
 
       </div>

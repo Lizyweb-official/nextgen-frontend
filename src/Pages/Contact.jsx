@@ -81,7 +81,7 @@ function ContactInfo() {
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Address</h3>
           <p className="ayam-ci-card-text">
-            123 Fresh Meat Street,<br />Chennai, Tamil Nadu
+           NO63 JALAN SUNGAI CONGKAK <br/>32/45 TAMAN BUKIT RIMAU 40460 <br/>SHAH ALAM,SELANGOR
           </p>
         </div>
 
@@ -91,7 +91,7 @@ function ContactInfo() {
           </div>
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Phone Number</h3>
-          <p className="ayam-ci-card-text">+91 98765 43210</p>
+          <a href="+60 16 213 7648" className="ayam-ci-card-text">+60 16 213 7648</a>
         </div>
 
         <div className="ayam-ci-card">
@@ -100,7 +100,7 @@ function ContactInfo() {
           </div>
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Email Address</h3>
-          <p className="ayam-ci-card-text">support@freshmeatshop.com</p>
+          <a href="info@gwcsgroup.com" className="ayam-ci-card-text">info@gwcsgroup.com</a>
         </div>
 
         <div className="ayam-ci-card">

@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { showWebMessage } from "../context/webMessageHandler";
 
+import Halal from "../media/Website-Images/images-1/halal-badge.png";
+
 const API = import.meta.env.VITE_API_URL;
 
 function SingleProductPage() {
@@ -148,6 +150,11 @@ function SingleProductPage() {
 
             {/* LEFT - IMAGE */}
             <div className="single-product-page-image-card">
+
+            <div className="top-category-image-halal-badge">
+                <img className="top-category-image-halal-badge" src={Halal} alt="Halal"/>
+            </div>
+
             <img
                 src={imageUrl || "https://via.placeholder.com/400"}
                 alt={product.name}
