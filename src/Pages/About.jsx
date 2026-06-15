@@ -56,7 +56,7 @@ function Hero(){
         </h1>
  
         <p className="hero-banner__subtitle">
-          Order farm-fresh, hygienic<br />
+          Order farm-fresh, hygienic, Halal<br />
           chicken delivered fast &amp; fresh.
         </p>
  
@@ -107,19 +107,15 @@ function Aboutus(){
           </h2>
 
           <p className="meat-text">
-            We are committed to delivering farm-fresh meat and seafood directly
-            to your doorstep. Our products are carefully sourced, hygienically
-            processed and packed to ensure maximum freshness and taste.
+            We are committed to delivering farm-fresh Halal chicken directly to your doorstep. Our chicken is carefully sourced from trusted farms, hygienically processed, and packed to preserve freshness, quality, and great taste.
           </p>
 
           <p className="meat-text light">
-            With years of experience, we work closely with trusted farmers and
-            suppliers to provide clean, safe, and premium-quality meat for your
-            family.
+            With years of experience, we work closely with reliable poultry farmers and certified suppliers to provide clean, safe, premium-quality Halal chicken for your family.
           </p>
 
           <ul className="meat-list">
-            <li>✔ 100% Fresh & Hygienic Processing</li>
+            <li>✔ 100% Fresh & Hygienic Halal Processing</li>
             <li>✔ Direct Farm Sourcing</li>
             <li>✔ No Preservatives or Chemicals</li>
             <li>✔ Fast & Safe Home Delivery</li>
@@ -221,7 +217,7 @@ function VisionMission(){
         </h2>
 
         <p className="meat-quote meat-quote-light">
-          “Farm-lendhu table varai – quality-ah control pannitu deliver pannrom.”
+          “From farm to your table – delivering with quality controlled at every step.”
         </p>
 
         <div className="meat-feature">

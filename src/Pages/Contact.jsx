@@ -173,13 +173,13 @@ function FAQSection() {
       icon: "bi-truck",
       question: "What areas do you deliver fresh meat to?",
       answer:
-        "We deliver fresh chicken, mutton, and seafood across Chennai. Enter your pincode at checkout to confirm availability.",
+        "We deliver fresh, premium-quality Halal chicken within a 10km service radius from our location.",
     },
     {
       icon: "bi-box-seam",
       question: "How can I track my meat order?",
       answer:
-        "After placing your order, you will receive a tracking link via SMS or email to track your delivery in real time.",
+        "After placing your order, you can track your delivery anytime through the Order Status section in your profile for real-time updates.",
     },
     {
       icon: "bi-cash-coin",
