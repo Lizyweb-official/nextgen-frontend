@@ -62,9 +62,9 @@ function OrderSuccessPage() {
         </h1>
 
        <p className="success-text d-flex align-items-center gap-2">
-  <i className="bi bi-check-circle-fill"></i>
-  Your order has been placed successfully.
-</p>
+        <i className="bi bi-check-circle-fill"></i>
+        Your order has been placed successfully.
+      </p>
       </div>
 
       {/* Order Details */}

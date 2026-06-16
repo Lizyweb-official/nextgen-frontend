@@ -134,7 +134,7 @@ function GoogleMap() {
       <div className="ayam-map-pills">
         <div className="ayam-map-pill ayam-map-pill--red">
           <i className="bi bi-geo-alt-fill ayam-map-pill-icon"></i>
-          <span>123 Fresh Meat Street, Chennai, Tamil Nadu</span>
+          <span>NO63 JALAN SUNGAI CONGKAK 32/45 TAMAN BUKIT RIMAU 40460 SHAH ALAM,SELANGOR</span>
         </div>
         <div className="ayam-map-pill ayam-map-pill--yellow">
           <i className="bi bi-clock-fill ayam-map-pill-icon ayam-map-pill-icon--yellow"></i>
@@ -146,7 +146,7 @@ function GoogleMap() {
         <div className="ayam-map-top-bar"></div>
         <iframe
           title="shop-location"
-          src="https://www.google.com/maps?q=Chennai,Tamil%20Nadu&output=embed"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d286200.00805919786!2d101.5479778805561!3d3.0978897721038177!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cdb279bef12c25%3A0xe159bec2d5004931!2s40460%20Shah%20Alam%2C%20Selangor%2C%20Malaysia!5e0!3m2!1sen!2sin!4v1781617191197!5m2!1sen!2sin"
           allowFullScreen=""
           loading="lazy"
           className="ayam-map-iframe"

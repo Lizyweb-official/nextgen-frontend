@@ -90,7 +90,7 @@ function Footer(){
             {/* COPYRIGHT BAR */}
             <div className="footer-bottom">
                 <p className="footer-copyright">
-                © {new Date().getFullYear()} AyamNow. All rights reserved.
+                © {new Date().getFullYear()} AyamKini. All rights reserved.
                 </p>
             </div>
 

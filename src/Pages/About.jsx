@@ -49,7 +49,7 @@ function Hero(){
       {/* Text Content */}
       <div className="hero-banner__content">
         <h1 className="hero-banner__title">
-          <span className="hero-banner__title-highlight">Fresh Meet</span>
+          <span className="hero-banner__title-highlight">Fresh Meat</span>
           <span className="hero-banner__title-main">
             Delivered to Your<br />Doorstep
           </span>
@@ -150,13 +150,13 @@ function VisionMission(){
 </h2>
 
 <p className="meat-quote" style={{ color: "#fff", marginTop: "20px" }}>
-  To become India’s most trusted and hygienic meat brand, delivering quality to every home.
+  To become Malaysia’s most trusted and hygienic meat brand, delivering quality to every home.
 </p>
 
 <div className="meat-feature">
   <i className="bi bi-globe meat-icon meat-icon-red"></i>
   <div>
-    <h4>Pan India Presence</h4>
+    <h4>Pan Malaysia Presence</h4>
     <p>Expanding our reach to serve customers across the country</p>
   </div>
 </div>

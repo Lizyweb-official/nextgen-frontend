@@ -259,7 +259,7 @@ function Header() {
 
           <div className="header-icon-cartshop col-4 col-md-3 text-start">
 
-            <Link
+            {/* <Link
               to="/Cart"
               className="btn btn-outline-dark me-2 position-relative"
             >
@@ -280,7 +280,7 @@ function Header() {
 
               )}
 
-            </Link>
+            </Link> */}
 
             {user ? (
 
