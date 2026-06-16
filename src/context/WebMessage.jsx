@@ -41,7 +41,7 @@ const styles = {
   toast: {
     position: "fixed",
     bottom: "20px",
-    right: "20px",
+    left: "20px",
     background: "#ff0000",
     color: "#fff",
     padding: "12px 20px",
