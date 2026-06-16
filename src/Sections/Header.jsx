@@ -23,7 +23,7 @@ import {
   FaUserShield,
 } from "react-icons/fa";
 
-import logo from "../media/Website-Images/images-1/logo.jpeg";
+import logo from "../media/Website-Images/images-1/logo.jpg";
 
 function Header() {
 
@@ -195,7 +195,6 @@ function Header() {
       <div className="top-bar-main-container bg-dark text-white  text-center">
 
         <marquee behavior="scroll" direction="left">
-
 
           <span style={{ paddingRight: "30px" }}>
             Welcome to AyamKini - Your Trusted Fresh Halal Chicken Store
