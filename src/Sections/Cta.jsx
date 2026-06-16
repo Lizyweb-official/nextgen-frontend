@@ -36,7 +36,7 @@ function Cta() {
             Shop Now
           </a>
 
-          <a href="tel:+919876543210" className="btn btn-outline-light px-4 py-2">
+          <a href="tel:+60 162137648" className="btn btn-outline-light px-4 py-2">
             Call Us
           </a>
         </div>

@@ -93,7 +93,7 @@ function MeatFeatures() {
         <div className="mf-item">
           <i className="bi bi-award mf-icon"></i>
           <div>
-            <h4>100% Fresh Meat</h4>
+            <h4>100% Fresh & Halal Meat</h4>
             <p>Sourced from trusted farms and delivered fresh</p>
           </div>
         </div>

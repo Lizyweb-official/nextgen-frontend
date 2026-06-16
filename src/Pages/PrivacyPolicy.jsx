@@ -90,7 +90,7 @@ function PrivacyPolicy(){
                         </p>
 
                         <p className="ayamkini-privacy-text">
-                            Support Email: support@ayamkini.com
+                            Support Email: info@gwcsgroup.com
                         </p>
                     </div>
 
