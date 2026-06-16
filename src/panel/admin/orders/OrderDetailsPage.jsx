@@ -306,7 +306,7 @@ function OrderDetailsPage() {
                                 <th style={{ width: "28%" }}>Product Id</th>
                                 <th style={{ width: "28%" }}>Product</th>
                                 <th style={{ width: "14%" }}>Category</th>
-                                <th style={{ width: "22%" }}>Custom fields</th>
+                                {/* <th style={{ width: "22%" }}>Custom fields</th> */}
                                 <th style={{ width: "12%" }}>Price</th>
                                 <th style={{ width: "12%" }}>Custom Pieces</th>
                                 <th style={{ width: "8%" }}>kg</th>
@@ -330,13 +330,13 @@ function OrderDetailsPage() {
                                             </div>
                                         ))}
                                     </td>
-                                    <td>
+                                    {/* <td>
                                         {product.custom_fields?.map((field, index) => (
                                             <div key={index} className="admin-db-inc-order-custom-field">
                                                 <strong>{field.field_name}:</strong> {field.field_value}
                                             </div>
                                         ))}
-                                    </td>
+                                    </td> */}
                                     <td>RM {product.order_price}</td>
                                     <td>{product.custom_pieces}</td>
                                     <td>{product.quantity}</td>
