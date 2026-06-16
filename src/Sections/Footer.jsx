@@ -23,8 +23,7 @@ function Footer(){
                     
                     <h6 className="footer-logo-wrap">Ayam<span>Kini</span></h6>
                     <p className="footer-brand-text">
-                    AyamNow is your trusted destination for fresh, hygienic, and high-quality chicken.
-                    We ensure every order is carefully cleaned, cut, and packed to maintain freshness.
+                    AyamNow is your trusted destination for fresh, hygienic, and premium-quality Halal chicken. Every order is carefully cleaned, cut, and packed for maximum freshness.
                     </p>
                 </div>
 

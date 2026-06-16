@@ -23,7 +23,7 @@ import {
   FaUserShield,
 } from "react-icons/fa";
 
-import logo from "../media/Website-Images/images-1/logo.jpeg";
+import logo from "../media/Website-Images/images-1/logo.jpg";
 
 function Header() {
 
@@ -197,19 +197,19 @@ function Header() {
         <marquee behavior="scroll" direction="left">
 
           <span style={{ paddingRight: "30px" }}>
-            Welcome to AyamNow - Your Trusted Fresh Chicken Store
+            Welcome to AyamKini - Your Trusted Fresh Halal Chicken Store
           </span>
 
           <span style={{ paddingRight: "30px" }}>✧</span>
 
           <span style={{ paddingRight: "30px" }}>
-            100% Fresh, Hygienic & Farm-Quality Chicken
+            100% Fresh, Hygienic & Premium Halal Chicken
           </span>
 
           <span style={{ paddingRight: "30px" }}>✧</span>
 
           <span style={{ paddingRight: "30px" }}>
-            Expertly Cleaned & Cut, Ready to Cook
+            Expertly Cleaned, Halal Processed & Ready to Cook
           </span>
 
           <span style={{ paddingRight: "30px" }}>✧</span>
@@ -221,10 +221,11 @@ function Header() {
           <span style={{ paddingRight: "30px" }}>✧</span>
 
           <span style={{ paddingRight: "30px" }}>
-            Today’s Special Deals Available – Order Now Before Stock Ends
+            Today’s Special Halal Chicken Deals Available – Order Now Before Stock Ends
           </span>
 
         </marquee>
+
 
 
 
