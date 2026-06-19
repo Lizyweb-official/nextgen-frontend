@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const API = import.meta.env.VITE_API_URL;
@@ -125,6 +125,41 @@ export default function EasySearch() {
     }
   };
 
+
+  const loadAllOrders = async () => {
+  setLoading(true);
+
+  try {
+    const phones = await fetchPhoneMap();
+    setPhoneMap(phones);
+
+    const res = await fetch(`${API}/api/order/getallorders`);
+    let fetchedOrders = await res.json();
+
+    if (!Array.isArray(fetchedOrders)) {
+      fetchedOrders = [];
+    }
+
+    const filtered = applyClientFilters(fetchedOrders, phones);
+
+    const dpIds = await enrichWithDp(filtered);
+
+    setDpMap(dpIds);
+    setOrders(filtered);
+    setSearched(true);
+  } catch (err) {
+    console.error(err);
+    setError("Failed to load orders");
+  }
+
+  setLoading(false);
+};
+
+
+useEffect(() => {
+  loadAllOrders();
+}, []);
+
   // Fetch dp_id for a single order
   const fetchDpId = async (orderId) => {
     try {
@@ -188,10 +223,9 @@ export default function EasySearch() {
 
       // Determine fetch strategy
       if (!hasText && !hasStatus && !hasDate) {
-        setError("Please enter at least one filter.");
-        setLoading(false);
-        return;
-      }
+  await loadAllOrders();
+  return;
+}
 
       if (hasText) {
         if (filterBy === "customer_id") {
@@ -362,7 +396,7 @@ export default function EasySearch() {
   },
   btnPrimary: {
     padding: "8px 18px",
-    background: "#4F7EF7",
+    background: "var(--sub)",
     color: "#fff",
     border: "none",
     borderRadius: 8,
@@ -377,7 +411,7 @@ export default function EasySearch() {
   btnSecondary: {
     padding: "8px 14px",
     background: "#F4F5F7",
-    color: "#6B7280",
+    color: "#bc1919",
     border: "0.5px solid #D1D5DB",
     borderRadius: 8,
     fontSize: 13.5,
@@ -403,24 +437,26 @@ export default function EasySearch() {
     padding: "11px 14px",
     textAlign: "left",
     fontWeight: 500,
-    color: "#6B7280",
-    background: "#F8F9FA",
+    color: "#ffffff",
+    background: "var(--sub)",
     borderBottom: "0.5px solid #E2E4E9",
     whiteSpace: "nowrap",
     fontSize: 11,
     textTransform: "uppercase",
     letterSpacing: "0.5px",
+    width: "180px !important",
   },
   td: {
     padding: "11px 14px",
     borderBottom: "0.5px solid #F1F2F4",
     color: "#374151",
     verticalAlign: "middle",
+    width: "180px !important",
   },
   viewBtn: {
     padding: "5px 12px",
-    background: "#EEF2FF",
-    color: "#4F7EF7",
+    background: "var(--sub)",
+    color: "white",
     border: "0.5px solid #C7D4FD",
     borderRadius: 6,
     fontSize: 12,
@@ -586,7 +622,7 @@ export default function EasySearch() {
                   </td>
                   <td style={styles.td}>{phoneMap[order.customer_id] || "-"}</td>
                   <td style={styles.td}>{order.name || "-"}</td>
-                  <td style={{ ...styles.td, maxWidth: 180, fontSize: 12 }}>{formatAddress(order) || "-"}</td>
+                  <td style={{ ...styles.td, fontSize: 12 }}>{formatAddress(order) || "-"}</td>
                   <td style={styles.td}>{order.contact_number || "-"}</td>
                   <td style={{ ...styles.td, whiteSpace: "nowrap", fontSize: 12 }}>
                     {formatTime(order.start_time)} – {formatTime(order.end_time)}
