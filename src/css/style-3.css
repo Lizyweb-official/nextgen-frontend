@@ -4632,9 +4632,10 @@
   color: rgba(255,255,255,0.88);
   font-size: 1rem;
   line-height: 1.7;
-  max-width: 500px;
   position: relative;
   z-index: 2;
+  text-align: center;
+  margin: auto 0;
 }
 
 /* ─────────────────────────────

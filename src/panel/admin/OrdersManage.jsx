@@ -10,6 +10,7 @@ import Orders from './orders/IncomingOrders';
 import OrderHistory from './orders/OrderHistory';
 import DeliveryTracking from './orders/DeliveryTracking';
 import OrderAvailableCity from './orders/OrderAvailableCity';
+import EasySearch from './orders/EasySearch';
 
 function ProductManage(){
     const [activeTab, setActiveTab] = useState("IncomingOrders");
@@ -20,6 +21,7 @@ function ProductManage(){
 
                 {/* Tabs Header */}
                 <div className="admin-db-secondary-maintab-header">
+
 
                     <button
                         className={`admin-db-secondary-maintab-btn ${activeTab === "IncomingOrders" ? "admin-db-secondary-maintab-active" : ""}`}
@@ -53,6 +55,13 @@ function ProductManage(){
                         Manage Orders Available City 
                     </button>
 
+                    <button
+                        className={`admin-db-secondary-maintab-btn ${activeTab === " EasySearch" ? "admin-db-secondary-maintab-active" : ""}`}
+                        onClick={() => setActiveTab("EasySearch")}
+                    >
+                        <i className="bi bi-grid admin-db-secondary-maintab-btn-icon"></i>
+                        Easy Search
+                    </button>
                 </div>
 
                 {/* Tabs Content */}
@@ -77,6 +86,12 @@ function ProductManage(){
                     {activeTab === "orderavailcity" && (
                         <div className="admin-db-secondary-maintab-panel">
                             <OrderAvailableCity/>
+                        </div>
+                    )}
+
+                    {activeTab === "EasySearch" && (
+                        <div className="admin-db-secondary-maintab-panel">
+                            <EasySearch/>
                         </div>
                     )}
                    

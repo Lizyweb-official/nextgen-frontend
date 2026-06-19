@@ -4555,3 +4555,8 @@
   }
   .customer-panel-main-db-tabs-content { flex: 1; padding: 10px; }
 }
+
+@media (max-width: 640px) {
+  .order-grid { grid-template-columns: 1fr !important; }
+  .success-box{max-width: 100% !important;}
+}
