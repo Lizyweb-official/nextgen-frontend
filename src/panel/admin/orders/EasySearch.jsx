@@ -618,7 +618,7 @@ export default function EasySearch() {
                     ₹{parseFloat(order.total_amount || 0).toFixed(2)}
                   </td>
                   <td style={styles.td}>
-                    <Link to={`/OrderDetailsPage/${order.id}`} style={styles.viewBtn}>
+                    <Link to={`/orderdetailpage/${order.id}`} style={styles.viewBtn}>
                       View Details
                     </Link>
                   </td>
