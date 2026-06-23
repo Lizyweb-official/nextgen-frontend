@@ -19,6 +19,8 @@ import AdminPanel from './panel/AdminPanel';
 import CustomerPanel from './panel/CustomerPanel';
 import DeliveryPanel from './panel/DeliveryPanel';
 
+import Testing from './Pages/Testing';
+
 import OrderSuccessPage from './Pages/OrderSuccessPage';
 
 import UserLoginPanel from './panel/user/UserLoginPanel';
@@ -73,6 +75,7 @@ function Layout() {
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/checkout-t" element={<OrderSuccessPage />} />
+        <Route path="/testing" element={<Testing />} />
 
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />

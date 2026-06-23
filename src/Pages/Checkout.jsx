@@ -143,6 +143,10 @@ function Checkout() {
       try {
         const response = await fetch(`${API}/api/order/getcurrentslot`);
         const data = await response.json();
+        if(data == "noslot"){
+          setIsSlotOn(false);
+        }
+
         setSlotData(data);
       } catch (err) {
         console.log(err);
