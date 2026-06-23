@@ -8367,3 +8367,40 @@
     font-size: 20px;
   }
 }
+
+/* logo text */
+.logo-container {
+  width: 100%;
+  text-align: center;
+}
+
+.web-logo {
+  display: block;
+  margin: 0 auto;
+}
+
+.logo-text {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000 !important;
+  text-align: center;
+  z-index: 999;
+  position: relative;
+}
+
+.logo-container:hover .logo-text {
+  color: #000 !important;
+}

@@ -197,9 +197,9 @@ function OrderSuccessPage() {
                           </svg>
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={s.itemName}>
+                          <Link style={s.itemName} to={`/single-product-page/${item.product_id}`}>
                             {item.product_name || `Product #${item.product_id}`}
-                          </div>
+                          </Link>
                           {item.custom_pieces ? (
                             <div style={s.itemMeta}>Custom: {item.custom_pieces}</div>
                           ) : null}

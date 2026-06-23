@@ -60,6 +60,13 @@ function AdminPanel(){
         {/* LOGO */}
         <div className="admin-db-logo">
           <Link to="/"><img className='admin-db-logo-inside' src={logo} /></Link>
+          <div
+            className="logo-texts"
+            style={{ color: "#fff", fontSize: "11px" , textAlign: "center"}}
+          >
+            Fresh | Hygiene | Halal<br />
+            202603098137 (NS0321640-W)
+          </div>
         </div>
 
         {/* MENU */}

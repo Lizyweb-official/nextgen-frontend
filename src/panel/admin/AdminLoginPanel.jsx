@@ -73,7 +73,6 @@ function AdminLoginPanel(){
                 sendun();
         
         // Optional: store login
-        localStorage.setItem("admin", JSON.stringify(user));
         } else {
         showWebMessage("Incorrect password !!");
         }

@@ -69,6 +69,11 @@ function Header() {
 
             const data = await response.json();
 
+            if(data == "noslot"){
+              console.log("no slot");
+              setIsSlotOn(false);
+            }
+            
             setSlotData(data);
 
         } catch (err) {
@@ -321,7 +326,15 @@ function Header() {
             className="col-12 col-md-6 d-flex justify-content-center justify-content-md-start"
           >
 
-            <img src={logo} className="web-logo" />
+          <div className="logo-container">
+            <img src={logo} className="web-logo" alt="AyamKini Logo" />
+
+            <div className="logo-text">
+              Fresh | Hygiene | Halal
+              <br />
+              202603098137 (NS0321640-W)
+            </div>
+        </div>
 
           </Link>
 
