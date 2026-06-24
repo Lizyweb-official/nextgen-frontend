@@ -541,7 +541,7 @@ function IncomingOrders() {
                                     </td>
 
                                     <td className="incoming-orders-delivery-time">
-                                        {formatTime(order.delivery_time)}
+                                        {formatTime(order.delivery_time)+" | "+order.delivery_date}
                                     </td>
 
                                     <td className="incoming-orders-status-column">

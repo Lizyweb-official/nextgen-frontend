@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react';
 import { AuthProvider } from "./context/AuthContext";
+import { LocProvider } from './context/LocContext';
 
 import Header from './Sections/Header';
 
@@ -18,6 +19,8 @@ import Checkout from './Pages/Checkout';
 import AdminPanel from './panel/AdminPanel';
 import CustomerPanel from './panel/CustomerPanel';
 import DeliveryPanel from './panel/DeliveryPanel';
+
+import Testing from './Pages/Testing';
 
 import OrderSuccessPage from './Pages/OrderSuccessPage';
 
@@ -74,6 +77,8 @@ function Layout() {
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/checkout-t" element={<OrderSuccessPage />} />
 
+        <Route path="/t" element={<Testing />} />
+
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
 
@@ -112,11 +117,13 @@ function ScrollToTop() {
 function App() {
   return (
     <>
+    <LocProvider>
       <AuthProvider>
         <Router>
           <Layout />
         </Router>
       </AuthProvider>
+    </LocProvider>
   </>
   );
 }

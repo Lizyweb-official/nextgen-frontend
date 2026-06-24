@@ -8404,3 +8404,122 @@
 .logo-container:hover .logo-text {
   color: #000 !important;
 }
+
+
+/* popup */
+/* Overlay */
+.popup-overlay {
+  position: fixed;
+  inset: 0;          /* covers top/right/bottom/left */
+  z-index: 9999;
+  background: rgba(15, 15, 20, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Box */
+.popup-box {
+  background: var(--color-background-primary, #fff);
+  border-radius: 16px;
+  border: 0.5px solid rgba(0,0,0,0.15);
+  padding: 2rem;
+  width: 340px;
+  position: fixed;
+  z-index:9999;
+  top:30%;
+}
+
+/* Heading */
+.popup-box h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+}
+
+/* Close button */
+.popup-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--sub);
+  border: 0.5px solid rgba(0,0,0,0.12);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 12px;
+  padding: 0;
+}
+
+.popup-close:hover {
+  background: #eee;
+}
+
+/* Input */
+.popup-input {
+  width: 100%;
+  border: 0.5px solid rgba(0,0,0,0.25);
+  border-radius: 8px;
+  background: #f9f9f8;
+  padding: 10px 12px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.popup-input:focus {
+  border-color: rgba(0,0,0,0.45);
+  background: #fff;
+}
+
+/* Button */
+.popup-btn {
+  width: 100%;
+  padding: 11px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+}
+
+.popup-btn:hover {
+  background: #333;
+}
+
+.location-button-header{
+  font-size: 13px !important;
+  font-weight: 500;
+  background-color: #212529;
+  color:white;
+  border-radius: 6px;
+  border: 2px solid white;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.04);
+  margin-left: 5px;
+  padding:4px 15px;
+}
+
+.location-button-header:hover{
+  font-size: 13px !important;
+  font-weight: 500;
+  background-color: var(--sub);
+  color:white;
+  border: 2px solid white;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.04);
+  margin-left: 5px;
+  padding:4px 15px;
+}
+
+.location-available-head{
+  font-size: 10px;
+  text-align: left;
+}

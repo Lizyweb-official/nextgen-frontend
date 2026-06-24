@@ -286,7 +286,7 @@ function OrderDetailsPage() {
                         <div className="admin-db-inc-order-detail-item">
                             <span className="admin-db-inc-order-detail-label">Delivery time</span>
                             <span className="admin-db-inc-order-detail-value">
-                                {order.delivery_time}
+                                {order.delivery_time + " | "+ order.delivery_date}
                             </span>
                         </div>
                     </div>
@@ -346,7 +346,7 @@ function OrderDetailsPage() {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colSpan={7} className="admin-db-inc-order-tfoot">Grand total</td>
+                                <td colSpan={6} className="admin-db-inc-order-tfoot">Grand total</td>
                                 <td className="admin-db-inc-order-tfoot admin-db-inc-order-tfoot-total">
                                     RM {order.total_amount}
                                 </td>

@@ -2924,7 +2924,7 @@
 /* admin db incoming order tab */
 
 .admin-db-inc-order-root {
-  padding: 60px;
+  padding: 0px;
   background: #ffffff;
   width: 80%;
   margin: 0 auto;
@@ -2953,7 +2953,7 @@
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: #ffffff;
+  color: var(--sub);
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -3187,6 +3187,11 @@
   border-collapse: collapse;
   font-size: 13px;
   table-layout: fixed;
+}
+@media(max-width:768px){
+  .admin-db-inc-order-table{
+    width:700px;
+  }
 }
 
 .admin-db-inc-order-table th {
