@@ -221,7 +221,7 @@ function OrdersDp() {
 
                   <td>
                     <div className="dp_db_order_tab_time_cell">
-                      🕐 {order.delivery_time}
+                      🕐 {order.delivery_time+" | "+order.delivery_date}
                     </div>
                   </td>
 
@@ -324,7 +324,7 @@ function OrdersDp() {
 
                   <td>
                     <div className="dp_db_order_tab_time_cell">
-                      🕐 {order.delivery_time}
+                      🕐 {order.delivery_time+" | "+order.delivery_date}
                     </div>
                   </td>
 

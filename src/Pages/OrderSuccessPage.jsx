@@ -164,7 +164,7 @@ function OrderSuccessPage() {
                 }}>
                   <InfoRow label="Slot" value={order.slot_name} />
                   <InfoRow label="Slot time" value={`${formatTime(order.start_time)} – ${formatTime(order.end_time)}`} />
-                  <InfoRow label="Delivery by" value={formatTime(order.delivery_time)} />
+                  <InfoRow label="Delivery by" value={formatTime(order.delivery_time) +" | "+order.delivery_date} />
                   <InfoRow
                     label="Address"
                     value={`${order.street}, ${order.city} – ${order.pincode}, ${order.state}`}

@@ -137,7 +137,7 @@ function OrderCard({ order, onCancelled }) {
         <div className="osx-order-info-item">
           <div className="osx-info-title">Delivery By</div>
           <div className="osx-info-value">
-            {order.delivery_time?.slice(0, 5)}
+            {order.delivery_time?.slice(0, 5)+" | "+order.delivery_date}
           </div>
         </div>
 

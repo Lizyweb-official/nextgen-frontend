@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+import LocationPopup from "./LocationPopup";
+
 import {
   FaShoppingCart,
   FaBars,
@@ -38,6 +40,8 @@ function Header() {
 
   const [slotData, setSlotData] = useState(null);
   const [isSlotOn, setIsSlotOn] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     fetchSiteSetting();
@@ -316,6 +320,13 @@ function Header() {
               </Link>
 
             )}
+
+          <button
+              className="btn btn-dark"
+              onClick={() => setShowPopup(true)}
+            >
+              <i className="bi bi-geo-alt-fill"></i> Location
+          </button>
 
           </div>
 
@@ -641,14 +652,22 @@ function Header() {
 
             )}
 
-          </div>
+          <button
+            className="btn btn-dark"
+            onClick={() => setShowPopup(true)}
+            >
+            <i className="bi bi-geo-alt-fill"></i> Location
+          </button>
 
+            </div>
         </div>
 
       )}
 
+    {showPopup && ( <LocationPopup setShowPopup={setShowPopup} />)}
+
     </>
-  );
+  )
 }
 
 export default Header;
