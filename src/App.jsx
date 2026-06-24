@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react';
 import { AuthProvider } from "./context/AuthContext";
+import { LocProvider } from './context/LocContext';
 
 import Header from './Sections/Header';
 
@@ -116,11 +117,13 @@ function ScrollToTop() {
 function App() {
   return (
     <>
+    <LocProvider>
       <AuthProvider>
         <Router>
           <Layout />
         </Router>
       </AuthProvider>
+    </LocProvider>
   </>
   );
 }

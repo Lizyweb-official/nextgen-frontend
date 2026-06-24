@@ -2,6 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useAuth } from "../context/AuthContext";
 
+import { useLocation } from "../context/LocContext";
+
+
 import "../css/style-1.css";
 import "../css/style-2.css";
 import "../css/style-3.css";
@@ -42,6 +45,9 @@ function Header() {
   const [isSlotOn, setIsSlotOn] = useState(false);
 
   const [showPopup, setShowPopup] = useState(false);
+
+  const { locationData } = useLocation();
+
 
   useEffect(() => {
     fetchSiteSetting();
@@ -266,7 +272,7 @@ function Header() {
 
           {/* ICONS */}
 
-          <div className="header-icon-cartshop col-4 col-md-3 text-start">
+          <div className="header-icon-cartshop col-6 col-md-4 text-start">
 
             {/* <Link
               to="/Cart"
@@ -322,10 +328,12 @@ function Header() {
             )}
 
           <button
-              className="btn btn-dark"
+              className='btn btn-dark ms-2 location-button-header'
               onClick={() => setShowPopup(true)}
             >
-              <i className="bi bi-geo-alt-fill"></i> Location
+              {locationData.available == true ? (<span className="location-available-head">Available in :</span>):(<span className="location-available-head">Coming Soon in:</span>)}
+              <br/>
+              <i className="bi bi-geo-alt-fill"></i> {locationData.city} - {locationData.postcode}
           </button>
 
           </div>
@@ -334,7 +342,7 @@ function Header() {
 
           <Link
             to="/"
-            className="col-12 col-md-6 d-flex justify-content-center justify-content-md-start"
+            className="col-12 col-md-4 d-flex justify-content-center justify-content-md-start"
           >
 
           <div className="logo-container">
@@ -351,7 +359,7 @@ function Header() {
 
           {/* SEARCH DESKTOP */}
 
-          <div className="col-md-3 d-none d-md-block">
+          <div className="col-md-4 d-none d-md-block">
 
             <div className="search-wrapper">
 
@@ -653,10 +661,10 @@ function Header() {
             )}
 
           <button
-            className="btn btn-dark"
+            className="btn btn-dark location-button-header-lap"
             onClick={() => setShowPopup(true)}
             >
-            <i className="bi bi-geo-alt-fill"></i> Location
+            <i className="bi bi-geo-alt-fill"></i>  {locationData.city} - {locationData.postcode}
           </button>
 
             </div>
