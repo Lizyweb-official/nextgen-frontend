@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { showWebMessage } from "../context/webMessageHandler";
 
+import { useLocation } from "../context/LocContext";
+
 const API = import.meta.env.VITE_API_URL;
 
 function Checkout() {
@@ -18,6 +20,8 @@ function Checkout() {
   const [selectedPay, setSelectedPay] = useState("online");
   const [slotData, setSlotData] = useState(null);
   const [cities, setCities] = useState([]);
+
+  const { locationData } = useLocation();
 
   const { user } = useAuth();
   const navigate = useNavigate();
