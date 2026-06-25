@@ -102,10 +102,10 @@ function LocationPopup({ setShowPopup }) {
               </div>
               <div>
                 <p style={{ fontSize: "15px", fontWeight: 500, margin: 0 }}>
-                  {locationData.city}
+                  {locationData?.city}
                 </p>
                 <p style={{ fontSize: "13px", color: "#888", margin: "2px 0 0" }}>
-                  {locationData.postcode}
+                  {locationData?.postcode}
                 </p>
               </div>
             </div>
