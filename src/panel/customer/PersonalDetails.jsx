@@ -624,26 +624,13 @@ function PersonalDetails() {
                             <div style={styles.formRow}>
                                 <div style={styles.inputWrap}>
                                     <label style={styles.inputLabel}>City</label>
-                                    <select
-                                        name="city"
+                                    <input
+                                        style={styles.inputReadonly}
                                         value={editData.city}
-                                        onChange={handleCityChange}
-                                        style={{
-                                            ...styles.input,
-                                            appearance: "none",
-                                            WebkitAppearance: "none",
-                                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "right 12px center",
-                                            paddingRight: "32px",
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        <option value="">Select City</option>
-                                        {locationData.cities.map(c => (
-                                            <option key={c.id} value={c.name}>{c.name}</option>
-                                        ))}
-                                    </select>
+                                        readOnly
+                                        placeholder=""
+                                    />
+                                    
                                 </div>
 
                                 <div style={styles.inputWrap}>

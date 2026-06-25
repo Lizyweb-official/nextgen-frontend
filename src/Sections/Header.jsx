@@ -50,6 +50,11 @@ function Header() {
 
 
   useEffect(() => {
+    
+    if(!locationData?.postcode){
+      setShowPopup(true);
+    }
+
     fetchSiteSetting();
     getCurrentSlot();
   }, []);

@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useRef } from "react";
+
 
 import { useLocation } from "../context/LocContext";
 
@@ -8,6 +10,8 @@ import "../css/style-2.css";
 import "../css/style-3.css";
 import "../css/style-4.css";
 import "../css/style.css";
+
+import { showWebMessage } from "../context/webMessageHandler";
 
 function LocationPopup({ setShowPopup }) {
 
@@ -19,6 +23,9 @@ function LocationPopup({ setShowPopup }) {
         checkPostcode,
         } = useLocation();
 
+    const inputRef = useRef(null);
+
+    const [showError, setShowError] = useState(false);
 
     const handleCheckPostcode = async () => {
     try {
@@ -39,6 +46,18 @@ function LocationPopup({ setShowPopup }) {
     };
 
 
+const handleClosePopup = () => {
+  if (locationData?.postcode) {
+    setShowPopup(false);
+    inputRef.current?.focus();
+  }else{
+    showWebMessage(
+      "Check Order Availablity to continue"
+    );
+    setShowPopup(true);
+  }
+};
+
   return (
     <div className="popup-overlay">
       <div className="popup-box">
@@ -46,7 +65,7 @@ function LocationPopup({ setShowPopup }) {
         {/* Close Button */}
         <button
           className="popup-close"
-          onClick={() => setShowPopup(false)}
+          onClick={handleClosePopup}
         >
           ✖
         </button>
@@ -54,6 +73,7 @@ function LocationPopup({ setShowPopup }) {
         <h3>Select Your Location</h3>
 
         <input
+          ref={inputRef}
           type="text"
           placeholder="Enter Pincode"
           className="popup-input"

@@ -56,7 +56,7 @@ function TopPicks() {
 
           const product = await productRes.json();
 
-          let imageUrl = "";
+          let imageUrl;
 
           // Get image url
           if (product.image_id) {

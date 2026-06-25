@@ -352,20 +352,6 @@ const updateUserDetails = async () => {
     });
   };
 
-  // -----------------------------------
-  // CITY CHANGE (auto-fill pincode)
-  // -----------------------------------
-
-  const handleCityChange = (e) => {
-    const value = e.target.value; // e.g. "Coimbatore,641654"
-    const [cityName, pincode] = value.split(",");
-    setUserData((prev) => ({
-      ...prev,
-      city: cityName?.trim() || value,
-      pincode: pincode?.trim() || prev.pincode,
-    }));
-  };
-
   return (
     <div className="co-wrap">
 
@@ -483,21 +469,16 @@ const updateUserDetails = async () => {
               {/* CITY — dropdown */}
               <div className="co-field">
                 <label>City / Area</label>
-                <select
+                <input
                   name="city"
-                  onChange={handleCityChange}
-                  value={userData.city ? `${userData.city},${userData.pincode}` : "emp"}
-                >
-                  <option value="emp">Select city...</option>
-                  {cities.map((c) => {
-                    const [cityName, pincode] = c.name.split(",");
-                    return (
-                      <option key={c.id} value={c.name}>
-                        {cityName.trim()}{pincode ? ` - ${pincode.trim()}` : ""}
-                      </option>
-                    );
-                  })}
-                </select>
+                  readOnly
+                  value={userData.city}
+                  style={{
+                    background: "#f8f8f8",
+                    color: "#aaa",
+                    cursor: "not-allowed"
+                  }}
+                />
               </div>
 
               {/* PINCODE — auto-filled from city */}
@@ -505,8 +486,13 @@ const updateUserDetails = async () => {
                 <label>Pincode</label>
                 <input
                   name="pincode"
+                  readOnly
                   value={userData.pincode}
-                  onChange={handleInputChange}
+                  style={{
+                    background: "#f8f8f8",
+                    color: "#aaa",
+                    cursor: "not-allowed"
+                  }}
                 />
               </div>
 

@@ -20,8 +20,6 @@ import AdminPanel from './panel/AdminPanel';
 import CustomerPanel from './panel/CustomerPanel';
 import DeliveryPanel from './panel/DeliveryPanel';
 
-import Testing from './Pages/Testing';
-
 import OrderSuccessPage from './Pages/OrderSuccessPage';
 
 import UserLoginPanel from './panel/user/UserLoginPanel';
@@ -77,8 +75,6 @@ function Layout() {
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/checkout-t" element={<OrderSuccessPage />} />
 
-        <Route path="/t" element={<Testing />} />
-
         <Route path="/CustomerPanel" element={<CustomerPanel />} />
         <Route path="/Delivery-login" element={<DeliveryPanel />} />
 
@@ -117,13 +113,13 @@ function ScrollToTop() {
 function App() {
   return (
     <>
-    <LocProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <LocProvider>
         <Router>
           <Layout />
         </Router>
-      </AuthProvider>
-    </LocProvider>
+      </LocProvider>
+    </AuthProvider>
   </>
   );
 }
