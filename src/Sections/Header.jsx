@@ -333,7 +333,7 @@ function Header() {
             >
               {locationData?.available == true ? (<span className="location-available-head">Available in :</span>):(<span className="location-available-head">Coming Soon in:</span>)}
               <br/>
-              <i className="bi bi-geo-alt-fill"></i> {locationData.city} - {locationData.postcode}
+              <i className="bi bi-geo-alt-fill"></i> {locationData?.city} - {locationData?.postcode}
           </button>
 
           </div>
@@ -664,7 +664,7 @@ function Header() {
             className="btn btn-dark location-button-header-lap"
             onClick={() => setShowPopup(true)}
             >
-            <i className="bi bi-geo-alt-fill"></i>  {locationData.city} - {locationData.postcode}
+            <i className="bi bi-geo-alt-fill"></i>  {locationData?.city} - {locationData?.postcode}
           </button>
 
             </div>
