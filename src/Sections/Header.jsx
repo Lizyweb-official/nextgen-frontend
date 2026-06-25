@@ -331,7 +331,7 @@ function Header() {
               className='btn btn-dark ms-2 location-button-header'
               onClick={() => setShowPopup(true)}
             >
-              {locationData.available == true ? (<span className="location-available-head">Available in :</span>):(<span className="location-available-head">Coming Soon in:</span>)}
+              {locationData?.available == true ? (<span className="location-available-head">Available in :</span>):(<span className="location-available-head">Coming Soon in:</span>)}
               <br/>
               <i className="bi bi-geo-alt-fill"></i> {locationData.city} - {locationData.postcode}
           </button>

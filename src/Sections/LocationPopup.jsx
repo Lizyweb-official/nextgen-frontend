@@ -59,6 +59,7 @@ function LocationPopup({ setShowPopup }) {
           className="popup-input"
           value={postcode}
           onChange={(e) => setPostcode(e.target.value)}
+          style={{ marginTop: "20px" }}
         />
 
         <button className="popup-btn" onClick={handleCheckPostcode}>
@@ -68,16 +69,67 @@ function LocationPopup({ setShowPopup }) {
 
           {locationData && (
         <div style={{ marginTop: "20px" }}>
-          <h3>Selected Location</h3>
-
-          <p>
-            {locationData.city +" - "+locationData.postcode}
+          <p style={{
+            fontSize: "13px",
+            fontWeight: 500,
+            color: "var(--color-text-secondary, #888)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            margin: "0 0 10px"
+          }}>
+            Selected location
           </p>
 
-          <p>
-            <strong>Available:</strong>{" "}
-            {locationData.available ? "Yes" : "No"}
-          </p>
+          <div style={{
+            background: "var(--color-background-primary, #fff)",
+            border: "0.5px solid var(--color-border-tertiary, #e5e5e5)",
+            borderRadius: "12px",
+            padding: "1rem 1.25rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "16px"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{
+                width: "40px", height: "40px",
+                borderRadius: "8px",
+                background: "var(--color-background-secondary, #f5f5f5)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0
+              }}>
+                📍
+              </div>
+              <div>
+                <p style={{ fontSize: "15px", fontWeight: 500, margin: 0 }}>
+                  {locationData.city}
+                </p>
+                <p style={{ fontSize: "13px", color: "#888", margin: "2px 0 0" }}>
+                  {locationData.postcode}
+                </p>
+              </div>
+            </div>
+
+            {locationData?.available ? (
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                padding: "6px 12px", borderRadius: "999px",
+                background: "#EAF3DE", color: "#27500A",
+                fontSize: "13px", fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0
+              }}>
+                ✅ Order available
+              </span>
+            ) : (
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                padding: "6px 12px", borderRadius: "999px",
+                background: "#FAEEDA", color: "#633806",
+                fontSize: "13px", fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0
+              }}>
+                🕐 Coming soon
+              </span>
+            )}
+          </div>
         </div>
       )}
 

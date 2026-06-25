@@ -10,6 +10,7 @@ const API = import.meta.env.VITE_API_URL;
 
 import path from "../media/Website-Images/images-2/cart-path-bg.jpg";
 import { showWebMessage } from "../context/webMessageHandler";
+import { useLocation } from "../context/LocContext";
 
 const DELIVERY_THRESHOLD = 0;
 const DELIVERY_CHARGE = 0;
@@ -17,10 +18,14 @@ const DELIVERY_CHARGE = 0;
 import React, { useState,useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
+
+
 function Cart() {
   const { user } = useAuth();
   const [cartItems, setCartItems] = useState([
     ]);
+
+  const { locationData } = useLocation();
 
 
     const fetchCartItems = async (customerId) => {
@@ -295,7 +300,16 @@ function Cart() {
               </div>
             </div> */}
 
-            <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
+            {locationData?.available?(
+              <Link to="/Checkout" className="tc-checkout-btn">Proceed to Checkout →</Link>
+            ):(
+              <Link  className="tc-checkout-btn"  style={{
+                opacity: !locationData?.available ? 0.6 : 1,
+                cursor: !locationData?.available ? "not-allowed" : "pointer"
+              }}>Coming Soon</Link>
+            )}
+
+            
 
             {/* Trust Badges */}
             <div className="tc-trust">
