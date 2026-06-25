@@ -20,7 +20,6 @@ function HomeCategories() {
         fetchCategories();
       }, []);
 
-      console.log(categories);
 
   const fetchCategories = async () => {
     try {

@@ -10,6 +10,8 @@ import { Link,useNavigate } from "react-router-dom";
 
 import { showWebMessage } from "../../context/webMessageHandler";
 
+import { useLocation } from "../../context/LocContext";
+
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -19,17 +21,19 @@ function UserLoginPanel(){
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const { locationData} = useLocation();
+
     const [DpLoginData, setDpLoginData] = useState({
         username: "",
         password: "",
     });
 
-    const [otpSent, setOtpSent] = useState(false);  //for testing use value true
-    const [otpVerified, setOtpVerified] = useState(false); //for testing use value true
+    const [otpSent, setOtpSent] = useState(true);  //for testing use value true
+    const [otpVerified, setOtpVerified] = useState(true); //for testing use value true
     const [countdown, setCountdown] = useState(0);
 
-    const [registerOtpSent, setRegisterOtpSent] = useState(false); //for testing use value true
-    const [registerOtpVerified, setRegisterOtpVerified] = useState(false); //for testing use value true
+    const [registerOtpSent, setRegisterOtpSent] = useState(true); //for testing use value true
+    const [registerOtpVerified, setRegisterOtpVerified] = useState(true); //for testing use value true
     const [registerCountdown, setRegisterCountdown] = useState(0);
 
     
@@ -116,6 +120,8 @@ function UserLoginPanel(){
 
                     const data = await response.json();
 
+                    console.log(locationData?.postcode,locationData?.city);
+
                      // 6️⃣ Create empty customerdetails row
                     await fetch(`${API}/api/adduserdetailsbycusid`, {
                         method: "POST",
@@ -124,6 +130,8 @@ function UserLoginPanel(){
                         },
                         body: JSON.stringify({
                             uid: data.userId,
+                            pincode: locationData?.postcode,
+                            city:locationData?.city
                         }),
                     });
 
