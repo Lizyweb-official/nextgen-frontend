@@ -28,7 +28,7 @@ import {
   FaUserShield,
 } from "react-icons/fa";
 
-import logo from "../media/Website-Images/images-1/logo.jpg";
+import logo from "../media/Website-Images/images-1/logo.jpeg";
 
 function Header() {
 
