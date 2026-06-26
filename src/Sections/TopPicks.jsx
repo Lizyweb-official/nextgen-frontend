@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
 
+import { useLocation } from '../context/LocContext';
+
 import { showWebMessage } from "../context/webMessageHandler";
 
 import Halal from '../media/Website-Images/images-1/halal-badge.png';
@@ -33,6 +35,8 @@ function TopPicks() {
 
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { locationData } = useLocation();
 
   useEffect(() => {
     fetchTopPicks();
@@ -318,24 +322,24 @@ function TopPicks() {
 
                   ) : (
 
+                    
                     <button
                       className="top-category-btn"
+                      disabled={!locationData?.available}
                       onClick={(e) => {
-
                         e.preventDefault();
                         e.stopPropagation();
+
+                        if (!locationData?.available) return;
 
                         addToCart(
                           item.id,
                           item.sale_p || item.price
                         );
-                        
                       }}
                     >
-                      Add to Cart
-
+                      {locationData?.available ? "Add to Cart" : "Cannot Place Order"}
                       <i className="bi bi-arrow-right"></i>
-
                     </button>
 
                   )}
