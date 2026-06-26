@@ -10,6 +10,8 @@ import { useAuth } from "../context/AuthContext";
 
 import { useNavigate } from 'react-router-dom';
 
+import { useLocation } from '../context/LocContext';
+
 import { showWebMessage } from "../context/webMessageHandler";
 
 import Halal from "../media/Website-Images/images-1/halal-badge.png";
@@ -27,6 +29,8 @@ function SingleProductPage() {
   const [customPieces, setCustomPieces] = useState("");
   const [qty, setQty] = useState(1);
   const [pprice, setPprice] = useState();
+
+  const { locationData } = useLocation();
 
     // INCREMENT
     const increaseQty = () => {
@@ -61,12 +65,15 @@ function SingleProductPage() {
   }
 
     const handleAddToCart = async (productId) => {
+        if (!locationData?.available)showWebMessage("Delivery Not Available For Your Location");
 
+        if (!locationData?.available) return;
         
       if (!user?.id) {
         navigate('/user-login-page');
         return;
       }
+
 
 
 

@@ -11,6 +11,8 @@ import { Link ,useParams} from "react-router-dom";
 import { showWebMessage } from "../context/webMessageHandler";
 import { useNavigate } from 'react-router-dom';
 
+import { useLocation } from '../context/LocContext';
+
 import ShopBg from "../media/Website-Images/images-3/Shopbg.jpeg";
 import Halal from "../media/Website-Images/images-1/halal-badge.png"
 
@@ -24,6 +26,8 @@ function Shop() {
   const navigate = useNavigate();
 
   const { catId } = useParams();
+
+  const { locationData } = useLocation(); 
 
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAuth();
@@ -299,7 +303,6 @@ function Shop() {
       </div>
 
       {/* ================= PRODUCTS ================= */}
-
       <div className="row product-row">
 
         {currentProducts.map((p) => (
@@ -338,7 +341,6 @@ function Shop() {
                   </h6>
 
                   {/* DESCRIPTION */}
-
                   {/* <p className="product-description">
                     {p.short_description}
                   </p> */}
@@ -414,6 +416,8 @@ function Shop() {
                         e.preventDefault();
                         e.stopPropagation();
 
+                        if (!locationData?.available) return;
+
                         addToCart(
                           p.id,
                           p.sale_price || p.base_price
@@ -421,7 +425,7 @@ function Shop() {
 
                       }}
                     >
-                      Add to Cart
+                      {locationData?.available ? "Add to Cart" : "Cannot Place Order"}
                     </button>
 
                   )}
