@@ -8,6 +8,8 @@ import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
 import { showWebMessage } from '../../context/webMessageHandler';
 
+import LocationPopup from "../../Sections/LocationPopup";
+
 const API = import.meta.env.VITE_API_URL;
 
 const styles = {
@@ -355,6 +357,9 @@ function PersonalDetails() {
         country: "",
     });
 
+
+    const [showPopup, setShowPopup] = useState(false);
+
     /* =========================================
        FETCH LOCATION DATA (cities/state/country)
     ========================================= */
@@ -398,6 +403,7 @@ function PersonalDetails() {
     useEffect(() => {
         if (!user?.id) return;
         const fetchUserDetails = async () => {
+            console.log("runned");
             try {
                 const response = await fetch(`${API}/api/getuserdetailsbyuid`, {
                     method: "POST",
@@ -412,7 +418,7 @@ function PersonalDetails() {
                     street:         data.street        || "",
                     city:           data.city          || "",
                     state:          data.state         || "",
-                    pincode:        data.pincode        || "",
+                    pincode:        data.pincode       || "",
                     email_Address:  data.emailAddress  || "",
                 });
             } catch (err) { console.error(err); }
@@ -500,6 +506,7 @@ function PersonalDetails() {
                 state: locationData.state,
             });
             setShowModal(false);
+            window.location.reload();
         } catch (error) {
             console.error("Error:", error);
         } finally {
@@ -551,7 +558,7 @@ function PersonalDetails() {
                         <div style={styles.grid} className="customer-panel-personal-details-data-grid">
                             <Field label="Street"  value={userData.street}  />
                             <Field label="City"    value={userData.city}    />
-                            <Field label="Pincode" value={userData.pincode} last />
+                            <Field label="PostCode" value={userData.pincode} last />
                         </div>
                         <div style={{ ...styles.grid, gridTemplateColumns: "1fr 1fr 1fr" }} className="customer-panel-personal-details-data-grid">
                             <Field label="State"   value={userData.state || locationData.state}     />
@@ -642,6 +649,17 @@ function PersonalDetails() {
                                         placeholder="Auto-filled on city select"
                                     />
                                 </div>
+
+                                <div style={styles.inputWrap}>
+                                    <button
+                                    className="change-postcode-btn"
+                                    onClick={() => setShowPopup(true)}
+                                    >
+                                    <i className="bi bi-geo-alt"></i>
+                                    Change Postcode
+                                    </button>
+                                </div>
+
                             </div>
 
                             {/* State + Country (read-only) */}
@@ -663,7 +681,6 @@ function PersonalDetails() {
                                     />
                                 </div>
                             </div>
-
                         </div>
 
                         <div style={styles.btnGroup}>
@@ -688,6 +705,11 @@ function PersonalDetails() {
 
                     </div>
                 </div>
+            )}
+            {showPopup && (
+                <LocationPopup
+                    setShowPopup={setShowPopup}                    
+                />           
             )}
         </>
     );

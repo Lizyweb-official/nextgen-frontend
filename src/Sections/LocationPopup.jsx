@@ -13,7 +13,7 @@ import "../css/style.css";
 
 import { showWebMessage } from "../context/webMessageHandler";
 
-function LocationPopup({ setShowPopup }) {
+function LocationPopup({ setShowPopup  }) {
 
     const [postcode, setPostcode] = useState("");
     const [loading, setLoading] = useState(false);
@@ -31,15 +31,21 @@ function LocationPopup({ setShowPopup }) {
     try {
         setLoading(true);
 
+         if (!postcode.match(/^[0-9]{5}$/)) {
+            Alert.alert('Error', 'Enter valid 5-digit pincode');
+            return false;
+          }
+
         const data = await checkPostcode(postcode);
 
-        alert(
+        showWebMessage(
         data.available
             ? "Delivery Available"
             : "Delivery Not Available"
         );
+        
     } catch (error) {
-        alert(error.message);
+        showWebMessage(error.message);
     } finally {
         setLoading(false);
     }
@@ -50,6 +56,7 @@ const handleClosePopup = () => {
   if (locationData?.postcode) {
     setShowPopup(false);
     inputRef.current?.focus();
+    window.location.reload();
   }else{
     showWebMessage(
       "Check Order Availablity to continue"
