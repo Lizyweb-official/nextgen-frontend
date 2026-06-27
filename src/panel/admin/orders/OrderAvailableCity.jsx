@@ -225,7 +225,7 @@ return (
             
             <div className="admin-db-orders-city-header">
                 <h2 className="admin-db-orders-city-heading">
-                    Order Available City Settings
+                    Order Location Settings
                 </h2>
             </div>
 
@@ -292,7 +292,7 @@ return (
                     </div>
 
                     {/* ADD CITY + POSTCODE */}
-                    <div className="admin-db-orders-city-card admin-db-orders-city-add-card">
+                    {/* <div className="admin-db-orders-city-card admin-db-orders-city-add-card">
                         
                         <div className="admin-db-orders-city-card-header">
                             <p className="admin-db-orders-city-card-title">
@@ -329,10 +329,10 @@ return (
                         >
                             + Add City
                         </button>
-                    </div>
+                    </div> */}
 
                     {/* LIST */}
-                    <div className="admin-db-orders-city-list-card">
+                    {/* <div className="admin-db-orders-city-list-card">
                         
                         <div className="admin-db-orders-city-list-header">
                             <p className="admin-db-orders-city-card-title">
@@ -380,7 +380,7 @@ return (
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </>
             )}
         </div>

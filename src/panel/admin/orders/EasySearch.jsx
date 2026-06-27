@@ -493,7 +493,7 @@ useEffect(() => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.header}>🔍 Order Search</div>
+      <div style={styles.header}>Order Search</div>
 
       <div style={styles.card}>
         <div style={styles.filterRow}>
