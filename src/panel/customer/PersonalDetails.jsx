@@ -25,6 +25,7 @@ const styles = {
     },
     container: {
         width: "100%",
+        overflow:"auto"
     },
     header: {
         display: "flex",
@@ -585,7 +586,7 @@ function PersonalDetails() {
 
                             {/* ── Personal Info ── */}
                             <div style={styles.formSectionTitle}>Personal Info</div>
-                            <div style={styles.formRow}>
+                            <div style={styles.formRow} className="formRow">
                                 <InputField
                                     label="Full Name"
                                     name="name"
@@ -628,7 +629,7 @@ function PersonalDetails() {
                             </div>
 
                             {/* City dropdown + Pincode (auto-filled) */}
-                            <div style={styles.formRow}>
+                            <div style={styles.formRow} className="formRow">
                                 <div style={styles.inputWrap}>
                                     <label style={styles.inputLabel}>City</label>
                                     <input
@@ -663,7 +664,7 @@ function PersonalDetails() {
                             </div>
 
                             {/* State + Country (read-only) */}
-                            <div style={{ ...styles.formRow, marginTop: "12px" }}>
+                            <div style={{ ...styles.formRow, marginTop: "12px" }} className="formRow">
                                 <div style={styles.inputWrap}>
                                     <label style={styles.inputLabel}>State</label>
                                     <input

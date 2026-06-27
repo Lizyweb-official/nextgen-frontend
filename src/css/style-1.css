@@ -4591,3 +4591,13 @@
   color: white;
   transform: translateY(-2px);
 }
+
+
+/* customer panel address form */
+@media(max-width:768px){
+   .formRow{
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 5px;
+   }
+}
