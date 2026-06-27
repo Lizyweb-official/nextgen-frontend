@@ -52,6 +52,8 @@ export const LocProvider = ({ children }) => {
         );
 
         const data = await response.json();
+        checkPostcode(data.pincode);
+
       }
     } catch (err) {
       console.error(err);
@@ -140,7 +142,7 @@ export const LocProvider = ({ children }) => {
         );
 
         const updatedData = await response.json();
-        console.log(updatedData);
+
       } catch (err) {
         console.error(err);
       }
