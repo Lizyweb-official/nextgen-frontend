@@ -32,7 +32,7 @@ function LocationPopup({ setShowPopup  }) {
         setLoading(true);
 
          if (!postcode.match(/^[0-9]{5}$/)) {
-            Alert.alert('Error', 'Enter valid 5-digit pincode');
+            showWebMessage('Error', 'Enter valid 5-digit pincode');
             return false;
           }
 
