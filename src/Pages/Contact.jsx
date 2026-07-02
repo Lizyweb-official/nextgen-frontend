@@ -91,7 +91,7 @@ function ContactInfo() {
           </div>
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Phone Number</h3>
-          <a href="+60 16 213 7648" className="ayam-ci-card-text">+60 16 213 7648</a>
+          <a href="tel:+60 162137648" className="ayam-ci-card-text">+60 16 213 7648</a>
         </div>
 
         <div className="ayam-ci-card">
@@ -100,7 +100,7 @@ function ContactInfo() {
           </div>
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Email Address</h3>
-          <a href="info@gwcsgroup.com" className="ayam-ci-card-text">info@gwcsgroup.com</a>
+          <a href="mailto:info@gwcsgroup.com" className="ayam-ci-card-text">info@gwcsgroup.com</a>
         </div>
 
         <div className="ayam-ci-card">
@@ -109,7 +109,7 @@ function ContactInfo() {
           </div>
           <div className="ayam-ci-divider"></div>
           <h3 className="ayam-ci-card-title">Working Hours</h3>
-          <p className="ayam-ci-card-text">7 AM – 9 PM<br />Mon – Sun</p>
+          <p className="ayam-ci-card-text">7 AM – 9 PM</p>
         </div>
 
       </div>
