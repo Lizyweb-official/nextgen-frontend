@@ -25,7 +25,7 @@ function Footer(){
                     <small className="company-tagline" style={{color:"#fff"}}>Fresh | Hygiene | Halal</small>
                     <p className="company-number" style={{color:"#fff"}}>202603098137 (NS0321640-W)</p>
                     <p className="footer-brand-text">
-                    AyamNow is your trusted destination for fresh, hygienic, and premium-quality Halal chicken. Every order is carefully cleaned, cut, and packed for maximum freshness.
+                    AyamKini is your trusted destination for fresh, hygienic, and premium-quality Halal chicken. Every order is carefully cleaned, cut, and packed for maximum freshness.
                     </p>
                 </div>
 

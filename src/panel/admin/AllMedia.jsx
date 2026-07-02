@@ -13,32 +13,36 @@ import { showWebMessage } from "../../context/webMessageHandler";
 function AllMedia(){
 
     const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(0);
 
     const handleUpload = async () => {
-    try {
-        // check file selected
-        if (!file) {
+
+    if (!file) {
         showWebMessage("Please select an image first");
         return;
-        }
+    }
+
+    setLoading(true);
+
+    try {
 
         const formData = new FormData();
         formData.append("image", file);
 
         const res = await fetch(`${API}/api/upload-image`, {
-        method: "POST",
-        body: formData
+            method: "POST",
+            body: formData
         });
 
-        // try parsing JSON safely
         let data;
+
         try {
             data = await res.json();
         } catch {
             data = await res.text();
         }
 
-        // handle server errors
         if (!res.ok) {
             throw new Error(data.message || data || "Upload failed");
         }
@@ -46,11 +50,22 @@ function AllMedia(){
         console.log("Upload success:", data);
         showWebMessage("Image uploaded successfully");
 
+        setFile(null);
+
+        setRefresh(prev => prev + 1);
+
     } catch (err) {
+
         console.error("Upload error:", err.message);
 
         showWebMessage(err.message || "Something went wrong");
+
+    } finally {
+
+        setLoading(false);
+
     }
+
 };
 
     return(
@@ -83,20 +98,18 @@ function AllMedia(){
             </div>
 
             <button
-            onClick={handleUpload}
-            disabled={!file}
-            className="admin-media-tab-upload-btn"
-            >
-            Upload
-            </button>
-
-            <MediaGallery />
+    onClick={handleUpload}
+    disabled={!file || loading}
+    className="admin-media-tab-upload-btn"
+>
+    {loading ? "Uploading..." : "Upload"}
+</button>
+            <MediaGallery refresh={refresh} />
         </>
     );
 }
 
-function MediaGallery(){
-
+function MediaGallery({ refresh }){
     const [images, setImages] = useState([]);
 
     // Fetch images
@@ -104,15 +117,15 @@ function MediaGallery(){
         try {
         const res = await fetch(`${API}/api/getallimages`);
         const data = await res.json();
-        setImages(data);
+        setImages(data.toReversed());
         } catch (err) {
         console.error("Error fetching images:", err);
         }
     };
 
     useEffect(() => {
-        fetchImages();
-    }, []);
+    fetchImages();
+}, [refresh]);
 
     const deleteImage = async (id) => {
         const res = await fetch(`${API}/api/deleteimagemedia/${id}`, {
