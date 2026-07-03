@@ -312,9 +312,11 @@ function TopPicks() {
 
                   {item.custom_pieces_k && item.custom_pieces_k.length > 0 ? (
 
+
+
                     <div  className="top-category-btn">
 
-                    View Option
+                    {locationData?.available ? "View Option" : "Cannot Place Order"}
 
                     <i className="bi bi-arrow-right"></i>
 
