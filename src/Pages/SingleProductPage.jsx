@@ -268,6 +268,8 @@ function SingleProductPage() {
                 <label className="single-page-qty-label">kg</label>
             </div>
 
+
+                <p style={{"color":"red","fontWeight":"600"}}>{locationData?.available ? "" : "Delivery Not Available for Your Location!"}</p>
                 <button 
                     className="single-page-add-to-cart"
                     onClick={() => handleAddToCart(product.id)}

@@ -404,7 +404,8 @@ function Shop() {
                     <button
                       className="btn btn-dark w-100 add-cart-btn"
                     >
-                      View Option
+                      {locationData?.available ? "View Options" : "Cannot Place Order"}
+
                     </button>
 
                   ) : (
