@@ -191,7 +191,7 @@ function CustomerAccountManage(){
                 <th>Contact Number</th>
                 <th>Street</th>
                 <th>City</th>
-                <th>District</th>
+                {/* <th>District</th> */}
                 <th>State</th>
                 <th>Pincode</th>
                 <th>Email</th>
@@ -234,7 +234,7 @@ function CustomerAccountManage(){
                     <td>{user.contact_number ?? "-"}</td>
                     <td>{user.street ?? "-"}</td>
                     <td>{user.city ?? "-"}</td>
-                    <td>{user.district ?? "-"}</td>
+                    {/* <td>{user.district ?? "-"}</td> */}
                     <td>{user.state ?? "-"}</td>
                     <td>{user.pincode ?? "-"}</td>
                     <td>{user.email_address ?? "-"}</td>

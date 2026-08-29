@@ -223,8 +223,10 @@ export default function OrderStatus() {
 
         const data = await response.json();
 
+        // Hide orders whose online payment failed — they were never
+        // actually placed, so there's nothing for the customer to track.
         const activeOrders = data.filter((order) =>
-          [1, 2, 3].includes(order.status_id)
+          [1, 2, 3].includes(order.status_id) && order.payment_status !== "failed"
         );
 
         setOrders(activeOrders);

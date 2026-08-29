@@ -4,7 +4,7 @@ import '../css/style-3.css';
 import '../css/style-4.css';
 import '../css/style.css';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,21 @@ import { showWebMessage } from "../context/webMessageHandler";
 import { useLocation } from "../context/LocContext";
 
 const API = import.meta.env.VITE_API_URL;
+
+const PENDING_KEYS = {
+  invoice: "pending_payment_invoice",
+  orderId: "pending_payment_order_id",
+  amount: "pending_payment_amount",
+  customerId: "pending_payment_customer_id",
+};
+
+// E-wallet and FPX/bank-transfer payments send the customer to another
+// tab/app to authorize, and DOKU doesn't mark the transaction SUCCESS
+// until that completes — this can take well over a minute. Poll for up
+// to 5 minutes before giving up, instead of the 30s that was silently
+// leaving genuinely paid orders stuck at "pending".
+const POLL_INTERVAL_MS = 5000;
+const MAX_POLL_ATTEMPTS = 60;
 
 function Checkout() {
 
@@ -26,13 +41,35 @@ function Checkout() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  /* PAYMENT STATE
+     idle       — normal checkout, "Place Order" button shown
+     placing    — order/payment being created, button disabled
+     confirming — redirected back from DOKU, polling for the result
+     failed     — DOKU payment failed/expired/cancelled — stay on this page
+     timeout    — polling gave up without a definite answer yet
+     ============================================================ */
+  const [paymentState, setPaymentState] = useState("idle");
+  const [pendingOrderId, setPendingOrderId] = useState(null);
+  const [pendingAmount, setPendingAmount] = useState(null);
+  const [pendingInvoice, setPendingInvoice] = useState(null);
+  const pollAttemptsRef = useRef(0);
+
+  const clearPendingPayment = () => {
+    localStorage.removeItem(PENDING_KEYS.invoice);
+    localStorage.removeItem(PENDING_KEYS.orderId);
+    localStorage.removeItem(PENDING_KEYS.amount);
+    localStorage.removeItem(PENDING_KEYS.customerId);
+  };
+
   const [userData, setUserData] = useState({
     name: "",
     contact_Number: "",
     street: "",
     city: "",
     state: "",
+    country: "",
     pincode: "",
+    email: "",
   });
 
   const payMethods = [
@@ -127,6 +164,7 @@ function Checkout() {
           street: data.street || "",
           city: data.city || "",
           pincode: data.pincode || "",
+          email: data.emailAddress || "",
         }));
       } catch (err) {
         console.log(err);
@@ -207,6 +245,148 @@ function Checkout() {
   const GRAND_TOTAL = ITEM_TOTAL + DELIVERY;
 
   // -----------------------------------
+  // RESUME PAYMENT CONFIRMATION AFTER DOKU REDIRECT
+  // DOKU's callback_url points back to this same page, so on return we
+  // detect the pending invoice and pick up polling right here instead of
+  // navigating anywhere.
+  // -----------------------------------
+
+  useEffect(() => {
+    const invoiceNumber = localStorage.getItem(PENDING_KEYS.invoice);
+    const orderId = localStorage.getItem(PENDING_KEYS.orderId);
+    const amount = localStorage.getItem(PENDING_KEYS.amount);
+
+    if (invoiceNumber && orderId) {
+      setPendingOrderId(orderId);
+      setPendingAmount(amount ? Number(amount) : null);
+      setPendingInvoice(invoiceNumber);
+      setPaymentState("confirming");
+      pollAttemptsRef.current = 0;
+      pollPaymentStatus(invoiceNumber, orderId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateOrderPaymentStatus = async (orderId, status, invoiceNumber) => {
+    try {
+      await fetch(`${API}/api/order/updatePaymentStatus`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order_id: orderId, payment_status: status, invoice_number: invoiceNumber }),
+      });
+    } catch (err) {
+      console.log("UPDATE PAYMENT STATUS ERROR =>", err);
+    }
+  };
+
+  const pollPaymentStatus = async (invoiceNumber, orderId) => {
+    pollAttemptsRef.current += 1;
+
+    try {
+      const res = await fetch(`${API}/api/payment/status/${invoiceNumber}`);
+      const result = await res.json();
+      const status = result.data?.status;
+
+      if (status === "SUCCESS") {
+        await updateOrderPaymentStatus(orderId, "paid", invoiceNumber);
+
+        // Read customerId from localStorage rather than the `user` state
+        // closed over by this function — on the "resume after DOKU
+        // redirect" path this poll chain starts on the very first render,
+        // before AuthContext has restored `user` from localStorage, and
+        // since the chain keeps re-invoking that same stale closure,
+        // `user` would stay null for the whole chain even after React
+        // re-renders with the real value. This was silently skipping the
+        // cart clear on successful web payments.
+        const customerId = localStorage.getItem(PENDING_KEYS.customerId) || user?.id;
+        if (customerId) {
+          await fetch(`${API}/api/order/clearcartbyid/${customerId}`, { method: "DELETE" });
+        }
+
+        clearPendingPayment();
+        navigate("/Checkout-t");
+        return;
+      }
+
+      if (["FAILED", "EXPIRED", "CANCELLED"].includes(status)) {
+        await updateOrderPaymentStatus(orderId, "failed");
+        // Terminal state — fully clear so a later, fresh visit to this
+        // page never resumes an old attempt (this was showing "Confirming
+        // payment…" for brand-new carts before this fix).
+        clearPendingPayment();
+        setPaymentState("failed");
+        return;
+      }
+    } catch (err) {
+      console.log("PAYMENT STATUS POLL ERROR =>", err);
+    }
+
+    if (pollAttemptsRef.current >= MAX_POLL_ATTEMPTS) {
+      setPaymentState("timeout");
+      return;
+    }
+
+    setTimeout(() => pollPaymentStatus(invoiceNumber, orderId), POLL_INTERVAL_MS);
+  };
+
+  // Creates (or re-creates, for "Try Again") a DOKU checkout session for an
+  // already-placed order and redirects to the hosted payment page.
+  const initiatePayment = async (orderId, amount) => {
+    setPaymentState("placing");
+
+    try {
+      const paymentResponse = await fetch(`${API}/api/payment/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order_id: orderId,
+          amount,
+          customer: {
+            name: userData.name,
+            phone: userData.contact_Number,
+            email: userData.email,
+          },
+          callback_url: `${window.location.origin}/Checkout`,
+        }),
+      });
+
+      const paymentResult = await paymentResponse.json();
+
+      if (!paymentResponse.ok || !paymentResult.data?.payment_url) {
+        showWebMessage(paymentResult.message || "Failed to start payment");
+        setPaymentState(pendingOrderId ? "failed" : "idle");
+        return;
+      }
+
+      setPendingInvoice(paymentResult.data.invoice_number);
+      localStorage.setItem(PENDING_KEYS.invoice, paymentResult.data.invoice_number);
+      localStorage.setItem(PENDING_KEYS.orderId, orderId);
+      localStorage.setItem(PENDING_KEYS.amount, amount);
+      if (user?.id) {
+        localStorage.setItem(PENDING_KEYS.customerId, user.id);
+      }
+
+      window.location.href = paymentResult.data.payment_url;
+    } catch (err) {
+      console.log(err);
+      showWebMessage("Something went wrong starting payment");
+      setPaymentState(pendingOrderId ? "failed" : "idle");
+    }
+  };
+
+  const handleTryAgain = () => {
+    if (!pendingOrderId) return;
+    initiatePayment(pendingOrderId, pendingAmount ?? GRAND_TOTAL);
+  };
+
+  const handleCheckAgain = () => {
+    if (!pendingInvoice || !pendingOrderId) return;
+    setPaymentState("confirming");
+    pollAttemptsRef.current = 0;
+    pollPaymentStatus(pendingInvoice, pendingOrderId);
+  };
+
+  // -----------------------------------
   // PLACE ORDER
   // -----------------------------------
 
@@ -244,6 +424,12 @@ function Checkout() {
       return;
     }
 
+    /* EMAIL VALIDATION — required by DOKU for online payment */
+    if (selectedPay !== "cod" && !/^\S+@\S+\.\S+$/.test(userData.email?.trim() || "")) {
+      showWebMessage("Enter a valid email address for payment");
+      return;
+    }
+
     try {
       await updateUserDetails();
 
@@ -274,19 +460,29 @@ function Checkout() {
 
       const data = await response.json();
 
-      if (response.ok) {
-        showWebMessage("Order placed successfully");
+      if (!response.ok) {
+        showWebMessage(data.message || "Failed to place order");
+        return;
+      }
 
+      if (selectedPay === "cod") {
         await fetch(`${API}/api/order/clearcartbyid/${user.id}`, {
           method: "DELETE",
         });
-
-
-
+        showWebMessage("Order placed successfully");
         navigate("/Checkout-t");
-      } else {
-        showWebMessage(data.message || "Failed to place order");
+        return;
       }
+
+      /* Cart is intentionally NOT cleared here for online payment — only
+         once pollPaymentStatus confirms SUCCESS, so a failed/abandoned
+         payment leaves the cart intact for the customer to retry. */
+
+      /* ONLINE PAYMENT — create a DOKU Checkout session and redirect the
+         customer to the hosted payment page. */
+      setPendingOrderId(data.order_id);
+      setPendingAmount(GRAND_TOTAL);
+      await initiatePayment(data.order_id, GRAND_TOTAL);
     } catch (err) {
       console.log(err);
       showWebMessage("Something went wrong");
@@ -310,7 +506,7 @@ const updateUserDetails = async () => {
         city: userData.city,
         state: userData.state,
         pincode: userData.pincode,
-        emailAddress: userData.email_Address
+        emailAddress: userData.email
       })
     });
 
@@ -453,6 +649,16 @@ const updateUserDetails = async () => {
                 <input
                   name="contact_Number"
                   value={userData.contact_Number}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="co-field">
+                <label>Email (required for online payment)</label>
+                <input
+                  name="email"
+                  type="email"
+                  value={userData.email}
                   onChange={handleInputChange}
                 />
               </div>
@@ -617,17 +823,72 @@ const updateUserDetails = async () => {
               <span>RM {GRAND_TOTAL}</span>
             </div>
 
-            <button
-              className="co-place-btn"
-              onClick={handlePlaceOrder}
-              disabled={!isSlotOn}
-              style={{
-                opacity: !isSlotOn ? 0.6 : 1,
-                cursor: !isSlotOn ? "not-allowed" : "pointer"
-              }}
-            >
-              {isSlotOn ? "Place Order →" : "No Slot Available"}
-            </button>
+            {paymentState === "confirming" && (
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
+                <div style={{
+                  width: 28, height: 28, margin: "0 auto 10px",
+                  border: "3px solid #eee", borderTop: "3px solid #d32f2f",
+                  borderRadius: "50%", animation: "spin 0.8s linear infinite",
+                }} />
+                <p style={{ color: "#555", fontWeight: 600 }}>Confirming your payment…</p>
+                <p style={{ color: "#999", fontSize: 13 }}>Please don't close this page.</p>
+              </div>
+            )}
+
+            {paymentState === "failed" && (
+              <div style={{
+                textAlign: "center", padding: "14px",
+                background: "#fff3f3", border: "1px solid #ffcdd2",
+                borderRadius: 10, marginBottom: 12,
+              }}>
+                <p style={{ color: "#d32f2f", fontWeight: 700, marginBottom: 10 }}>
+                  ❌ Payment didn't go through
+                </p>
+                <p style={{ color: "#777", fontSize: 13, marginBottom: 12 }}>
+                  Your order is saved. You can try the payment again.
+                </p>
+                <button className="co-place-btn" onClick={handleTryAgain}>
+                  Try Again →
+                </button>
+              </div>
+            )}
+
+            {paymentState === "timeout" && (
+              <div style={{
+                textAlign: "center", padding: "14px",
+                background: "#fff8e6", border: "1px solid #ffe0a3",
+                borderRadius: 10, marginBottom: 12,
+              }}>
+                <p style={{ color: "#92400e", fontWeight: 700, marginBottom: 10 }}>
+                  Still confirming your payment…
+                </p>
+                <p style={{ color: "#777", fontSize: 13, marginBottom: 12 }}>
+                  This is taking longer than usual.
+                </p>
+                <button className="co-place-btn" onClick={handleCheckAgain} style={{ marginBottom: 8 }}>
+                  Check Again
+                </button>
+                <button className="co-place-btn" onClick={handleTryAgain} style={{ background: "#777" }}>
+                  Try Again →
+                </button>
+              </div>
+            )}
+
+            {(paymentState === "idle" || paymentState === "placing") && (
+              <button
+                className="co-place-btn"
+                onClick={handlePlaceOrder}
+                disabled={!isSlotOn || paymentState === "placing"}
+                style={{
+                  opacity: !isSlotOn || paymentState === "placing" ? 0.6 : 1,
+                  cursor: !isSlotOn || paymentState === "placing" ? "not-allowed" : "pointer"
+                }}
+              >
+                {paymentState === "placing"
+                  ? "Processing…"
+                  : isSlotOn ? "Place Order →" : "No Slot Available"}
+              </button>
+            )}
 
             <div className="co-safe">
               🔒 100% Secure & Safe Payments
