@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 const API = import.meta.env.VITE_API_URL;
@@ -16,6 +16,30 @@ const FILTER_BY_OPTIONS = [
   { value: "phone_number", label: "Phone Number" },
   { value: "delivery_partner_id", label: "Delivery Partner ID" },
   { value: "order_id", label: "Order ID" },
+];
+
+const PAYMENT_STATUS_OPTIONS = [
+  { value: "all", label: "All Status" },
+  { value: "paid", label: "Paid" },
+  { value: "failed", label: "Failed" },
+];
+
+const TABLE_COLUMNS = [
+  { label: "Order ID", width: 90 },
+  { label: "Customer ID", width: 110 },
+  { label: "Order Time", width: 150 },
+  { label: "Phone (Login)", width: 140 },
+  { label: "Name", width: 160 },
+  { label: "Address", width: 260 },
+  { label: "Contact No.", width: 140 },
+  { label: "Slot Time", width: 160 },
+  { label: "Delivery Time", width: 120 },
+  { label: "Order Status", width: 180 },
+  { label: "Payment Status", width: 140 },
+  { label: "Invoice Number", width: 170 },
+  { label: "Delivery Partner", width: 150 },
+  { label: "Total Amount", width: 130 },
+  { label: "Action", width: 150 },
 ];
 
 function formatAddress(order) {
@@ -55,7 +79,7 @@ function StatusBadge({ statusId }) {
   );
 }
 
-function StatusUpdateSelect({ orderId, currentStatusId, onUpdated }) {
+function StatusUpdateSelect({ orderId, currentStatusId, onUpdated, disabled }) {
   const [loading, setLoading] = useState(false);
 
   const handleChange = async (e) => {
@@ -76,18 +100,22 @@ function StatusUpdateSelect({ orderId, currentStatusId, onUpdated }) {
     setLoading(false);
   };
 
+  const isDisabled = loading || disabled;
+
   return (
     <select
       value={currentStatusId}
       onChange={handleChange}
-      disabled={loading}
+      disabled={isDisabled}
+      title={disabled ? "Order status cannot be changed while payment has failed" : undefined}
       style={{
         padding: "4px 8px",
         borderRadius: 6,
         border: "1px solid #ccc",
         fontSize: 12,
-        cursor: "pointer",
-        background: "#fff",
+        cursor: isDisabled ? "not-allowed" : "pointer",
+        background: disabled ? "#F3F4F6" : "#fff",
+        opacity: disabled ? 0.65 : 1,
       }}
     >
       {STATUS_OPTIONS.map((s) => (
@@ -103,9 +131,10 @@ export default function EasySearch() {
   const [filterBy, setFilterBy] = useState("customer_id");
   const [searchText, setSearchText] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("paid");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [orders, setOrders] = useState([]);
+  const [rawOrders, setRawOrders] = useState([]);
   const [phoneMap, setPhoneMap] = useState({});
   const [dpMap, setDpMap] = useState({});
   const [loading, setLoading] = useState(false);
@@ -140,12 +169,10 @@ export default function EasySearch() {
       fetchedOrders = [];
     }
 
-    const filtered = applyClientFilters(fetchedOrders, phones);
-
-    const dpIds = await enrichWithDp(filtered);
+    const dpIds = await enrichWithDp(fetchedOrders);
 
     setDpMap(dpIds);
-    setOrders(filtered);
+    setRawOrders(fetchedOrders);
     setSearched(true);
   } catch (err) {
     console.error(err);
@@ -184,11 +211,15 @@ useEffect(() => {
   };
 
   // Apply status and date filters on the client side
-  const applyClientFilters = (orderList, phones) => {
+  const applyClientFilters = (orderList) => {
     let result = [...orderList];
 
     if (selectedStatus !== "") {
       result = result.filter((o) => o.status_id === parseInt(selectedStatus));
+    }
+
+    if (selectedPaymentStatus !== "all") {
+      result = result.filter((o) => o.payment_status === selectedPaymentStatus);
     }
 
     if (startDate) {
@@ -205,10 +236,29 @@ useEffect(() => {
     return result;
   };
 
+  // Re-applies instantly whenever a filter changes, without needing a new search
+  const orders = useMemo(
+    () => applyClientFilters(rawOrders),
+    [rawOrders, selectedStatus, selectedPaymentStatus, startDate, endDate]
+  );
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [orders]);
+
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
   const handleSearch = async () => {
     setLoading(true);
     setError("");
-    setOrders([]);
+    setRawOrders([]);
     setSearched(true);
 
     try {
@@ -218,14 +268,6 @@ useEffect(() => {
       let fetchedOrders = [];
 
       const hasText = searchText.trim() !== "";
-      const hasStatus = selectedStatus !== "";
-      const hasDate = startDate !== "" || endDate !== "";
-
-      // Determine fetch strategy
-      if (!hasText && !hasStatus && !hasDate) {
-  await loadAllOrders();
-  return;
-}
 
       if (hasText) {
         if (filterBy === "customer_id") {
@@ -276,10 +318,9 @@ useEffect(() => {
         fetchedOrders = fetchedOrders && fetchedOrders.id ? [fetchedOrders] : [];
       }
 
-      const filtered = applyClientFilters(fetchedOrders, phones);
-      const dpIds = await enrichWithDp(filtered);
+      const dpIds = await enrichWithDp(fetchedOrders);
       setDpMap(dpIds);
-      setOrders(filtered);
+      setRawOrders(fetchedOrders);
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
@@ -292,9 +333,10 @@ useEffect(() => {
     setFilterBy("customer_id");
     setSearchText("");
     setSelectedStatus("");
+    setSelectedPaymentStatus("paid");
     setStartDate("");
     setEndDate("");
-    setOrders([]);
+    setRawOrders([]);
     setError("");
     setSearched(false);
     setPhoneMap({});
@@ -306,7 +348,7 @@ useEffect(() => {
   };
 
   const handleStatusUpdated = (orderId, newStatusId) => {
-    setOrders((prev) =>
+    setRawOrders((prev) =>
       prev.map((o) =>
         o.id === orderId ? { ...o, status_id: newStatusId } : o
       )
@@ -434,7 +476,7 @@ useEffect(() => {
     fontSize: 13,
   },
   th: {
-    padding: "11px 14px",
+    padding: "12px 18px",
     textAlign: "left",
     fontWeight: 500,
     color: "#ffffff",
@@ -444,14 +486,12 @@ useEffect(() => {
     fontSize: 11,
     textTransform: "uppercase",
     letterSpacing: "0.5px",
-    width: "180px !important",
   },
   td: {
-    padding: "11px 14px",
+    padding: "12px 18px",
     borderBottom: "0.5px solid #F1F2F4",
     color: "#374151",
     verticalAlign: "middle",
-    width: "180px !important",
   },
   viewBtn: {
     padding: "5px 12px",
@@ -488,6 +528,35 @@ useEffect(() => {
     color: "#6B7280",
     marginBottom: 10,
     paddingLeft: 2,
+  },
+  pagination: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+    marginTop: 16,
+  },
+  pageBtn: {
+    minWidth: 34,
+    padding: "6px 10px",
+    background: "#fff",
+    color: "#374151",
+    border: "0.5px solid #D1D5DB",
+    borderRadius: 8,
+    fontSize: 13,
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background 0.15s, color 0.15s",
+  },
+  pageBtnActive: {
+    background: "var(--sub)",
+    color: "#fff",
+    border: "0.5px solid var(--sub)",
+  },
+  pageBtnDisabled: {
+    opacity: 0.45,
+    cursor: "not-allowed",
   },
   };
 
@@ -544,6 +613,20 @@ useEffect(() => {
             </select>
           </div>
 
+          {/* Payment Status Filter */}
+          <div style={styles.filterGroup}>
+            <span style={styles.label}>Payment Status</span>
+            <select
+              style={styles.select}
+              value={selectedPaymentStatus}
+              onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+            >
+              {PAYMENT_STATUS_OPTIONS.map((p) => (
+                <option key={p.value} value={p.value}>{p.label}</option>
+              ))}
+            </select>
+          </div>
+
           <div style={styles.divider} />
 
           {/* Date Range */}
@@ -590,7 +673,7 @@ useEffect(() => {
         <div style={styles.resultCount}>
           {orders.length === 0
             ? "No orders found."
-            : `Showing ${orders.length} order${orders.length > 1 ? "s" : ""}`}
+            : `Showing ${indexOfFirstOrder + 1}-${Math.min(indexOfLastOrder, orders.length)} of ${orders.length} order${orders.length > 1 ? "s" : ""}`}
         </div>
       )}
 
@@ -599,45 +682,41 @@ useEffect(() => {
           <table style={styles.table}>
             <thead>
               <tr>
-                {[
-                  "Order ID", "Customer ID", "Order Time", "Phone (Login)",
-                  "Name", "Address", "Contact No.", "Slot Time",
-                  "Delivery Time", "Order Status", "Payment Status",
-                  "Delivery Partner", "Total Amount", "Action"
-                ].map((h) => (
-                  <th key={h} style={styles.th}>{h}</th>
+                {TABLE_COLUMNS.map((c) => (
+                  <th key={c.label} style={{ ...styles.th, minWidth: c.width }}>{c.label}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {currentOrders.map((order) => (
                 <tr key={order.id} style={{ transition: "background 0.15s" }}
                   onMouseEnter={e => e.currentTarget.style.background = "#F9FAFB"}
                   onMouseLeave={e => e.currentTarget.style.background = "#fff"}
                 >
-                  <td style={{ ...styles.td, fontWeight: 600, color: "#2563EB" }}>#{order.id}</td>
-                  <td style={styles.td}>{order.customer_id}</td>
-                  <td style={{ ...styles.td, whiteSpace: "nowrap", fontSize: 12 }}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[0].width, fontWeight: 600, color: "#2563EB" }}>#{order.id}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[1].width }}>{order.customer_id}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[2].width, whiteSpace: "nowrap", fontSize: 12 }}>
                     {order.created_at ? order.created_at.replace("T", " ").slice(0, 16) : "-"}
                   </td>
-                  <td style={styles.td}>{phoneMap[order.customer_id] || "-"}</td>
-                  <td style={styles.td}>{order.name || "-"}</td>
-                  <td style={{ ...styles.td, fontSize: 12 }}>{formatAddress(order) || "-"}</td>
-                  <td style={styles.td}>{order.contact_number || "-"}</td>
-                  <td style={{ ...styles.td, whiteSpace: "nowrap", fontSize: 12 }}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[3].width }}>{phoneMap[order.customer_id] || "-"}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[4].width }}>{order.name || "-"}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[5].width, fontSize: 12 }}>{formatAddress(order) || "-"}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[6].width }}>{order.contact_number || "-"}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[7].width, whiteSpace: "nowrap", fontSize: 12 }}>
                     {formatTime(order.start_time)} – {formatTime(order.end_time)}
                   </td>
-                  <td style={{ ...styles.td, whiteSpace: "nowrap", fontSize: 12 }}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[8].width, whiteSpace: "nowrap", fontSize: 12 }}>
                     {formatTime(order.delivery_time)}
                   </td>
-                  <td style={styles.td}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[9].width }}>
                     <StatusUpdateSelect
                       orderId={order.id}
                       currentStatusId={order.status_id}
                       onUpdated={handleStatusUpdated}
+                      disabled={order.payment_status === "failed"}
                     />
                   </td>
-                  <td style={styles.td}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[10].width }}>
                     <span style={{
                       padding: "3px 10px",
                       borderRadius: 12,
@@ -649,11 +728,14 @@ useEffect(() => {
                       {order.payment_status ? order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1) : "-"}
                     </span>
                   </td>
-                  <td style={styles.td}>{dpMap[order.id] ?? "-"}</td>
-                  <td style={{ ...styles.td, fontWeight: 600 }}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[11].width, fontSize: 12 }}>
+                    {order.payment_status === "paid" ? (order.invoice_number || "-") : "-"}
+                  </td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[12].width }}>{dpMap[order.id] ?? "-"}</td>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[13].width, fontWeight: 600 }}>
                     ₹{parseFloat(order.total_amount || 0).toFixed(2)}
                   </td>
-                  <td style={styles.td}>
+                  <td style={{ ...styles.td, minWidth: TABLE_COLUMNS[14].width }}>
                     <Link to={`/orderdetailpage/${order.id}`} style={styles.viewBtn}>
                       View Details
                     </Link>
@@ -662,6 +744,36 @@ useEffect(() => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div style={styles.pagination}>
+          <button
+            style={{ ...styles.pageBtn, ...(currentPage === 1 ? styles.pageBtnDisabled : {}) }}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            ‹
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              style={{ ...styles.pageBtn, ...(page === currentPage ? styles.pageBtnActive : {}) }}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            style={{ ...styles.pageBtn, ...(currentPage === totalPages ? styles.pageBtnDisabled : {}) }}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            ›
+          </button>
         </div>
       )}
 

@@ -11,6 +11,12 @@ import { showWebMessage } from "../../../context/webMessageHandler";
 
 const API = import.meta.env.VITE_API_URL;
 
+const PAYMENT_STATUS_OPTIONS = [
+    { value: "all", label: "All Status" },
+    { value: "paid", label: "Paid" },
+    { value: "failed", label: "Failed" },
+];
+
 function IncomingOrders() {
 
     const [orders, setOrders] = useState([]);
@@ -19,6 +25,7 @@ function IncomingOrders() {
 
     const [search, setSearch] = useState("");
     const [custsearch, setCustSearch] = useState("");
+    const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("paid");
 
     // bulk update
     const [selectedSlot, setSelectedSlot] = useState("");
@@ -30,7 +37,7 @@ function IncomingOrders() {
 
     useEffect(() => {
         filterOrders();
-    }, [search, custsearch, selectedSlot, orders]);
+    }, [search, custsearch, selectedSlot, selectedPaymentStatus, orders]);
 
     const getOrders = async () => {
         try {
@@ -122,6 +129,14 @@ function IncomingOrders() {
 
             filtered = filtered.filter(
                 (order) => getSlotLabel(order) === selectedSlot
+            );
+        }
+
+        // payment status filter
+        if (selectedPaymentStatus !== "all") {
+
+            filtered = filtered.filter(
+                (order) => order.payment_status === selectedPaymentStatus
             );
         }
 
@@ -248,6 +263,7 @@ function IncomingOrders() {
         setCustSearch("");
         setSelectedSlot("");
         setBulkStatus("");
+        setSelectedPaymentStatus("paid");
 
         setFilteredOrders(orders);
     };
@@ -384,6 +400,19 @@ function IncomingOrders() {
                     onChange={(e) => setCustSearch(e.target.value)}
                 />
 
+                <select
+                    className="incoming-orders-payment-status-filter form-select"
+                    style={{ maxWidth: 180 }}
+                    value={selectedPaymentStatus}
+                    onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                >
+                    {PAYMENT_STATUS_OPTIONS.map((p) => (
+                        <option key={p.value} value={p.value}>
+                            {p.label}
+                        </option>
+                    ))}
+                </select>
+
             </div>
 
             {/* bulk update section */}
@@ -484,7 +513,7 @@ function IncomingOrders() {
             </div>
 
             {/* table */}
-            <div className="incoming-orders-table-wrapper table-responsive">
+            <div className="incoming-orders-table-wrapper">
 
                 <table className="incoming-orders-table table table-bordered table-striped align-middle">
 
@@ -499,6 +528,8 @@ function IncomingOrders() {
                             <th>Slot Time</th>
                             <th>Delivery Time</th>
                             <th>Status</th>
+                            <th>Payment Status</th>
+                            <th>Invoice Number</th>
                             <th width="220">Actions</th>
                         </tr>
 
@@ -549,6 +580,12 @@ function IncomingOrders() {
                                         <select
                                             className="incoming-orders-status-dropdown form-select"
                                             value={order.status_id}
+                                            disabled={order.payment_status === "failed"}
+                                            title={
+                                                order.payment_status === "failed"
+                                                    ? "Order status cannot be changed while payment has failed"
+                                                    : undefined
+                                            }
                                             onChange={(e) =>
                                                 updateStatus(
                                                     order.id,
@@ -571,6 +608,45 @@ function IncomingOrders() {
 
                                         </select>
 
+                                    </td>
+
+                                    <td className="incoming-orders-payment-status-column">
+
+                                        <span
+                                            className="incoming-orders-payment-status-badge"
+                                            style={{
+                                                padding: "3px 10px",
+                                                borderRadius: 12,
+                                                fontSize: 12,
+                                                fontWeight: 600,
+                                                display: "inline-block",
+                                                whiteSpace: "nowrap",
+                                                background:
+                                                    order.payment_status === "paid"
+                                                        ? "#D1FAE5"
+                                                        : order.payment_status === "failed"
+                                                        ? "#FEE2E2"
+                                                        : "#FEF3C7",
+                                                color:
+                                                    order.payment_status === "paid"
+                                                        ? "#065F46"
+                                                        : order.payment_status === "failed"
+                                                        ? "#991B1B"
+                                                        : "#92400E",
+                                            }}
+                                        >
+                                            {order.payment_status
+                                                ? order.payment_status.charAt(0).toUpperCase() +
+                                                  order.payment_status.slice(1)
+                                                : "-"}
+                                        </span>
+
+                                    </td>
+
+                                    <td className="incoming-orders-invoice-number-column">
+                                        {order.payment_status === "paid"
+                                            ? order.invoice_number || "-"
+                                            : "-"}
                                     </td>
 
                                     <td className="incoming-orders-actions">
@@ -606,7 +682,7 @@ function IncomingOrders() {
                             <tr>
 
                                 <td
-                                    colSpan="9"
+                                    colSpan="11"
                                     className="incoming-orders-no-data text-center"
                                 >
                                     No Orders Found

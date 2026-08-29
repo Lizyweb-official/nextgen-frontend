@@ -115,6 +115,11 @@ function OrderDetailsPage() {
                 status_name: "Preparing",
             }));
 
+            // Backend prunes history rows past the new (lower) status —
+            // re-fetch so the tracker stops showing Delivered/Ready to
+            // Dispatch/Out for Delivery as completed.
+            await fetchStatusHistory();
+
         } catch (error) {
             console.error("RESTORE ERROR:", error);
             showWebMessage("Failed to restore order. Please try again.");
@@ -144,9 +149,9 @@ function OrderDetailsPage() {
                     <i className="ti ti-ban" aria-hidden="true"></i>
                     <div style={{ flex: 1 }}>
                         <div className="admin-db-inc-order-cancelled-banner-title">Order cancelled</div>
-                        {cancelledStatusData?.created_at && (
+                        {cancelledStatusData?.updated_at && (
                             <div className="admin-db-inc-order-cancelled-banner-sub">
-                                This order was cancelled on {formatDate(cancelledStatusData.created_at)}
+                                This order was cancelled on {formatDate(cancelledStatusData.updated_at)}
                             </div>
                         )}
                     </div>
@@ -218,9 +223,9 @@ function OrderDetailsPage() {
                                     ) : (
                                         <div className="admin-db-inc-order-tracker-pending">Pending</div>
                                     )}
-                                    {isCompleted && completedStatus?.created_at && (
+                                    {isCompleted && completedStatus?.updated_at && (
                                         <div className="admin-db-inc-order-tracker-date">
-                                            {formatDate(completedStatus.created_at)}
+                                            {formatDate(completedStatus.updated_at)}
                                         </div>
                                     )}
                                 </div>
@@ -257,6 +262,12 @@ function OrderDetailsPage() {
                                     <i className="ti ti-circle-check" aria-hidden="true"></i>
                                     {order.payment_status}
                                 </span>
+                            </span>
+                        </div>
+                        <div className="admin-db-inc-order-detail-item">
+                            <span className="admin-db-inc-order-detail-label">Invoice number</span>
+                            <span className="admin-db-inc-order-detail-value">
+                                {order.payment_status === "paid" ? (order.invoice_number || "-") : "-"}
                             </span>
                         </div>
                         <div className="admin-db-inc-order-detail-item">

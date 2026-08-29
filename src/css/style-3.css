@@ -6436,6 +6436,7 @@
 .incoming-orders-table {
   margin-bottom: 0 !important;
   border-collapse: collapse !important;
+  min-width: 1300px;
 }
 
 .incoming-orders-table-head th {

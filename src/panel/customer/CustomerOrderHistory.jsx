@@ -97,16 +97,18 @@ function CustomerOrderHistory() {
                 </div>
             ) : (
                 <>
-                    <div className="order-history-table-wrapper table-responsive">
+                    <div className="order-history-table-wrapper" style={{ overflowX: "auto" }}>
 
-                        <table className="order-history-table table table-bordered align-middle">
+                        <table className="order-history-table table table-bordered align-middle" style={{ minWidth: 900 }}>
 
                             <thead className="order-history-thead table-light">
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>When Order Placed</th>
-                                    <th>Order Status</th>
-                                    <th>Action</th>
+                                    <th style={{ minWidth: 100 }}>Order ID</th>
+                                    <th style={{ minWidth: 190 }}>When Order Placed</th>
+                                    <th style={{ minWidth: 150 }}>Order Status</th>
+                                    <th style={{ minWidth: 150 }}>Delivered Date</th>
+                                    <th style={{ minWidth: 170 }}>Invoice Number</th>
+                                    <th style={{ minWidth: 150 }}>Action</th>
                                 </tr>
                             </thead>
 
@@ -135,6 +137,22 @@ function CustomerOrderHistory() {
                                                     ? 'Cancelled'
                                                     : order.status_name}
                                             </span>
+                                        </td>
+
+                                        <td className="order-history-delivered-date">
+                                            {Number(order.status_id) === 4 && order.delivery_date
+                                                ? new Date(order.delivery_date).toLocaleDateString('en-IN', {
+                                                      year: 'numeric',
+                                                      month: 'short',
+                                                      day: 'numeric',
+                                                  })
+                                                : "-"}
+                                        </td>
+
+                                        <td className="order-history-invoice">
+                                            {order.payment_status === "paid"
+                                                ? order.invoice_number || "-"
+                                                : "-"}
                                         </td>
 
                                         <td className="order-history-action">

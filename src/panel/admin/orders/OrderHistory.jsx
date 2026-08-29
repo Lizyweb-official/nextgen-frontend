@@ -349,6 +349,10 @@ function OrderHistory() {
                   </th>
 
                   <th className="order-history-th">
+                    Invoice Number
+                  </th>
+
+                  <th className="order-history-th">
                     Order Details
                   </th>
 
@@ -396,6 +400,12 @@ function OrderHistory() {
 
                       </td>
 
+                      <td className="order-history-td order-history-invoice-number">
+                        {order.payment_status === "paid"
+                          ? order.invoice_number || "-"
+                          : "-"}
+                      </td>
+
                       <td className="order-history-td order-history-action">
 
                         <Link
@@ -416,7 +426,7 @@ function OrderHistory() {
                   <tr className="order-history-empty-row">
 
                     <td
-                      colSpan="5"
+                      colSpan="7"
                       className="text-center py-4 order-history-empty-text"
                     >
                       No Orders Found

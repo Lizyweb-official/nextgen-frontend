@@ -52,7 +52,12 @@ export const LocProvider = ({ children }) => {
         );
 
         const data = await response.json();
-        checkPostcode(data.pincode);
+        // Re-affirming the pincode already saved on the profile — not a
+        // user-initiated change, so it's fine to cache it unconditionally
+        // (unlike checkPostcode calls from the popup, which must not
+        // silently save an unavailable pincode over the working address).
+        const info = await checkPostcode(data.pincode);
+        saveLocation(info);
 
       }
     } catch (err) {
@@ -189,8 +194,9 @@ export const LocProvider = ({ children }) => {
       available: data.withinRadius,
     };
 
-    saveLocation(locationInfo);
-
+    // Intentionally does NOT auto-save — an unavailable pincode must not
+    // silently overwrite the user's saved delivery location. Callers
+    // decide when to persist via setLocationData (see LocationPopup).
     return locationInfo;
   };
 
