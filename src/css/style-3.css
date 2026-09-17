@@ -3824,27 +3824,27 @@
 
 .top-category-image-halal-badge{
   position: absolute;
-  width:150px;
-  height:60px;
-  top:5px;
-  left:5px;
-  z-index:999;
-  padding: 2px;
+  top: 12px;
+  left: 12px;
+  width: 110px;
+  height: 110px;
+  z-index: 10;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .top-category-image-halal-badge img{
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .top-category-image img{
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    transition:0.6s ease;
+     width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: 0.6s ease;
 }
 
 .top-category-card:hover .top-category-image-imgtag{
@@ -4219,22 +4219,35 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
+  /* Floor so the absolutely-positioned badge below never gets clipped by
+     this box collapsing when the product photo hasn't loaded yet (or has
+     no image set) — matches the mobile .product-image height so it's never
+     larger than the box the real photo will render into. */
+  min-height: 190px;
 }
 
 .product-image-halal-badge{
   position: absolute;
-  width:150px;
-  height:60px !important;
-  top:5px;
-  left:5px;
-  z-index:999;
-  padding: 2px;
+  top: 12px;
+  left: 12px !important;
+  transform: none !important;
+  width: 90px;
+  height: 90px;
+  z-index: 10;
+  padding: 0;
 }
 
-.product-image-halal-badge img{
-  width:100%;
-  height:100%;
+/* Scoped via .product-imgbox (not just .product-image-halal-badge img) so
+   this reliably wins over .product-card img (style-4.css) — that rule's
+   only intent is the actual product photo, but since it targets ANY img
+   inside .product-card, it was tying in specificity with the rule below
+   and (by loading later) overriding this badge to height:160px/cover
+   instead of the 90x90/contain it's meant to have. */
+.product-imgbox .product-image-halal-badge img{
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .product-image {

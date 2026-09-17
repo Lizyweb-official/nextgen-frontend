@@ -215,7 +215,7 @@ export default function OrderStatus() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrders = async (silent = false) => {
       try {
         const response = await fetch(
           `${API}/api/order/getorderbycustomerid/${user?.id}`
@@ -225,21 +225,32 @@ export default function OrderStatus() {
 
         // Hide orders whose online payment failed — they were never
         // actually placed, so there's nothing for the customer to track.
+        // An order that reaches Delivered (4) also naturally drops off
+        // here on the next refresh, with no reload needed.
         const activeOrders = data.filter((order) =>
           [1, 2, 3].includes(order.status_id) && order.payment_status !== "failed"
         );
 
         setOrders(activeOrders);
       } catch (error) {
-        setError(
-          "Failed to load orders. Please try again."
-        );
+        // A background poll failing shouldn't blank out an already-loaded
+        // list with an error banner — only the initial load surfaces one.
+        if (!silent) {
+          setError("Failed to load orders. Please try again.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
+
+    // ✅ Status can now advance on its own in the background (e.g. the
+    // Lalamove status poller moving an order to Out for Delivery or
+    // Delivered) — poll so a customer watching this page sees that without
+    // reloading.
+    const interval = setInterval(() => fetchOrders(true), 20000);
+    return () => clearInterval(interval);
   }, [user?.id]);
 
   const handleCancelled = (orderId) => {

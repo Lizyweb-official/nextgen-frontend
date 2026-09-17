@@ -41,11 +41,53 @@ function SettingRow({ label, description, enabled, onToggle, loading, updating }
   );
 }
 
+// Phone number Lalamove shows the driver as the pickup ("sender") contact
+// when an order is assigned to it from the order-details page — not a
+// toggle, so it gets its own text-input row instead of SettingRow.
+function PhoneSettingRow({ label, description, value, onChange, onSave, loading, saving }) {
+  return (
+    <div className="admin-setting-page-row">
+      <div className="admin-setting-page-info">
+        <p className="admin-setting-page-label">{label}</p>
+        <p className="admin-setting-page-desc">{description}</p>
+      </div>
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        {loading ? (
+          <span className="admin-setting-page-status">—</span>
+        ) : (
+          <>
+            <input
+              type="tel"
+              className="form-control form-control-sm"
+              style={{ width: "180px" }}
+              placeholder="e.g. 0123456789"
+              value={value}
+              onChange={onChange}
+            />
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={onSave}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function AdminSetting() {
   const [slotEnabled, setSlotEnabled] = useState(false);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState(null);
+
+  const [lalamovePhone, setLalamovePhone] = useState("");
+  const [lalamovePhoneLoading, setLalamovePhoneLoading] = useState(true);
+  const [lalamovePhoneSaving, setLalamovePhoneSaving] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -102,6 +144,47 @@ function AdminSetting() {
       });
   }, []);
 
+  // ✅ Fetch the warehouse phone number used as the Lalamove pickup contact
+  useEffect(() => {
+    setLalamovePhoneLoading(true);
+
+    fetch(`${API}/api/admin/site-settings/get-by-name/lalamove_sender_phone`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        setLalamovePhone(data.setting_value || "");
+      })
+      .catch((err) => {
+        console.error("Failed to fetch Lalamove phone setting:", err);
+      })
+      .finally(() => {
+        setLalamovePhoneLoading(false);
+      });
+  }, []);
+
+  const saveLalamovePhone = async () => {
+    if (lalamovePhoneSaving) return;
+    setLalamovePhoneSaving(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`${API}/api/admin/site-settings/upsert-by-name/lalamove_sender_phone`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ setting_value: lalamovePhone.trim() }),
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    } catch (err) {
+      console.error("Failed to save Lalamove phone setting:", err);
+      setError("Could not save the delivery partner phone number.");
+    } finally {
+      setLalamovePhoneSaving(false);
+    }
+  };
+
   const toggleSlot = async () => {
     if (updating) return;
     setUpdating(true);
@@ -149,6 +232,19 @@ function AdminSetting() {
           onToggle={toggleSlot}
           loading={loading}
           updating={updating}
+        />
+      </div>
+
+      <p className="admin-setting-page-section-label">Delivery</p>
+      <div className="admin-setting-page-card">
+        <PhoneSettingRow
+          label="Lalamove pickup phone number"
+          description="Shown to the Lalamove driver as the warehouse contact when an order is assigned for delivery."
+          value={lalamovePhone}
+          onChange={(e) => setLalamovePhone(e.target.value)}
+          onSave={saveLalamovePhone}
+          loading={lalamovePhoneLoading}
+          saving={lalamovePhoneSaving}
         />
       </div>
     </div>

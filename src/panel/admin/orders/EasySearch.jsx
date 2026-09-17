@@ -6,8 +6,8 @@ const API = import.meta.env.VITE_API_URL;
 const STATUS_OPTIONS = [
   { id: 1, label: "Preparing" },
   { id: 2, label: "Ready to Dispatch" },
-  { id: 3, label: "Out for Delivery" },
-  { id: 4, label: "Delivered" },
+  // { id: 3, label: "Out for Delivery" },
+  // { id: 4, label: "Delivered" },
   { id: 5, label: "Cancelled" },
 ];
 
