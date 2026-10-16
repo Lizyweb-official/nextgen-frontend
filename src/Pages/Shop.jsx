@@ -323,7 +323,7 @@ function Shop() {
 
                 <div className='product-imgbox'>
                   <div className="product-image-halal-badge">
-                    <img className="product-image-halal-badge" src={Halal} alt="Halal"/>
+                    <img src={Halal} alt="Halal"/>
                   </div>
 
                   <img

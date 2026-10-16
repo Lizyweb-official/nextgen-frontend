@@ -21,10 +21,10 @@ function FloatCart() {
 
       const data = await response.json();
 
-      const total = data.reduce(
-        (sum, item) => sum + Number(item.quantity || 0),
-        0
-      );
+      // Each row is one distinct product/item added to the cart — the
+      // badge should show how many items are in the cart, not their
+      // combined kg weight.
+      const total = data.length;
 
       // UPDATE ONLY IF CHANGED
       setCartCount((prev) => (prev !== total ? total : prev));

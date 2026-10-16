@@ -22,9 +22,18 @@ function DeliveryTracking() {
     fetchOrders();
   }, []);
 
-  const fetchOrders = async () => {
+  // Status can change on its own in the background — the Lalamove status
+  // poller moving an order to Out For Delivery/Delivered — so this page
+  // left open must pick that up without a manual reload. Silent (no
+  // loading flicker) so it doesn't disturb the admin's search/scroll.
+  useEffect(() => {
+    const interval = setInterval(() => fetchOrders(true), 10000);
+    return () => clearInterval(interval);
+  }, []);
 
-    setLoading(true);
+  const fetchOrders = async (silent = false) => {
+
+    if (!silent) setLoading(true);
     try {
 
       const response = await fetch(`${API}/api/order/getallorders`);
@@ -80,7 +89,7 @@ function DeliveryTracking() {
 
     } finally {
 
-      setLoading(false);
+      if (!silent) setLoading(false);
 
     }
   };

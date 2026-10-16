@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { showWebMessage } from "../context/webMessageHandler";
 
-import { useLocation } from "../context/LocContext";
-
 const API = import.meta.env.VITE_API_URL;
 
 const PENDING_KEYS = {
@@ -35,8 +33,6 @@ function Checkout() {
   const [selectedPay, setSelectedPay] = useState("online");
   const [slotData, setSlotData] = useState(null);
   const [cities, setCities] = useState([]);
-
-  const { locationData } = useLocation();
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -70,7 +66,13 @@ function Checkout() {
     country: "",
     pincode: "",
     email: "",
+    latitude: null,
+    longitude: null,
   });
+
+  // Set right after an address save resolves — lets the "detecting your
+  // location…" line show only around that save, not on every render.
+  const [locatingAddress, setLocatingAddress] = useState(false);
 
   const payMethods = [
     {
@@ -165,6 +167,8 @@ function Checkout() {
           city: data.city || "",
           pincode: data.pincode || "",
           email: data.emailAddress || "",
+          latitude: data.latitude ?? prev.latitude,
+          longitude: data.longitude ?? prev.longitude,
         }));
       } catch (err) {
         console.log(err);
@@ -491,8 +495,13 @@ function Checkout() {
 
 
 // UPDATE USER ADDRESS DETAILS FIRST
+// Saves the address, and picks up the lat/lng the backend auto-geocoded
+// from it (see userController.updateUserDetailsById) — no map/pin step
+// needed here, just reflecting what the server resolved.
 const updateUserDetails = async () => {
   try {
+    setLocatingAddress(true);
+
     const response = await fetch(`${API}/api/updateuserdetails`, {
       method: 'PUT', // change to POST if your backend expects POST
       headers: {
@@ -506,6 +515,7 @@ const updateUserDetails = async () => {
         city: userData.city,
         state: userData.state,
         pincode: userData.pincode,
+        country: userData.country,
         emailAddress: userData.email
       })
     });
@@ -516,18 +526,20 @@ const updateUserDetails = async () => {
       throw new Error(data.message || 'Failed to update user details');
     }
 
+    setUserData((prev) => ({
+      ...prev,
+      latitude: data.latitude ?? prev.latitude,
+      longitude: data.longitude ?? prev.longitude,
+    }));
+
     return data;
   } catch (error) {
     console.log('Update Address Error:', error);
     throw error;
+  } finally {
+    setLocatingAddress(false);
   }
 };
-
-
-
-
-
-
 
 
 
@@ -732,6 +744,24 @@ const updateUserDetails = async () => {
                 />
               </div>
 
+            </div>
+
+            {/* AUTO-DETECTED LOCATION — resolved server-side from the
+                address above (see updateUserDetails); no map/pin needed */}
+            <div style={{ marginTop: "12px" }}>
+              {locatingAddress ? (
+                <p style={{ fontSize: "12.5px", color: "#777" }}>
+                  Detecting your location from the address…
+                </p>
+              ) : userData.latitude && userData.longitude ? (
+                <p style={{ fontSize: "12.5px", color: "#27500A" }}>
+                  📍 Location detected ({Number(userData.latitude).toFixed(5)}, {Number(userData.longitude).toFixed(5)})
+                </p>
+              ) : (
+                <p style={{ fontSize: "12.5px", color: "#888" }}>
+                  Your exact location will be detected automatically from the address when you place the order.
+                </p>
+              )}
             </div>
           </div>
 

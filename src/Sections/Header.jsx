@@ -106,12 +106,10 @@ function Header() {
         .then((res) => res.json())
         .then((data) => {
 
-          const totalQty = data.reduce(
-            (total, item) => total + Number(item.quantity),
-            0
-          );
-
-          setCartCount(totalQty);
+          // Each row is one distinct product/item added to the cart — the
+          // badge should show how many items are in the cart, not their
+          // combined kg weight.
+          setCartCount(data.length);
 
         });
 

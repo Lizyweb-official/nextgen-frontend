@@ -23,6 +23,16 @@ function OrderDetailsPage() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [restoring, setRestoring] = useState(false); // ✅ loading state for restore
+    const [assigningLalamove, setAssigningLalamove] = useState(false);
+    const [refreshingLalamove, setRefreshingLalamove] = useState(false);
+
+    // Lalamove vehicle/service options (GET /api/lalamove/vehicle-services) —
+    // fetched live so nothing about vehicle names/capacities is hard-coded
+    // here; see requirements in the Delivery partner section below.
+    const [vehicleOptions, setVehicleOptions] = useState([]);
+    const [vehicleOptionsLoading, setVehicleOptionsLoading] = useState(false);
+    const [vehicleOptionsError, setVehicleOptionsError] = useState("");
+    const [selectedVehicleKey, setSelectedVehicleKey] = useState("");
  
     const allStatuses = [
         { id: 1, name: "Preparing" },
@@ -67,6 +77,26 @@ function OrderDetailsPage() {
             console.error("STATUS FETCH ERROR:", error);
         }
     };
+
+    // Live Lalamove vehicle/service catalogue for the "Assign to Lalamove"
+    // vehicle picker — nothing about the vehicles is hard-coded on this page.
+    const fetchVehicleOptions = async () => {
+        try {
+            setVehicleOptionsLoading(true);
+            setVehicleOptionsError("");
+            const res = await fetch(`${API}/api/lalamove/vehicle-services`);
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || "Failed to fetch vehicle options");
+            }
+            setVehicleOptions(Array.isArray(data.data) ? data.data : []);
+        } catch (error) {
+            console.error("VEHICLE OPTIONS FETCH ERROR:", error);
+            setVehicleOptionsError(error.message || "Failed to fetch vehicle options");
+        } finally {
+            setVehicleOptionsLoading(false);
+        }
+    };
  
     useEffect(() => {
         const loadData = async () => {
@@ -76,8 +106,68 @@ function OrderDetailsPage() {
         };
         loadData();
     }, [id]);
- 
+
+    // ✅ Order status can now change on its own in the background — e.g. the
+    // Lalamove status poller moving Out For Delivery -> Delivered — so a
+    // page left open must pick that up without a manual reload. Polls
+    // silently (no loading flicker; restoring/assigning/refreshing button
+    // states are untouched) rather than only fetching once on mount.
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchOrderDetails();
+            fetchStatusHistory();
+        }, 10000);
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
+
+    // Only admins see/use the Lalamove assignment section, and there's
+    // nothing to pick once an order is already assigned — so only fetch the
+    // vehicle catalogue when it'll actually be shown.
+    useEffect(() => {
+        if (!(user?.usertype === "admin" && order && !order.lalamove_order_id)) return;
+        const loadVehicleOptions = async () => {
+            await fetchVehicleOptions();
+        };
+        loadVehicleOptions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.usertype, order?.id, order?.lalamove_order_id]);
+
     const formatDate = (date) => new Date(date).toLocaleString();
+
+    // Lalamove's `load` field varies by response shape — GET /v3/cities
+    // returns it as { value: "250", unit: "kg" }, but pull the numeric kg
+    // value out of whatever Lalamove sends (object, plain number, or a
+    // free-text string like "130kg") rather than assuming one fixed format.
+    const parseLoadKg = (load) => {
+        if (load == null) return null;
+        if (typeof load === "number") return load;
+        if (typeof load === "object") return parseLoadKg(load.value);
+        const match = String(load).match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : null;
+    };
+
+    // Human-readable capacity for the vehicle dropdown label — `load` can be
+    // an object ({ value, unit }), a number, or a free-text string, so this
+    // renders whatever numeric kg value parseLoadKg found rather than
+    // stringifying the raw field (which would print "[object Object]").
+    const formatLoadKg = (load) => {
+        const kg = parseLoadKg(load);
+        return kg == null ? null : `${kg} kg`;
+    };
+
+    // This shop sells by weight — order_items.quantity is the kg amount per
+    // line (see the "kg" column in Product details below), so the order's
+    // total weight is just the sum of those.
+    const orderTotalWeightKg = products.reduce((sum, p) => sum + (Number(p.quantity) || 0), 0);
+
+    // Only offer vehicles whose stated capacity can actually carry this
+    // order; an option with no parseable capacity is left in rather than
+    // silently hidden.
+    const eligibleVehicleOptions = vehicleOptions.filter((v) => {
+        const capacityKg = parseLoadKg(v.load);
+        return capacityKg == null || capacityKg >= orderTotalWeightKg;
+    });
  
     const getStatusData = (statusId) => {
         return statusHistory.find((item) => Number(item.status) === statusId);
@@ -128,6 +218,75 @@ function OrderDetailsPage() {
         }
     };
  
+    // ✅ Hands the order off to Lalamove for delivery — books a real courier
+    // against a fresh quotation (warehouse -> this order's saved address)
+    // and stores the returned Lalamove order id/status/tracking link.
+    const handleAssignToLalamove = async () => {
+        const confirmAssign = window.confirm(
+            "Assign this order to Lalamove? This books a real delivery courier."
+        );
+        if (!confirmAssign) return;
+
+        try {
+            setAssigningLalamove(true);
+            const res = await fetch(`${API}/api/lalamove/assign-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    order_id: order.id,
+                    // Selected vehicle's `key` from GET /api/lalamove/vehicle-services;
+                    // omitted (falls back to the backend's existing default) if the
+                    // admin didn't pick one.
+                    ...(selectedVehicleKey && { serviceType: selectedVehicleKey }),
+                }),
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || "Failed to assign order to Lalamove");
+            }
+
+            setOrder((prev) => ({
+                ...prev,
+                lalamove_order_id: data.data.lalamoveOrderId,
+                lalamove_status: data.data.status,
+                lalamove_share_link: data.data.shareLink,
+            }));
+            setSelectedVehicleKey("");
+            showWebMessage("Order assigned to Lalamove");
+        } catch (error) {
+            console.error("ASSIGN LALAMOVE ERROR:", error);
+            showWebMessage(error.message || "Failed to assign order to Lalamove");
+        } finally {
+            setAssigningLalamove(false);
+        }
+    };
+
+    // ✅ Pulls the latest status/tracking link for an order already assigned
+    // — doesn't book anything new, just refreshes what's stored.
+    const handleRefreshLalamoveStatus = async () => {
+        try {
+            setRefreshingLalamove(true);
+            const res = await fetch(`${API}/api/lalamove/order-status/${order.id}`);
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || "Failed to refresh Lalamove status");
+            }
+
+            setOrder((prev) => ({
+                ...prev,
+                lalamove_status: data.data.status,
+                lalamove_share_link: data.data.shareLink,
+            }));
+        } catch (error) {
+            console.error("REFRESH LALAMOVE STATUS ERROR:", error);
+            showWebMessage(error.message || "Failed to refresh Lalamove status");
+        } finally {
+            setRefreshingLalamove(false);
+        }
+    };
+
     if (loading) {
         return <div className="container py-5"><h3>Loading Order...</h3></div>;
     }
@@ -303,7 +462,117 @@ function OrderDetailsPage() {
                     </div>
                 </div>
             </div>
- 
+
+            {/* DELIVERY PARTNER (LALAMOVE) — admin-only; this page is shared
+                with the customer's own order view and the delivery
+                partner's view, neither of which should see Lalamove
+                assignment details. */}
+            {user?.usertype === "admin" && !isCancelled && (
+                <div className="admin-db-inc-order-section">
+                    <div className="admin-db-inc-order-section-header">
+                        <i className="ti ti-truck-delivery" aria-hidden="true"></i>
+                        <h2 className="admin-db-inc-order-section-title">Delivery partner</h2>
+                    </div>
+                    <div className="admin-db-inc-order-section-body">
+                        {order.lalamove_order_id ? (
+                            <div className="admin-db-inc-order-details-grid">
+                                <div className="admin-db-inc-order-detail-item">
+                                    <span className="admin-db-inc-order-detail-label">Lalamove order ID</span>
+                                    <span className="admin-db-inc-order-detail-value">{order.lalamove_order_id}</span>
+                                </div>
+                                <div className="admin-db-inc-order-detail-item">
+                                    <span className="admin-db-inc-order-detail-label">Lalamove status</span>
+                                    <span className="admin-db-inc-order-detail-value">
+                                        <span className="admin-db-inc-order-detail-badge admin-db-inc-order-badge-status">
+                                            <i className="ti ti-truck" aria-hidden="true"></i>
+                                            {order.lalamove_status || "Unknown"}
+                                        </span>
+                                    </span>
+                                </div>
+                                <div className="admin-db-inc-order-detail-item">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-secondary btn-sm"
+                                        onClick={handleRefreshLalamoveStatus}
+                                        disabled={refreshingLalamove}
+                                    >
+                                        {refreshingLalamove ? "Refreshing..." : "Refresh status"}
+                                    </button>
+                                </div>
+                                {order.lalamove_share_link && (
+                                    <div className="admin-db-inc-order-detail-item">
+                                        <a
+                                            href={order.lalamove_share_link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn btn-primary btn-sm"
+                                        >
+                                            Track delivery
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                                <span style={{ fontSize: "13.5px", color: "#666" }}>
+                                    Not assigned to a delivery partner yet.
+                                </span>
+
+                                {vehicleOptionsLoading && (
+                                    <span style={{ fontSize: "12.5px", color: "#666" }}>
+                                        Loading vehicle options...
+                                    </span>
+                                )}
+
+                                {!vehicleOptionsLoading && vehicleOptionsError && (
+                                    <span style={{ fontSize: "12.5px", color: "#bc1919" }}>
+                                        {vehicleOptionsError}
+                                    </span>
+                                )}
+
+                                {!vehicleOptionsLoading && !vehicleOptionsError && vehicleOptions.length > 0 && (
+                                    <div className="admin-db-inc-order-detail-item">
+                                        <span className="admin-db-inc-order-detail-label">
+                                            Vehicle (order weight: {orderTotalWeightKg} kg)
+                                        </span>
+                                        <select
+                                            className="form-select form-select-sm"
+                                            style={{ maxWidth: "420px" }}
+                                            value={selectedVehicleKey}
+                                            onChange={(e) => setSelectedVehicleKey(e.target.value)}
+                                        >
+                                            <option value="">Select a vehicle...</option>
+                                            {eligibleVehicleOptions.map((v) => (
+                                                <option key={v.key} value={v.key}>
+                                                    {v.key}
+                                                    {v.description ? ` — ${v.description}` : ""}
+                                                    {formatLoadKg(v.load) ? ` (up to ${formatLoadKg(v.load)})` : ""}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {eligibleVehicleOptions.length === 0 && (
+                                            <span style={{ fontSize: "12.5px", color: "#bc1919" }}>
+                                                No vehicle option has enough capacity for this order's weight.
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm"
+                                    onClick={handleAssignToLalamove}
+                                    disabled={assigningLalamove || (vehicleOptions.length > 0 && !selectedVehicleKey)}
+                                    style={{ alignSelf: "flex-start" }}
+                                >
+                                    {assigningLalamove ? "Assigning..." : "Assign to Lalamove"}
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* PRODUCT DETAILS */}
             <div className="admin-db-inc-order-section">
                 <div className="admin-db-inc-order-section-header">

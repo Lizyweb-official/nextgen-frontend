@@ -18,9 +18,9 @@ function OrdersDp() {
 
   const { user } = useAuth();
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
 
       const ordersRes = await fetch(`${API}/api/order/getallorders`);
       const ordersData = await ordersRes.json();
@@ -58,12 +58,21 @@ function OrdersDp() {
     } catch (err) {
       console.log("Fetch error:", err);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchOrders();
+  }, []);
+
+  // Status can change on its own in the background — the Lalamove status
+  // poller moving an order to Out For Delivery/Delivered — so this page
+  // left open must pick that up without a manual reload. Silent (no
+  // loading flicker) so it doesn't disturb the delivery partner's view.
+  useEffect(() => {
+    const interval = setInterval(() => fetchOrders(true), 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const addDeliveryPartnerOrder = async (orderId) => {

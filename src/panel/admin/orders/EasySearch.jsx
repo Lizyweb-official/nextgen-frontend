@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const API = import.meta.env.VITE_API_URL;
@@ -135,6 +135,12 @@ export default function EasySearch() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [rawOrders, setRawOrders] = useState([]);
+  // The currently-displayed (filtered) list — a real state, not derived via
+  // useMemo from rawOrders, so an in-place update (a single row's status
+  // changing, or the 30s background refresh) can patch it without the
+  // status/payment/date filters re-running and dropping the row. See the
+  // filter-control useEffect below for when this actually gets recomputed.
+  const [orders, setOrders] = useState([]);
   const [phoneMap, setPhoneMap] = useState({});
   const [dpMap, setDpMap] = useState({});
   const [loading, setLoading] = useState(false);
@@ -173,6 +179,8 @@ export default function EasySearch() {
 
     setDpMap(dpIds);
     setRawOrders(fetchedOrders);
+    setOrders(applyClientFilters(fetchedOrders));
+    setCurrentPage(1);
     setSearched(true);
   } catch (err) {
     console.error(err);
@@ -185,6 +193,49 @@ export default function EasySearch() {
 
 useEffect(() => {
   loadAllOrders();
+}, []);
+
+// Keeps whatever's currently displayed (search results or the full list)
+// in sync with Lalamove-driven status changes without disturbing filters,
+// pagination, or the search box — re-fetches each visible order by id
+// rather than re-running the search, so it works no matter how the list
+// was populated.
+const rawOrdersRef = useRef(rawOrders);
+useEffect(() => {
+  rawOrdersRef.current = rawOrders;
+}, [rawOrders]);
+
+const refreshOrderStatuses = async () => {
+  const current = rawOrdersRef.current;
+  if (current.length === 0) return;
+  try {
+    const updated = await Promise.all(
+      current.map(async (o) => {
+        try {
+          const res = await fetch(`${API}/api/order/getorderbyid/${o.id}`);
+          const data = await res.json();
+          return data && data.id ? data : o;
+        } catch {
+          return o;
+        }
+      })
+    );
+    setRawOrders(updated);
+    // Merge fresh field values into the currently-displayed rows without
+    // re-running the status/payment/date filter — otherwise an order that
+    // moved to a status outside the current filter would silently vanish
+    // from the table on its own every 30s, with no dropdown click involved.
+    setOrders((prevFiltered) =>
+      prevFiltered.map((o) => updated.find((u) => u.id === o.id) || o)
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+useEffect(() => {
+  const interval = setInterval(refreshOrderStatuses, 10000);
+  return () => clearInterval(interval);
 }, []);
 
   // Fetch dp_id for a single order
@@ -236,19 +287,23 @@ useEffect(() => {
     return result;
   };
 
-  // Re-applies instantly whenever a filter changes, without needing a new search
-  const orders = useMemo(
-    () => applyClientFilters(rawOrders),
-    [rawOrders, selectedStatus, selectedPaymentStatus, startDate, endDate]
-  );
-
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 10;
 
+  // Re-applies live whenever the admin actually changes a filter control —
+  // but deliberately does NOT depend on rawOrders itself. A background
+  // status refresh (refreshOrderStatuses, or a single row's status being
+  // changed) must never re-run this and silently drop/hide a row the admin
+  // is currently looking at just because it no longer matches the filter;
+  // that made the status dropdown look broken (the row vanished right after
+  // being changed). Those paths patch `orders` in place instead — see
+  // handleStatusUpdated/refreshOrderStatuses.
   useEffect(() => {
+    setOrders(applyClientFilters(rawOrdersRef.current));
     setCurrentPage(1);
-  }, [orders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStatus, selectedPaymentStatus, startDate, endDate]);
 
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -321,6 +376,8 @@ useEffect(() => {
       const dpIds = await enrichWithDp(fetchedOrders);
       setDpMap(dpIds);
       setRawOrders(fetchedOrders);
+      setOrders(applyClientFilters(fetchedOrders));
+      setCurrentPage(1);
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
@@ -337,6 +394,8 @@ useEffect(() => {
     setStartDate("");
     setEndDate("");
     setRawOrders([]);
+    setOrders([]);
+    setCurrentPage(1);
     setError("");
     setSearched(false);
     setPhoneMap({});
@@ -348,11 +407,13 @@ useEffect(() => {
   };
 
   const handleStatusUpdated = (orderId, newStatusId) => {
-    setRawOrders((prev) =>
-      prev.map((o) =>
-        o.id === orderId ? { ...o, status_id: newStatusId } : o
-      )
-    );
+    const patch = (list) =>
+      list.map((o) => (o.id === orderId ? { ...o, status_id: newStatusId } : o));
+    setRawOrders(patch);
+    // Patched in place rather than re-derived from rawOrders, so the row
+    // stays visible with its new status instead of instantly disappearing
+    // when it no longer matches the "Order Status" search filter.
+    setOrders(patch);
   };
 
   const styles = {
