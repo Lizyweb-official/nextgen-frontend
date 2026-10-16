@@ -32,8 +32,8 @@ function UserLoginPanel(){
     const [otpVerified, setOtpVerified] = useState(false); //for testing use value true
     const [countdown, setCountdown] = useState(0);
 
-    const [registerOtpSent, setRegisterOtpSent] = useState(true); //for testing use value true
-    const [registerOtpVerified, setRegisterOtpVerified] = useState(true); //for testing use value true
+    const [registerOtpSent, setRegisterOtpSent] = useState(false); //for testing use value true
+    const [registerOtpVerified, setRegisterOtpVerified] = useState(false); //for testing use value true
     const [registerCountdown, setRegisterCountdown] = useState(0);
 
     
