@@ -116,7 +116,7 @@ function OrderDetailsPage() {
         const interval = setInterval(() => {
             fetchOrderDetails();
             fetchStatusHistory();
-        }, 20000);
+        }, 10000);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
@@ -135,14 +135,25 @@ function OrderDetailsPage() {
 
     const formatDate = (date) => new Date(date).toLocaleString();
 
-    // Lalamove's `load` field is a free-text string (e.g. "130kg"), not a
-    // number — pull the numeric kg value out of whatever Lalamove sends
-    // rather than assuming a fixed format.
+    // Lalamove's `load` field varies by response shape — GET /v3/cities
+    // returns it as { value: "250", unit: "kg" }, but pull the numeric kg
+    // value out of whatever Lalamove sends (object, plain number, or a
+    // free-text string like "130kg") rather than assuming one fixed format.
     const parseLoadKg = (load) => {
         if (load == null) return null;
         if (typeof load === "number") return load;
+        if (typeof load === "object") return parseLoadKg(load.value);
         const match = String(load).match(/[\d.]+/);
         return match ? parseFloat(match[0]) : null;
+    };
+
+    // Human-readable capacity for the vehicle dropdown label — `load` can be
+    // an object ({ value, unit }), a number, or a free-text string, so this
+    // renders whatever numeric kg value parseLoadKg found rather than
+    // stringifying the raw field (which would print "[object Object]").
+    const formatLoadKg = (load) => {
+        const kg = parseLoadKg(load);
+        return kg == null ? null : `${kg} kg`;
     };
 
     // This shop sells by weight — order_items.quantity is the kg amount per
@@ -535,7 +546,7 @@ function OrderDetailsPage() {
                                                 <option key={v.key} value={v.key}>
                                                     {v.key}
                                                     {v.description ? ` — ${v.description}` : ""}
-                                                    {v.load ? ` (up to ${v.load})` : ""}
+                                                    {formatLoadKg(v.load) ? ` (up to ${formatLoadKg(v.load)})` : ""}
                                                 </option>
                                             ))}
                                         </select>

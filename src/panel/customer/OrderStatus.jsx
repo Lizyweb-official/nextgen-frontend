@@ -249,7 +249,7 @@ export default function OrderStatus() {
     // Lalamove status poller moving an order to Out for Delivery or
     // Delivered) — poll so a customer watching this page sees that without
     // reloading.
-    const interval = setInterval(() => fetchOrders(true), 20000);
+    const interval = setInterval(() => fetchOrders(true), 10000);
     return () => clearInterval(interval);
   }, [user?.id]);
 

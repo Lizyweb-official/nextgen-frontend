@@ -29,29 +29,58 @@ function IncomingOrders() {
 
     // bulk update
     const [selectedSlot, setSelectedSlot] = useState("");
-    const [bulkStatus, setBulkStatus] = useState("");
+
+    // bulk update via checkbox selection
+    const [selectedOrderIds, setSelectedOrderIds] = useState([]);
+    const [selectedBulkStatus, setSelectedBulkStatus] = useState("");
+
+    // vehicle options for the selected orders' combined weight — same live
+    // Lalamove catalogue used on OrderDetailsPage (GET /api/lalamove/vehicle-services)
+    const [vehicleOptions, setVehicleOptions] = useState([]);
+    const [vehicleOptionsLoading, setVehicleOptionsLoading] = useState(false);
+    const [vehicleOptionsError, setVehicleOptionsError] = useState("");
+
+    // batch "Assign to Lalamove" for checkbox-selected orders — one
+    // multi-stop courier for all of them, sized to their combined weight
+    const [assigningSelectedToLalamove, setAssigningSelectedToLalamove] = useState(false);
 
     useEffect(() => {
         getOrders();
+        fetchVehicleOptions();
+    }, []);
+
+    // Status can change on its own in the background — the Lalamove status
+    // poller moving an order to Out For Delivery/Delivered — so this page
+    // left open must pick that up without a manual reload. Silent (no
+    // loading flicker) so it doesn't disturb whatever the admin is doing.
+    useEffect(() => {
+        const interval = setInterval(() => getOrders(true), 10000);
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
         filterOrders();
     }, [search, custsearch, selectedSlot, selectedPaymentStatus, orders]);
 
-    const getOrders = async () => {
+    const getOrders = async (silent = false) => {
         try {
 
-            setLoading(true);
+            if (!silent) setLoading(true);
 
             const response = await fetch(`${API}/api/order/getallorders`);
             const data = await response.json();
 
-            // only preparing + ready to dispatch
+            // Stay visible through the whole active lifecycle — Preparing,
+            // Ready To Dispatch, and Out For Delivery — and drop off only
+            // once actually Delivered (or Cancelled). Previously this
+            // stopped at Ready To Dispatch, so an order vanished from
+            // Incoming Orders the moment it moved to Out For Delivery,
+            // well before it was actually delivered.
             const filtered = data.filter(
                 (order) =>
                     order.status_id === 1 ||
-                    order.status_id === 2
+                    order.status_id === 2 ||
+                    order.status_id === 3
             );
 
             setOrders(filtered);
@@ -60,8 +89,55 @@ function IncomingOrders() {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
         }
+    };
+
+    // live Lalamove vehicle/service catalogue — same endpoint OrderDetailsPage
+    // uses, nothing about vehicle names/capacities is hard-coded here.
+    const fetchVehicleOptions = async () => {
+        try {
+            setVehicleOptionsLoading(true);
+            setVehicleOptionsError("");
+            const res = await fetch(`${API}/api/lalamove/vehicle-services`);
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || "Failed to fetch vehicle options");
+            }
+            setVehicleOptions(Array.isArray(data.data) ? data.data : []);
+        } catch (error) {
+            console.log(error);
+            setVehicleOptionsError(error.message || "Failed to fetch vehicle options");
+        } finally {
+            setVehicleOptionsLoading(false);
+        }
+    };
+
+    // Lalamove's `load` field varies by response shape — GET /v3/cities
+    // returns it as { value: "250", unit: "kg" } — so pull the numeric kg
+    // value out of whatever Lalamove sends (object, number, or a free-text
+    // string like "130kg") rather than assuming one fixed format.
+    const parseLoadKg = (load) => {
+        if (load == null) return null;
+        if (typeof load === "number") return load;
+        if (typeof load === "object") return parseLoadKg(load.value);
+        const match = String(load).match(/[\d.]+/);
+        return match ? parseFloat(match[0]) : null;
+    };
+
+    const formatLoadKg = (load) => {
+        const kg = parseLoadKg(load);
+        return kg == null ? null : `${kg} kg`;
+    };
+
+    // Colors the per-row status dropdown by its current value, so the table
+    // reads at a glance instead of every row's select looking identical.
+    const STATUS_COLORS = {
+        1: { bg: "#FFF3CD", color: "#856404" }, // Preparing
+        2: { bg: "#CCE5FF", color: "#004085" }, // Ready To Dispatch
+        3: { bg: "#D4EDDA", color: "#155724" }, // Out For Delivery
+        4: { bg: "#D1ECF1", color: "#0C5460" }, // Delivered
+        5: { bg: "#F8D7DA", color: "#721C24" }, // Cancelled
     };
 
     // format time
@@ -163,21 +239,27 @@ function IncomingOrders() {
 
             showWebMessage(data.message);
 
+            // Delivered/Cancelled no longer belong on this page at all —
+            // drop the row immediately instead of leaving it in the list
+            // with an updated status_name until the next 30s poll happens
+            // to refetch and correct it.
             setOrders((prev) =>
-                prev.map((order) =>
-                    order.id === order_id
-                        ? {
-                            ...order,
-                            status_id,
-                            status_name:
-                                status_id === 1
-                                    ? "Preparing"
-                                    : status_id === 2
-                                    ? "Ready To Dispatch"
-                                    : "Cancelled",
-                        }
-                        : order
-                )
+                [1, 2, 3].includes(status_id)
+                    ? prev.map((order) =>
+                        order.id === order_id
+                            ? {
+                                ...order,
+                                status_id,
+                                status_name:
+                                    status_id === 1
+                                        ? "Preparing"
+                                        : status_id === 2
+                                        ? "Ready To Dispatch"
+                                        : "Out For Delivery",
+                            }
+                            : order
+                    )
+                    : prev.filter((order) => order.id !== order_id)
             );
 
         } catch (error) {
@@ -185,74 +267,148 @@ function IncomingOrders() {
         }
     };
 
-    // bulk update
-    const applyBulkStatus = async () => {
+    // checkbox selection
+    const toggleOrderSelection = (orderId) => {
 
-        if (!selectedSlot) {
-            showWebMessage("Please select a slot");
-            return;
-        }
-
-        if (!bulkStatus) {
-            showWebMessage("Please select a status");
-            return;
-        }
-
-        const selectedOrders = orders.filter(
-            (order) => getSlotLabel(order) === selectedSlot
+        setSelectedOrderIds((prev) =>
+            prev.includes(orderId)
+                ? prev.filter((id) => id !== orderId)
+                : [...prev, orderId]
         );
+    };
 
-        if (selectedOrders.length === 0) {
-            showWebMessage("No orders found");
+    const selectableOrderIds = filteredOrders
+        .filter((order) => order.payment_status !== "failed")
+        .map((order) => order.id);
+
+    const isAllSelected =
+        selectableOrderIds.length > 0 &&
+        selectableOrderIds.every((id) => selectedOrderIds.includes(id));
+
+    const toggleSelectAll = () => {
+
+        if (isAllSelected) {
+            setSelectedOrderIds([]);
+        } else {
+            setSelectedOrderIds(selectableOrderIds);
+        }
+    };
+
+    // Combined weight of every checked order — order.items comes straight
+    // from getAllOrders (order_items rows), and item.quantity is the kg
+    // amount per line (same source OrderDetailsPage sums per-order).
+    const selectedOrders = orders.filter((order) =>
+        selectedOrderIds.includes(order.id)
+    );
+
+    const selectedOrdersTotalWeightKg = selectedOrders.reduce(
+        (sum, order) =>
+            sum +
+            (order.items || []).reduce(
+                (itemSum, item) => itemSum + (Number(item.quantity) || 0),
+                0
+            ),
+        0
+    );
+
+    // Only vehicles whose stated capacity can actually carry the combined
+    // weight of the selected orders; an option with no parseable capacity is
+    // left in rather than silently hidden.
+    const eligibleVehicleOptionsForSelected = vehicleOptions.filter((v) => {
+        const capacityKg = parseLoadKg(v.load);
+        return capacityKg == null || capacityKg >= selectedOrdersTotalWeightKg;
+    });
+
+    // bulk update for checkbox-selected orders
+    const applyBulkStatusToSelected = async () => {
+
+        if (selectedOrderIds.length === 0) {
+            showWebMessage("Please select at least one order");
+            return;
+        }
+
+        if (!selectedBulkStatus) {
+            showWebMessage("Please select a status");
             return;
         }
 
         try {
 
             await Promise.all(
-
-                selectedOrders.map((order) =>
-
+                selectedOrderIds.map((orderId) =>
                     fetch(`${API}/api/order/updateOrderStatus`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            order_id: order.id,
-                            status_id: Number(bulkStatus),
+                            order_id: orderId,
+                            status_id: Number(selectedBulkStatus),
                         }),
                     })
-
                 )
             );
 
-            showWebMessage("Bulk status updated successfully");
+            showWebMessage("Selected orders updated successfully");
 
-            // refresh orders
+            setSelectedOrderIds([]);
+            setSelectedBulkStatus("");
+
             await getOrders();
-
-            setOrders((prev) =>
-                prev.map((order) =>
-                    getSlotLabel(order) === selectedSlot
-                        ? {
-                            ...order,
-                            status_id: Number(bulkStatus),
-                            status_name:
-                                Number(bulkStatus) === 1
-                                    ? "Preparing"
-                                    : Number(bulkStatus) === 2
-                                    ? "Ready To Dispatch"
-                                    : Number(bulkStatus) === 5
-                                    ? "Cancelled"
-                                    : "",
-                        }
-                        : order
-                )
-            );
 
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    // batch-assign checkbox-selected orders to Lalamove as ONE multi-stop
+    // trip — one pickup, one dropoff per selected order, vehicle sized to
+    // their combined weight (not each order's own weight).
+    const assignSelectedToLalamove = async () => {
+
+        if (selectedOrderIds.length === 0) {
+            showWebMessage("Please select at least one order");
+            return;
+        }
+
+        const confirmAssign = window.confirm(
+            `Assign ${selectedOrderIds.length} selected order(s) to Lalamove as one delivery trip? This books a real courier.`
+        );
+        if (!confirmAssign) return;
+
+        try {
+
+            setAssigningSelectedToLalamove(true);
+
+            const res = await fetch(`${API}/api/lalamove/assign-orders-batch`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    order_ids: selectedOrderIds,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || "Failed to assign selected orders to Lalamove");
+            }
+
+            showWebMessage(
+                `Assigned ${selectedOrderIds.length} order(s) to Lalamove (${data.data.serviceType}, ${data.data.totalWeightKg} kg)`
+            );
+
+            setSelectedOrderIds([]);
+
+            await getOrders();
+
+        } catch (error) {
+            console.log(error);
+            showWebMessage(error.message || "Failed to assign selected orders to Lalamove");
+        } finally {
+            setAssigningSelectedToLalamove(false);
         }
     };
 
@@ -262,8 +418,9 @@ function IncomingOrders() {
         setSearch("");
         setCustSearch("");
         setSelectedSlot("");
-        setBulkStatus("");
         setSelectedPaymentStatus("paid");
+        setSelectedOrderIds([]);
+        setSelectedBulkStatus("");
 
         setFilteredOrders(orders);
     };
@@ -323,57 +480,121 @@ function IncomingOrders() {
             {/* top */}
             <div className="incoming-orders-top d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
-                <h2 className="incoming-orders-title">
-                    Incoming Orders
-                </h2>
+                <div className="incoming-orders-top-heading">
+
+                    <h2 className="incoming-orders-title">
+                        Incoming Orders
+                    </h2>
+
+                    <p className="incoming-orders-subtitle">
+                        {filteredOrders.length} order{filteredOrders.length === 1 ? "" : "s"} in the active queue
+                    </p>
+
+                </div>
 
                 <button
                     className="incoming-orders-refresh-btn btn btn-success"
                     onClick={getOrders}
                 >
+                    <span className="incoming-orders-refresh-icon" aria-hidden="true">↻</span>
                     Refresh Orders
                 </button>
 
             </div>
 
             {/* counts */}
-            <div className="incoming-orders-counts row mb-4">
+            <div className="incoming-orders-stats mb-4">
 
-                <div className="col-md-6 mb-3">
+                <div className="incoming-orders-stat incoming-orders-stat-preparing">
+                    <span className="incoming-orders-stat-dot" aria-hidden="true"></span>
+                    <span className="incoming-orders-stat-label">Preparing</span>
+                    <span className="incoming-orders-stat-count">{preparingCount}</span>
+                </div>
 
-                    <div className="incoming-orders-card card shadow-sm border-0">
+                <div className="incoming-orders-stat incoming-orders-stat-ready">
+                    <span className="incoming-orders-stat-dot" aria-hidden="true"></span>
+                    <span className="incoming-orders-stat-label">Ready To Dispatch</span>
+                    <span className="incoming-orders-stat-count">{readyCount}</span>
+                </div>
 
-                        <div className="card-body">
+            </div>
 
-                            <h5 className="incoming-orders-card-title">
-                                Preparing Orders
-                            </h5>
+            {/* toolbar: search + slot filter, one unified bar */}
+            <div className="incoming-orders-toolbar card shadow-sm border-0 mb-4">
 
-                            <h2 className="incoming-orders-card-count">
-                                {preparingCount}
-                            </h2>
+                <div className="card-body" >
 
-                        </div>
+                    <div className="incoming-orders-toolbar-row">
+
+                        <input
+                            type="text"
+                            className="incoming-orders-search-input form-control"
+                            placeholder="Search by order id, customer name, status..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+
+                        <input
+                            type="text"
+                            className="incoming-orders-customer-search-input form-control"
+                            placeholder="Search by customer id"
+                            value={custsearch}
+                            onChange={(e) => setCustSearch(e.target.value)}
+                        />
+
+                        <select
+                            className="incoming-orders-payment-status-filter form-select"
+                            value={selectedPaymentStatus}
+                            onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                        >
+                            {PAYMENT_STATUS_OPTIONS.map((p) => (
+                                <option key={p.value} value={p.value}>
+                                    {p.label}
+                                </option>
+                            ))}
+                        </select>
 
                     </div>
 
-                </div>
+                    <div className="incoming-orders-toolbar-divider"></div>
 
-                <div className="col-md-6 mb-3">
+                    <div className="incoming-orders-toolbar-row incoming-orders-toolbar-row-slot">
 
-                    <div className="incoming-orders-card card shadow-sm border-0">
+                        <span className="incoming-orders-toolbar-label">
+                            Bulk update by slot
+                        </span>
 
-                        <div className="card-body">
+                        <select
+                            className="incoming-orders-slot-select form-select"
+                            value={selectedSlot}
+                            onChange={(e) =>
+                                setSelectedSlot(e.target.value)
+                            }
+                        >
 
-                            <h5 className="incoming-orders-card-title">
-                                Ready To Dispatch
-                            </h5>
+                            <option value="">
+                                Select Slot & Date
+                            </option>
 
-                            <h2 className="incoming-orders-card-count">
-                                {readyCount}
-                            </h2>
+                            {slotOptions.map((slot, index) => (
 
-                        </div>
+                                <option
+                                    key={index}
+                                    value={slot}
+                                >
+                                    {slot}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                        <button
+                            className="incoming-orders-reset-btn btn btn-secondary"
+                            onClick={resetFilters}
+                        >
+                            Reset
+                        </button>
 
                     </div>
 
@@ -381,132 +602,136 @@ function IncomingOrders() {
 
             </div>
 
-            {/* search */}
-            <div className="incoming-orders-search-wrapper mb-3 d-flex gap-2">
-
-                <input
-                    type="text"
-                    className="incoming-orders-search-input form-control"
-                    placeholder="Search by order id, customer name, status..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-
-                <input
-                    type="text"
-                    className="incoming-orders-customer-search-input form-control"
-                    placeholder="Search by customer id"
-                    value={custsearch}
-                    onChange={(e) => setCustSearch(e.target.value)}
-                />
-
-                <select
-                    className="incoming-orders-payment-status-filter form-select"
-                    style={{ maxWidth: 180 }}
-                    value={selectedPaymentStatus}
-                    onChange={(e) => setSelectedPaymentStatus(e.target.value)}
-                >
-                    {PAYMENT_STATUS_OPTIONS.map((p) => (
-                        <option key={p.value} value={p.value}>
-                            {p.label}
-                        </option>
-                    ))}
-                </select>
-
-            </div>
-
-            {/* bulk update section */}
-            <div className="incoming-orders-bulk-card card shadow-sm border-0 mb-4">
+            {/* bulk update section for checkbox-selected orders — collapsed to
+                a slim hint until something's actually selected, so it doesn't
+                take up a big empty-looking card for the common case */}
+            <div
+                className={`incoming-orders-selection-bar card shadow-sm border-0 mb-4${
+                    selectedOrderIds.length > 0 ? " is-active" : ""
+                }`}
+            >
 
                 <div className="card-body">
 
-                    <h5 className="incoming-orders-bulk-title mb-3">
-                        Bulk Update Orders By Slot
-                    </h5>
+                    {selectedOrderIds.length === 0 ? (
 
-                    <div className="row g-3">
+                        <div className="incoming-orders-selection-hint">
+                            <span className="incoming-orders-selection-hint-icon" aria-hidden="true">☑</span>
+                            Select orders using the checkboxes below to update their status in bulk or assign them to Lalamove together.
+                        </div>
 
-                        {/* slot */}
-                        <div className="col-md-5">
+                    ) : (
 
-                            <select
-                                className="incoming-orders-slot-select form-select"
-                                value={selectedSlot}
-                                onChange={(e) =>
-                                    setSelectedSlot(e.target.value)
-                                }
-                            >
+                        <>
 
-                                <option value="">
-                                    Select Slot & Date
-                                </option>
+                            <div className="incoming-orders-selection-header">
 
-                                {slotOptions.map((slot, index) => (
+                                <h5 className="incoming-orders-bulk-selected-title">
+                                    {selectedOrderIds.length} order{selectedOrderIds.length === 1 ? "" : "s"} selected
+                                    <span className="incoming-orders-selection-weight">
+                                        · {selectedOrdersTotalWeightKg} kg total
+                                    </span>
+                                </h5>
 
-                                    <option
-                                        key={index}
-                                        value={slot}
-                                    >
-                                        {slot}
+                                <button
+                                    className="incoming-orders-selected-clear-btn btn btn-link"
+                                    onClick={() => setSelectedOrderIds([])}
+                                >
+                                    Clear selection
+                                </button>
+
+                            </div>
+
+                            <div className="incoming-orders-selection-vehicles">
+
+                                {vehicleOptionsLoading && (
+                                    <span className="text-muted" style={{ fontSize: 12.5 }}>
+                                        Loading vehicle options...
+                                    </span>
+                                )}
+
+                                {!vehicleOptionsLoading && vehicleOptionsError && (
+                                    <span className="text-danger" style={{ fontSize: 12.5 }}>
+                                        {vehicleOptionsError}
+                                    </span>
+                                )}
+
+                                {!vehicleOptionsLoading && !vehicleOptionsError && vehicleOptions.length > 0 && (
+                                    <>
+                                        {/* <div className="d-flex flex-wrap gap-3">
+                                            {eligibleVehicleOptionsForSelected.map((v) => (
+                                                <span
+                                                    key={v.key}
+                                                    className="text-body"
+                                                    style={{ fontSize: 12.5 }}
+                                                    title={v.description || "" }
+                                                >
+                                                    {v.key}
+                                                    {formatLoadKg(v.load) ? ` — up to ${formatLoadKg(v.load)}` : ""}
+                                                </span>
+                                            ))}
+                                        </div> */}
+
+                                        {eligibleVehicleOptionsForSelected.length === 0 && (
+                                            <span className="text-danger" style={{ fontSize: 12.5 }}>
+                                                No vehicle option has enough capacity for the selected orders' combined weight.
+                                            </span>
+                                        )}
+                                    </>
+                                )}
+
+                            </div>
+
+                            <div className="incoming-orders-selection-actions">
+
+                                <select
+                                    className="incoming-orders-selected-status-select form-select"
+                                    value={selectedBulkStatus}
+                                    onChange={(e) =>
+                                        setSelectedBulkStatus(e.target.value)
+                                    }
+                                >
+
+                                    <option value="">
+                                        Select Status
                                     </option>
 
-                                ))}
+                                    <option value="1">
+                                        Preparing
+                                    </option>
 
-                            </select>
+                                    <option value="2">
+                                        Ready To Dispatch
+                                    </option>
 
-                        </div>
+                                    <option value="5">
+                                        Cancel
+                                    </option>
 
-                        {/* status */}
-                        <div className="col-md-3">
+                                </select>
 
-                            <select
-                                className="incoming-orders-status-select form-select"
-                                value={bulkStatus}
-                                onChange={(e) =>
-                                    setBulkStatus(e.target.value)
-                                }
-                            >
+                                <button
+                                    className="incoming-orders-selected-apply-btn btn btn-primary"
+                                    onClick={applyBulkStatusToSelected}
+                                >
+                                    Update Selected
+                                </button>
 
-                                <option value="">
-                                    Select Status
-                                </option>
+                                <button
+                                    className="incoming-orders-assign-lalamove-btn btn btn-success"
+                                    onClick={assignSelectedToLalamove}
+                                    disabled={assigningSelectedToLalamove}
+                                >
+                                    {assigningSelectedToLalamove
+                                        ? "Assigning to Lalamove..."
+                                        : "Assign Selected to Lalamove"}
+                                </button>
 
-                                <option value="1">
-                                    Preparing
-                                </option>
+                            </div>
 
-                                <option value="2">
-                                    Ready To Dispatch
-                                </option>
+                        </>
 
-                                <option value="5">
-                                    Cancel
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        {/* buttons */}
-                        <div className="col-md-4 d-flex gap-2">
-
-                            <button
-                                className="incoming-orders-apply-btn btn btn-primary w-100"
-                                onClick={applyBulkStatus}
-                            >
-                                Apply
-                            </button>
-
-                            <button
-                                className="incoming-orders-reset-btn btn btn-secondary w-100"
-                                onClick={resetFilters}
-                            >
-                                Reset
-                            </button>
-
-                        </div>
-
-                    </div>
+                    )}
 
                 </div>
 
@@ -520,6 +745,14 @@ function IncomingOrders() {
                     <thead className="incoming-orders-table-head table-dark">
 
                         <tr>
+                            <th>
+                                <input
+                                    type="checkbox"
+                                    className="incoming-orders-select-all-checkbox"
+                                    checked={isAllSelected}
+                                    onChange={toggleSelectAll}
+                                />
+                            </th>
                             <th>Order ID</th>
                             <th>Customer ID</th>
                             <th>Customer Name</th>
@@ -545,6 +778,23 @@ function IncomingOrders() {
                                     key={order.id}
                                     className="incoming-orders-table-row"
                                 >
+
+                                    <td className="incoming-orders-select-column">
+                                        <input
+                                            type="checkbox"
+                                            className="incoming-orders-row-checkbox"
+                                            checked={selectedOrderIds.includes(order.id)}
+                                            disabled={order.payment_status === "failed"}
+                                            title={
+                                                order.payment_status === "failed"
+                                                    ? "Order status cannot be changed while payment has failed"
+                                                    : undefined
+                                            }
+                                            onChange={() =>
+                                                toggleOrderSelection(order.id)
+                                            }
+                                        />
+                                    </td>
 
                                     <td className="incoming-orders-order-id">
                                         #{order.id}
@@ -586,6 +836,11 @@ function IncomingOrders() {
                                                     ? "Order status cannot be changed while payment has failed"
                                                     : undefined
                                             }
+                                            style={{
+                                                background: STATUS_COLORS[order.status_id]?.bg,
+                                                color: STATUS_COLORS[order.status_id]?.color,
+                                                borderColor: STATUS_COLORS[order.status_id]?.color,
+                                            }}
                                             onChange={(e) =>
                                                 updateStatus(
                                                     order.id,
@@ -600,6 +855,14 @@ function IncomingOrders() {
 
                                             <option value={2}>
                                                 Ready To Dispatch
+                                            </option>
+
+                                            <option value={3}>
+                                                Out For Delivery
+                                            </option>
+
+                                            <option value={4}>
+                                                Delivered
                                             </option>
 
                                             <option value={5}>
@@ -682,7 +945,7 @@ function IncomingOrders() {
                             <tr>
 
                                 <td
-                                    colSpan="11"
+                                    colSpan="12"
                                     className="incoming-orders-no-data text-center"
                                 >
                                     No Orders Found
