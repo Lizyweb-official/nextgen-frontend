@@ -40,7 +40,9 @@ function Checkout() {
   /* PAYMENT STATE
      idle       — normal checkout, "Place Order" button shown
      placing    — order/payment being created, button disabled
-     confirming — redirected back from DOKU, polling for the result
+     confirming — polling for the result (after "Check Again")
+     unpaid     — came back from DOKU without paying — "Retry Payment"
+                  shown, result still checked quietly in the background
      failed     — DOKU payment failed/expired/cancelled — stay on this page
      timeout    — polling gave up without a definite answer yet
      ============================================================ */
@@ -49,6 +51,9 @@ function Checkout() {
   const [pendingAmount, setPendingAmount] = useState(null);
   const [pendingInvoice, setPendingInvoice] = useState(null);
   const pollAttemptsRef = useRef(0);
+  // Bumped to stop a running poll chain (e.g. when "Retry Payment" starts
+  // a new DOKU session) so the old one can't change the screen later.
+  const pollTokenRef = useRef(0);
 
   const clearPendingPayment = () => {
     localStorage.removeItem(PENDING_KEYS.invoice);
@@ -264,9 +269,13 @@ function Checkout() {
       setPendingOrderId(orderId);
       setPendingAmount(amount ? Number(amount) : null);
       setPendingInvoice(invoiceNumber);
-      setPaymentState("confirming");
+      // No "Confirming…" spinner on return — most returns here are the
+      // customer backing out without paying. Show "Retry Payment" right
+      // away and keep checking quietly in case the payment did go through
+      // (e-wallet/FPX payments can take a while to be marked SUCCESS).
+      setPaymentState("unpaid");
       pollAttemptsRef.current = 0;
-      pollPaymentStatus(invoiceNumber, orderId);
+      pollPaymentStatus(invoiceNumber, orderId, pollTokenRef.current, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -283,13 +292,18 @@ function Checkout() {
     }
   };
 
-  const pollPaymentStatus = async (invoiceNumber, orderId) => {
+  // `quiet` — background check behind the "Retry Payment" button: never
+  // switches the screen to "failed"/"timeout", only moves on for SUCCESS.
+  const pollPaymentStatus = async (invoiceNumber, orderId, token = pollTokenRef.current, quiet = false) => {
+    if (token !== pollTokenRef.current) return;
     pollAttemptsRef.current += 1;
 
     try {
       const res = await fetch(`${API}/api/payment/status/${invoiceNumber}`);
       const result = await res.json();
       const status = result.data?.status;
+
+      if (token !== pollTokenRef.current) return;
 
       if (status === "SUCCESS") {
         await updateOrderPaymentStatus(orderId, "paid", invoiceNumber);
@@ -318,19 +332,21 @@ function Checkout() {
         // page never resumes an old attempt (this was showing "Confirming
         // payment…" for brand-new carts before this fix).
         clearPendingPayment();
-        setPaymentState("failed");
+        if (!quiet) setPaymentState("failed");
         return;
       }
     } catch (err) {
       console.log("PAYMENT STATUS POLL ERROR =>", err);
     }
 
+    if (token !== pollTokenRef.current) return;
+
     if (pollAttemptsRef.current >= MAX_POLL_ATTEMPTS) {
-      setPaymentState("timeout");
+      if (!quiet) setPaymentState("timeout");
       return;
     }
 
-    setTimeout(() => pollPaymentStatus(invoiceNumber, orderId), POLL_INTERVAL_MS);
+    setTimeout(() => pollPaymentStatus(invoiceNumber, orderId, token, quiet), POLL_INTERVAL_MS);
   };
 
   // Creates (or re-creates, for "Try Again") a DOKU checkout session for an
@@ -356,13 +372,25 @@ function Checkout() {
 
       const paymentResult = await paymentResponse.json();
 
-      if (!paymentResponse.ok || !paymentResult.data?.payment_url) {
+      const isTestMode = paymentResult.data?.test_mode === true;
+
+      if (!paymentResponse.ok || (!paymentResult.data?.payment_url && !isTestMode)) {
         showWebMessage(paymentResult.message || "Failed to start payment");
         setPaymentState(pendingOrderId ? "failed" : "idle");
         return;
       }
 
       setPendingInvoice(paymentResult.data.invoice_number);
+
+      // PAYMENT_TEST_MODE on the backend — no DOKU page. Ask the customer
+      // to simulate Success / Failed instead (see handleTestPaymentResult).
+      if (isTestMode) {
+        setPendingOrderId(orderId);
+        setPendingAmount(amount);
+        setPaymentState("testChoice");
+        return;
+      }
+
       localStorage.setItem(PENDING_KEYS.invoice, paymentResult.data.invoice_number);
       localStorage.setItem(PENDING_KEYS.orderId, orderId);
       localStorage.setItem(PENDING_KEYS.amount, amount);
@@ -378,8 +406,41 @@ function Checkout() {
     }
   };
 
+  // PAYMENT_TEST_MODE: record the simulated result on the backend, then run
+  // the normal status check — SUCCESS/FAILED is handled by exactly the same
+  // code as a real DOKU payment (order marked paid, cart cleared, success page).
+  const handleTestPaymentResult = async (status) => {
+    if (!pendingInvoice || !pendingOrderId) return;
+    setPaymentState("confirming");
+
+    try {
+      const res = await fetch(`${API}/api/payment/test/complete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoice_number: pendingInvoice, status }),
+      });
+      if (!res.ok) {
+        const result = await res.json().catch(() => ({}));
+        showWebMessage(result.message || "Failed to simulate payment");
+        setPaymentState("failed");
+        return;
+      }
+    } catch (err) {
+      console.log("TEST PAYMENT ERROR =>", err);
+      showWebMessage("Something went wrong simulating payment");
+      setPaymentState("failed");
+      return;
+    }
+
+    pollAttemptsRef.current = 0;
+    pollTokenRef.current += 1;
+    pollPaymentStatus(pendingInvoice, pendingOrderId, pollTokenRef.current);
+  };
+
+  // Starts a brand-new DOKU payment session for the saved order.
   const handleTryAgain = () => {
     if (!pendingOrderId) return;
+    pollTokenRef.current += 1; // stop checking the previous session
     initiatePayment(pendingOrderId, pendingAmount ?? GRAND_TOTAL);
   };
 
@@ -862,6 +923,52 @@ const updateUserDetails = async () => {
                 }} />
                 <p style={{ color: "#555", fontWeight: 600 }}>Confirming your payment…</p>
                 <p style={{ color: "#999", fontSize: 13 }}>Please don't close this page.</p>
+              </div>
+            )}
+
+            {paymentState === "testChoice" && (
+              <div style={{
+                textAlign: "center", padding: "14px",
+                background: "#eef6ff", border: "1px solid #bcd8ff",
+                borderRadius: 10, marginBottom: 12,
+              }}>
+                <p style={{ color: "#1e40af", fontWeight: 700, marginBottom: 6 }}>
+                  🧪 Test payment mode
+                </p>
+                <p style={{ color: "#555", fontSize: 13, marginBottom: 12 }}>
+                  Choose the payment result to simulate for RM {pendingAmount ?? GRAND_TOTAL}.
+                </p>
+                <button
+                  className="co-place-btn"
+                  onClick={() => handleTestPaymentResult("SUCCESS")}
+                  style={{ background: "#2e7d32", marginBottom: 8 }}
+                >
+                  ✅ Payment Success
+                </button>
+                <button
+                  className="co-place-btn"
+                  onClick={() => handleTestPaymentResult("FAILED")}
+                >
+                  ❌ Payment Failed
+                </button>
+              </div>
+            )}
+
+            {paymentState === "unpaid" && (
+              <div style={{
+                textAlign: "center", padding: "14px",
+                background: "#fff8e6", border: "1px solid #ffe0a3",
+                borderRadius: 10, marginBottom: 12,
+              }}>
+                <p style={{ color: "#92400e", fontWeight: 700, marginBottom: 10 }}>
+                  Payment not completed
+                </p>
+                <p style={{ color: "#777", fontSize: 13, marginBottom: 12 }}>
+                  Your order is saved. Tap below to pay again.
+                </p>
+                <button className="co-place-btn" onClick={handleTryAgain}>
+                  Retry Payment →
+                </button>
               </div>
             )}
 
